@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @media screen and (max-width: 640px) {
+        .mobile-shell {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+        .mobile-topbar {
+          padding: 12px 16px !important;
+        }
+        .mobile-card-padding {
+          padding: 20px !important;
+        }
+        .mobile-hero-title {
+          font-size: 22px !important;
+          line-height: 28px !important;
+        }
+        .mobile-overview-copy {
+          font-size: 15px !important;
+          line-height: 24px !important;
+        }
+        .mobile-section-title {
+          font-size: 18px !important;
+          line-height: 24px !important;
+        }
+        .mobile-body-text {
+          font-size: 15px !important;
+          line-height: 24px !important;
+        }
+        .mobile-translation {
+          font-size: 13px !important;
+          line-height: 20px !important;
+        }
+      }
+    </style>
+  </head>
+  <body style="margin:0;padding:0;background:#f4f4f8;font-family:Manrope,Arial,sans-serif;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f4f4f8;">
+      <tr>
+        <td align="center" style="padding:0 12px 32px 12px;">
+          <table role="presentation" width="680" cellspacing="0" cellpadding="0" border="0" class="mobile-shell" style="width:680px;max-width:680px;">
+            <tr>
+              <td style="background:#ffffff;border-radius:0 0 14px 14px;overflow:hidden;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <td style="height:3px;background:linear-gradient(90deg,#6366f1,#a78bfa,#c4b5fd);font-size:0;line-height:0;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-topbar" style="padding:16px 24px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td style="font-size:20px;line-height:24px;font-weight:800;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">AI Builders Digest</td>
+                          <td align="right" style="font-size:11px;line-height:16px;color:#a5b4fc;font-family:Inter,Arial,sans-serif;font-weight:500;">Intelligence Refined</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr><td style="padding-top:20px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td style="font-size:12px;line-height:14px;font-weight:700;color:#a5b4fc;font-family:Inter,Arial,sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Today's Highlights</td></tr>
+    <tr><td style="padding-top:10px;font-size:15px;line-height:24px;color:#1e293b;font-family:Inter,Arial,sans-serif;"><ul style="margin:0;padding-left:20px;font-family:Inter,Arial,sans-serif;">
+  <li style="margin:0 0 12px;line-height:23px;"><strong style="color:#1e1b4b;">Claude Code subagents go background-by-default</strong> in the next version — keep talking to Claude while subagents work. <a href="https://x.com/bcherny/status/2071647677591466098" style="color:#6366f1;text-decoration:none;">@bcherny →</a></li>
+  <li style="margin:0 0 12px;line-height:23px;"><strong style="color:#1e1b4b;">OpenAI's Codex usage postmortem</strong>: auto-review + over-eager subagents + duplicate suggestions were burning tokens; limits reset, plus reusable permission profiles replacing coarse sandboxes. <a href="https://x.com/thsottiaux/status/2071740419030053227" style="color:#6366f1;text-decoration:none;">@thsottiaux →</a></li>
+  <li style="margin:0 0 12px;line-height:23px;"><strong style="color:#1e1b4b;">Box CEO Aaron Levie</strong> frames the core AI-policy debate: if open weights stay near-frontier, the token majority flows to an open stack someone else monetizes. <a href="https://x.com/levie/status/2071775583072375214" style="color:#6366f1;text-decoration:none;">@levie →</a></li>
+  <li style="margin:0 0 12px;line-height:23px;"><strong style="color:#1e1b4b;">Claude in Microsoft Foundry hits GA</strong> on Azure — Opus 4.8 + Haiku 4.5, with prompt caching and extended thinking. <a href="https://x.com/claudeai/status/2071653958905467027" style="color:#6366f1;text-decoration:none;">@claudeai →</a></li>
+  <li style="margin:0 0 2px;line-height:23px;"><strong style="color:#1e1b4b;">Podcast — Intel CEO Lip-Bu Tan</strong> on re-engineering the semi supply chain: agentic AI rebalances compute toward CPU, plus the TeraFab partnership with Elon. <a href="https://www.youtube.com/watch?v=asCgCv2XB4s" style="color:#6366f1;text-decoration:none;">No Priors →</a></li>
+</ul>
+</td></tr>
+  
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="width:40px;vertical-align:middle;">
+              <table role="presentation" width="32" cellspacing="0" cellpadding="0" border="0" style="background:#1e1b4b;border-radius:10px;">
+                <tr>
+                  <td align="center" style="padding:8px 0;font-size:14px;line-height:14px;color:#ffffff;font-family:Arial,sans-serif;">𝕏</td>
+                </tr>
+              </table>
+            </td>
+            <td style="vertical-align:middle;padding-left:10px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td class="mobile-section-title" style="font-size:17px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">X</td>
+                  <td style="width:100%;padding-left:12px;vertical-align:middle;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr><td style="border-top:1px solid #e0e7ff;font-size:1px;line-height:1px;">&nbsp;</td></tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-top:2px;font-size:10px;line-height:14px;font-weight:600;color:#a5b4fc;font-family:Inter,Arial,sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Social feed</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/2069363031180767232/fxATjOlO_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Swyx<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@swyx</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">achieve ambition with intentionality, intensity, integrity &amp; insanity.<br><br>affiliations:<br>- @dxtipshq <br>- @cognition<br>- @temporalio<br>- @aidotengineer<br>- @latentspacepod</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 04:30 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">prescribe one (1) pill when a coworker disrespects scaling laws<br><br>make a beeline 4pm sharp at aie expo, first come first served</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1669807115815493633/4MFvljkc_400x400.png" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">AI Engineer</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@aiDotEngineer</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">you guys are not ready for this level of swag</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/aiDotEngineer/status/2071437186289852622" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/swyx/status/2071692683182252317" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 43 · 🔁 0 · 💬 6</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 00:39 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">ok for context this is non-lab workshops at 9am on a monday<br><br>theres a competing @OpenAI workshop going on next door but here are the @snyksec , @Atlassian, @neo4j, @arizeai, @Akamai, @togethercompute rooms concurrently. PEOPLE ARE HUNGRY FOR THIS.<br><br>x.com/swyx/status/20…</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/2069363031180767232/fxATjOlO_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">swyx @aiDotEngineer WF</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@swyx</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">AIE workshop day x.com/i/broadcasts/1…</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/swyx/status/2071613383380770823" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/swyx/status/2071634789669777716" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 9 · 🔁 0 · 💬 3</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-29 23:14</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">AIE workshop day x.com/i/broadcasts/1…</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/swyx/status/2071613383380770823" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 47 · 🔁 3 · 💬 7</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/swyx" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1902044548936953856/J2jeik0t_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Boris Cherny<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@bcherny</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Claude Code @anthropicai</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 01:31</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">In the next version of Claude Code: subagents run in the background by default, so you can keep talking to Claude while your subagents work<br><br>If you want your agent to run in the foreground, just tell Claude</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/bcherny/status/2071647677591466098" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 7657 · 🔁 307 · 💬 457</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/bcherny" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  1 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1953339828738899968/WWQlU2RT_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Thibault Sottiaux<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@thsottiaux</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Codex &amp; ChatGPT @OpenAI</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 07:39 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Codex usage limits will be fully reset again in the next hour and we will credit one additional reset into your bank for your own usage over the next 24 hours.<br><br>We investigated reports that Codex usage was being consumed faster than expected. There wasn&#39;t one central issue, but a</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1953339828738899968/WWQlU2RT_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Tibo</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@thsottiaux</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Codex team is in a warroom on a Sunday combing through logs and checking whether there is anything that could lead to increased usage drains for some users. Taking it very seriously and won&#39;t rest until we get to the bottom of it.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/thsottiaux/status/2071357473659707441" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/thsottiaux/status/2071740419030053227" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 5860 · 🔁 348 · 💬 664</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 05:42 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Do you think it has a reset button?</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/2022002720971096064/l3Kyt4qt_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">OpenAI Developers</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@OpenAIDevs</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Your favorite Codex shortcuts are getting an upgrade.<br><br>July 15th.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/OpenAIDevs/status/2071639953927438440" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/thsottiaux/status/2071710834527523030" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 1700 · 🔁 27 · 💬 137</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 00:45</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Advanced Codex users. We shipped a replacement to coarse sandbox modes: reusable, inheritable permission profiles binding OS-enforced file read/write/deny rules (even **/*.env) to per-domain network + Unix sockets. Plus fail-closed admin allowlists. Least privilege per task.</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/thsottiaux/status/2071636285807059315" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 2248 · 🔁 127 · 💬 144</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1454103621516206083/_klMwpkk_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Peter Yang<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@petergyang</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Practical AI tutorials and interviews for busy people | Get my best AI skills and guides at <a href="https://t.co/6VAA6p81x6" style="color:#6366f1;text-decoration:none;word-break:break-all;">https://t.co/6VAA6p81x6</a></div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 07:03</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">For writing and editing, plain vanilla Claude web is still the best (vs Codex and Claude Code).<br><br>My guess is something in the coding agent&#39;s system prompts make them crappier writers.</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/petergyang/status/2071731343390851519" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 47 · 🔁 3 · 💬 29</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 07:01</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">I have so many spicy takes about all this restricted access + open source stuff I&#39;m just going to rant about all of them in one post.</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/petergyang/status/2071730786886435261" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 16 · 🔁 0 · 💬 3</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 04:22</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Also available as a written post: creatoreconomy.so/p/inside-anthr…</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/petergyang/status/2071690806440898916" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 3 · 🔁 0 · 💬 0</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/petergyang" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1487465096242737157/AL-7r3o0_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Madhu Guru<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@realmadhuguru</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Prev: Product Leader at Google - Gemini, Veo, Nano Banana.</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 00:52 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">What’s underappreciated is that the rise of strong open-weight models like GLM will actually strengthen Google’s position.<br><br>more companies will now start experimenting with fine tuning open-weight models such as GLM and the value will accrue to the infra. <br><br>enterprises want the</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1683592007875436544/P0kykGvV_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Xiaoyin Qu</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@quxiaoyin</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">American and European enterprises will ditch OpenAI and anthropic and adopt Chinese models. Here’s why: <br>1. They can host Chinese models under their own GPUs so it’s still compliant and they would argue they have more control. <br>2. they will post train with their own data on top</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/quxiaoyin/status/2071420870741143570" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/realmadhuguru/status/2071637885154148785" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 51 · 🔁 5 · 💬 6</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/realmadhuguru" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  1 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1976939058741039104/r3GgzqRh_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Thariq<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@trq212</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Claude Code @anthropicai.   prev YC W20, @southpkcommons, @medialab</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 10:46</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">my process for writing right now is to do some engineering work, talk to a bunch of people about it, brainstorm and research with Claude, write a post, give 1 or 2 talks on it, rewrite the post, give another talk, rewrite the intro, wake up at 6am and rewrite it again, then post</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/trq212/status/2071787401475960892" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 829 · 🔁 20 · 💬 71</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/trq212" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  1 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1783856060249595904/8TfcCN0r_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Guillermo Rauch<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@rauchg</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">@vercel CEO</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 06:11</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">You can deploy anything and everything to Vercel. More tomorrow</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/rauchg/status/2071718135799927224" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 63 · 🔁 2 · 💬 4</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 06:04 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">𝟐𝟎𝐱 larger functions on Vercel</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1978602411490205696/oLOuP7a2_400x400.png" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Vercel Developers</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@vercel_dev</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Vercel Functions can now be up to 5 GB in package size on Fluid compute, a 20x increase from the previous 250 MB limit.<br><br>Bring Python data/AI libraries, browser automation, image processing, and bigger backend apps to Vercel. vercel.com/changelog/verc…</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/vercel_dev/status/2071715028567576753" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/rauchg/status/2071716510389662153" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 377 · 🔁 10 · 💬 25</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 05:41</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">curl -sN ascii-prisms.vercel.app<br>by @_brian_zhang</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/rauchg/status/2071710688150528443" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 338 · 🔁 10 · 💬 24</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/rauchg" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/885529357904510976/tM0vLiYS_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Aaron Levie<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@levie</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">ceo @box - your business lives in content. unleash it with AI</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 09:59 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">This gets to the core of one of the central debates in AI. <br><br>If a closed stack is always perpetually at the frontier by a wide margin, then being vertically integrated, and gate keeping in the US can work. Because you always have control over who gets access to the best</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1683592007875436544/P0kykGvV_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Xiaoyin Qu</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@quxiaoyin</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">The worst case scenario for USA AI: 1. Chinese open sources keep gaining market share. China owns the model layer. 2. Those models were trained and inference-optimized on Huawei chips instead of NVIDIA. China also owns the chip layer. 3. US doesn&#39;t build data centers fast enough</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/quxiaoyin/status/2071489281747800246" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/levie/status/2071775583072375214" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 109 · 🔁 13 · 💬 29</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/levie" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  1 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1915014653295697921/KmMbglaO_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Ryo Lu<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@ryolu_</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Design @Cursor_ai. Early @NotionHQ, @Stripe, built startups. I make a world where anyone can make software. Aspiring k-pop idol.</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 02:00</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">get the app:<br>apps.apple.com/us/app/cursor/…</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/ryolu_/status/2071655130152493297" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 10 · 🔁 0 · 💬 3</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 01:50 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">wherever ideas hit.<br>desks and laptops optional.</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1970182748146180096/dhZeXi_X_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Cursor</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@cursor_ai</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Introducing Cursor for iOS.<br><br>Build from anywhere by launching always-on cloud agents. Or remotely control agents running on your computer from the app.<br><br>Composer 2.5 is 75% off in the app now through July 5.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/cursor_ai/status/2071641103191998810" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/ryolu_/status/2071652629890088964" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 609 · 🔁 10 · 💬 43</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/ryolu_" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1922894268403941377/-dGWAt3N_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Garry Tan<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@garrytan</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">President &amp; CEO @ycombinator —Founder @garryslist—Creator of GStack &amp; GBrain—designer/engineer who helps founders—SF Dem accelerating the boom loop</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 12:45</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;"></td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/garrytan/status/2071817410303393840" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 1485 · 🔁 101 · 💬 71</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-29 22:25 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Build power and datacenters</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1728327996375719936/RW7VBJfD_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Chubby♨️</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@kimmonismus</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">The worst-case scenario for the United States is becoming increasingly realistic, and I will briefly explain why.<br><br>@quxiaoyin raised many valid points, and I agree with her. First of all: <br><br>-China certainly does not place such strong emphasis on open source because it cares so</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/kimmonismus/status/2071524362012791114" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/garrytan/status/2071600933210100074" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 262 · 🔁 25 · 💬 35</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/garrytan" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><div style="width:48px;height:48px;border-radius:9999px;background:linear-gradient(135deg,#e0e7ff,#c7d2fe);display:flex;align-items:center;justify-content:center;font-weight:700;color:#6366f1;font-family:Manrope,Arial,sans-serif;">MT</div></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Matt Turck<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@mattturck</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">VC at @FirstMarkCap.  Host: MAD Podcast; Organizer: Data Driven NYC, Author: MAD Landscape.</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 12:00</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Being the underdog, time and again, is the greatest advantage</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/mattturck/status/2071806129001164934" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 8 · 🔁 0 · 💬 3</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 09:45</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Shout out to whoever is selling a ticket for the World Cup final on the FIFA marketplace for $11,499,998.85 - smart move, does sound like a much better deal than $11,500,000.00 https://t.co/DxfKC5K0F2</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/mattturck/status/2071772069742756333" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 20 · 🔁 2 · 💬 5</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/mattturck" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1742369596534067200/Ts-5zSJ6_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Zara Zhang<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@zarazhangrui</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Builder. Dangerously skips permissions. Harvard’17. GitHub: <a href="https://t.co/KCuEajezlL" style="color:#6366f1;text-decoration:none;word-break:break-all;">https://t.co/KCuEajezlL</a> YouTube: <a href="https://t.co/8xzbGWtf6w" style="color:#6366f1;text-decoration:none;word-break:break-all;">https://t.co/8xzbGWtf6w</a></div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 09:24</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Code: github.com/zarazhangrui/r…</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/zarazhangrui/status/2071766865245012255" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 17 · 🔁 0 · 💬 0</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 09:24</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">I built a Chrome extension that turns your &quot;read later&quot; list into dedicated reading time on your calendar.  <br><br>Save 5 articles → it auto-books a 30-min &quot;reading block&quot; on your Google calendar, links included. So you&#39;ll actually sit down and go through them.  <br><br>No account, no</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/zarazhangrui/status/2071766827345285411" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 350 · 🔁 17 · 💬 28</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 03:00 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">&quot;The market value of writing has gone way up&quot; (per a PM at Anthropic)<br><br>Good writing/clear articulation is required for both building a product (being able to steer models effectively) and building an audience<br><br>Writing well has historically been undervalued in tech. Time to change</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1742369596534067200/Ts-5zSJ6_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Zara Zhang</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@zarazhangrui</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">My favorite session from @figma Config today was this talk by Chelsea Larson, the head of content design at Anthropic <br><br>Here are my notes</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/zarazhangrui/status/2069897318627946702" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/zarazhangrui/status/2071670108033073365" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 179 · 🔁 16 · 💬 8</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/zarazhangrui" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1455548721421176841/0XHTEfkp_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Nikunj Kothari<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@nikunj</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian &amp; others. love @shimoleejhaveri + 👦👧</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 12:05</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">In the euphoria, I got the team mixed up. Morocco equalized and not Netherlands 🙈</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/nikunj/status/2071807436307222968" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 5 · 🔁 0 · 💬 0</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 11:51</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Omg what is this shootout already.. just wow</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/nikunj/status/2071803912785666483" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 8 · 🔁 0 · 💬 1</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 11:28</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">The World Cup put on an absolute show today..<br><br>Brazil nicking it at the last minute after being 1-0 down and a valiant display by Japan. <br><br>Paraguay deservedly winning against Germany after a WILD penalty shootout. <br><br>Netherlands sneaking into extra time with a 91st minute</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/nikunj/status/2071798024536572123" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 103 · 🔁 3 · 💬 15</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/nikunj" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1131851609774985216/OcsssQ9J_400x400.png" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Peter Steinberger<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@steipete</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Polyagentmorous ClawFather. Came back from retirement to mess with AI and help a lobster take over the world.<br>@OpenClaw🦞 + @OpenAI</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 09:39</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">was this vibed</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/steipete/status/2071770560875671831" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 593 · 🔁 7 · 💬 95</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 09:37 <span style="display:inline-block;padding:1px 8px;background:#f0eeff;border-radius:10px;color:#6366f1;text-decoration:none;font-size:10px;font-weight:600;">Quoted</span></td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">This would have been amazing a few years ago, but in the age of AI, what’s the point?</td></tr>
+    
+    <div style="margin-top:14px;border:1px solid #e2e8f0;border-left:3px solid #a78bfa;border-radius:12px;padding:14px 16px;background:#fafaff;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1597285797316759566/e8EWx4QR_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;" /></div>
+      <div>
+        <span style="font-weight:700;color:#1e1b4b;font-size:14px;font-family:Manrope,Arial,sans-serif;">Andreas Storm</span>
+        <span style="color:#94a3b8;font-weight:500;font-size:12px;margin-left:6px;">@avstorm</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Apple acquires Play. Design Mode in Xcode incoming.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/avstorm/status/2071651083479371972" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-size:12px;font-weight:600;">View original on X →</a></div>
+  </div>
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/steipete/status/2071769993151398074" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 533 · 🔁 11 · 💬 75</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/steipete" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1950950107937185792/QOfEjFoJ_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Claude<span style="font-size:12px;font-weight:500;color:#94a3b8;margin-left:6px;">@claudeai</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">Claude is an AI assistant built by @anthropicai to be safe, accurate, and secure. Talk to Claude on <a href="https://t.co/ZhTwG8d1e5" style="color:#6366f1;text-decoration:none;word-break:break-all;">https://t.co/ZhTwG8d1e5</a> or download the app.</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:600;color:#c7d2fe;text-transform:uppercase;letter-spacing:0.08em;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        
+    <tr><td style="padding:0 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 01:56</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Inference runs on Azure infrastructure, operated by Anthropic. Prompt caching and extended thinking are supported today, with more capabilities on the way.<br><br>Read more: claude.com/blog/claude-in…</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/claudeai/status/2071653962013446586" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 153 · 🔁 13 · 💬 14</span>
+    </td></tr><tr><td style="padding:14px 0 0 0;"><div style="border-top:1px solid #f1f5f9;"></div></td></tr>
+    <tr><td style="padding:12px 0 6px 0;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">2026-06-30 01:56</td></tr>
+    <tr><td style="font-size:15px;line-height:23px;color:#1e293b;font-family:Inter,Arial,sans-serif;">Claude in Microsoft Foundry is now generally available, hosted on Azure.<br><br>Azure customers get Claude Opus 4.8 and Claude Haiku 4.5, with Azure authentication, billing, and commitment retirement.</td></tr>
+    
+    
+    <tr><td style="padding-top:10px;">
+      <a href="https://x.com/claudeai/status/2071653958905467027" target="_blank" rel="noopener noreferrer"
+         style="color:#6366f1;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+      <span style="color:#cbd5e1;font-size:12px;margin-left:8px;">♥ 4094 · 🔁 250 · 💬 266</span>
+    </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://x.com/claudeai" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#cbd5e1;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="width:40px;vertical-align:middle;">
+              <table role="presentation" width="32" cellspacing="0" cellpadding="0" border="0" style="background:#6366f1;border-radius:10px;">
+                <tr>
+                  <td align="center" style="padding:8px 0;font-size:14px;line-height:14px;color:#ffffff;font-family:Arial,sans-serif;">🎙</td>
+                </tr>
+              </table>
+            </td>
+            <td style="vertical-align:middle;padding-left:10px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td class="mobile-section-title" style="font-size:17px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Podcast Episodes</td>
+                  <td style="width:100%;padding-left:12px;vertical-align:middle;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr><td style="border-top:1px solid #e0e7ff;font-size:1px;line-height:1px;">&nbsp;</td></tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-top:2px;font-size:10px;line-height:14px;font-weight:600;color:#a5b4fc;font-family:Inter,Arial,sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Audio</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;">
+            <div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#4338ca,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:20px;">🎙</div>
+          </td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Re-engineering the Semiconductor Supply Chain with Intel CEO Lip-Bu Tan</div>
+            <div style="padding-top:4px;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">No Priors</div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    <div style="margin-top:14px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid #e2e8f0;">
+        <iframe src="https://www.youtube.com/embed/asCgCv2XB4s" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+          loading="lazy" referrerPolicy="strict-origin-when-cross-origin"></iframe>
+       </div>
+    <tr><td style="padding-top:14px;font-size:13px;line-height:21px;color:#475569;font-family:Inter,Arial,sans-serif;">Speaker 1 | 00:00 - 00:28<br>Nine of the 10 company I invest, halfway they change their business plan because market have changed. Yeah. So I like to have entrepreneur as team, not just one person. I always believed in when I was at Cadence and also at Intel is first of all you crawl and be humble, listen to customer. And then first step for me is to strengthen my balance sheet, focus on the products, and I really simplify the product, listen to the customer, and then drive the next generation leadership products.<br><br>Speaker 1 | 00:28 - 00:47<br>And then right now, the agentic AI and influence CPU become highly in demand. And so in some way, I&#39;m happy. Right now, the demand is very high for my CPU. Secondly, very happy that Jensen Huang, my all time friend, he also put 5,000,000,000 in investing and support me. This 5,000,000,000 become 25,000,000,000 now.<br><br>Speaker 1 | 00:47 - 00:52<br>If you look at it ten years from now, what are we be the winning company? The one that<br><br>Speaker 2 | 01:00 - 01:22<br>Hi, listeners. Welcome back to No Priors. Today, Elad and I are here with Lip Bu Tan, the legendary investor from Walden, then CEO of Cadence, now CEO of Intel. We talk about his plan to transform Intel, having the US government as a major shareholder, how to be an amazing semiconductors investor, and whether or not we can make chips in The United States. Welcome, Lip Bu.<br><br>Speaker 2 | 01:22 - 01:33<br>Lip Bu, it&#39;s great to see you. We&#39;ll start with the obvious question. This is a really hard job to go be CEO of this incredibly important American semis company. Why take the job at all?<br><br>Speaker 1 | 01:33 - 01:57<br>It&#39;s a good question. I&#39;m 66, and people thought, wow, you should retire rather than taking on this hardest job in the industry. And so a couple of reasons. One is this is an iconic company, and it&#39;s so important for the semiconductor ecosystem and also so important for United States. And so I decided to do one more after Cadence.<br><br>Speaker 2 | 01:57 - 02:01<br>A lot has happened in this past year. What has been most surprising to you?<br><br>Speaker 1 | 02:02 - 02:31<br>Well, the most surprising that I don&#39;t learn from my previous job or even training is one day early morning, President Trump asking me to resign, and conflict of interest, and there&#39;s no exceptions. And so I had to convince myself, first of all, I don&#39;t need this job. I do it purely to save Intel. And so take that personal issue out of the way. Then I figure out, what can I do to be helpful to Intel?<br><br>Speaker 1 | 02:31 - 02:53<br>And so good news is I have a meeting, you know, Thursday morning, and then Monday, I have the meeting. And then he listened to me like I have a chance to explain myself. And I was born in Malaysia, grown up in Singapore, went to MIT, and I live in US. I never lived outside country. And so something that I share, and that somehow he listened very well.<br><br>Speaker 1 | 02:54 - 02:57<br>And then he gave me the chance, and so I&#39;m delighted.<br><br>Speaker 2 | 02:57 - 03:07<br>And now you have the chance to do the work. When you said, you know, the job is to save Intel. It&#39;s a really important company. What does that look like to you? What does Intel winning or thriving look like?<br><br>Speaker 1 | 03:07 - 03:18<br>Yeah. I just passed fourteen months. A lot of things happened in this fourteen months. So a couple of things. One is to change the culture and then clearly want to drive more accountability.<br><br>Speaker 1 | 03:19 - 03:50<br>And also in terms of decision making, had to be faster. You know, I&#39;m so used to startup culture, and you move fast in the speed of light and going to have that bureaucracy layer of layer of meeting. And so something that I change accountability, listened to the customer, and the customer delighted. Someone like Lipo, so humble, willing to listen, and then address some of the problem that they face, and then try to delight the customer. And also the other part, from day one, I decided all the engineering report to me.<br><br>Speaker 1 | 03:51 - 04:24<br>Being an engineer by t…</td></tr>
+    <tr><td style="padding-top:14px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://www.youtube.com/watch?v=asCgCv2XB4s" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">▶ Watch on YouTube →</a>
+      <span style="color:#cbd5e1;">  ·  2026-06-18 18:00</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="width:40px;vertical-align:middle;">
+              <table role="presentation" width="32" cellspacing="0" cellpadding="0" border="0" style="background:#64748b;border-radius:10px;">
+                <tr>
+                  <td align="center" style="padding:8px 0;font-size:14px;line-height:14px;color:#ffffff;font-family:Arial,sans-serif;">✦</td>
+                </tr>
+              </table>
+            </td>
+            <td style="vertical-align:middle;padding-left:10px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td class="mobile-section-title" style="font-size:17px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Blog Posts</td>
+                  <td style="width:100%;padding-left:12px;vertical-align:middle;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr><td style="border-top:1px solid #e0e7ff;font-size:1px;line-height:1px;">&nbsp;</td></tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-top:2px;font-size:10px;line-height:14px;font-weight:600;color:#a5b4fc;font-family:Inter,Arial,sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Written</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;">
+            <div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#64748b,#6366f1);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;">✦</div>
+          </td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">An update on recent Claude Code quality reports</div>
+            <div style="padding-top:4px;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">blog</div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:0;"><a href="https://www.anthropic.com/engineering/april-23-postmortem" target="_blank" rel="noopener noreferrer"><img src="https://cdn.sanity.io/images/4zrzovbb/website/3f522820d47355885631ebda60e5d1f3e5c0fbc2-2000x1050.heif" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;max-height:340px;object-fit:cover;border-radius:12px;border:1px solid #e2e8f0;" alt="" /></a></td></tr>
+    <tr><td style="padding-top:14px;font-size:13px;line-height:21px;color:#475569;font-family:Inter,Arial,sans-serif;">Over the past month, we’ve been looking into reports that Claude’s responses have worsened for some users. We’ve traced these reports to three separate changes that affected Claude Code, the Claude Agent SDK, and Claude Cowork. The API was not impacted. All three issues have now been resolved as of April 20 (v2.1.116). In this post, we explain what we found, what we fixed, and what we’ll do differently to ensure similar issues are much less likely to happen again. We take reports about degradation very seriously. We never intentionally degrade our models, and we were able to immediately confirm that our API and inference layer were unaffected. After investigation, we identified three different issues: On March 4, we changed Claude Code&amp;#x27;s default reasoning effort from high to medium to reduce the very long latency—enough to make the UI appear frozen—some users were seeing in high mode. This was the wrong tradeoff. We reverted this change on April 7 after users told us they&amp;#x27;d prefer to default to higher intelligence and opt into lower effort for simple tasks. This impacted Sonnet 4.6 and Opus 4.6. On March 26, we shipped a change to clear Claude&amp;#x27;s older thinking from sessions that had been idle for over an hour, to reduce latency when users resumed those sessions. A bug caused this to keep happening every turn for the rest of the session instead of just once, which made Claude seem forgetful and repetitive. We fixed it on April 10. This affected Sonnet 4.6 and Opus 4.6. On April 16, we added a system prompt instruction to reduce verbosity. In combination with other prompt changes, it hurt coding quality and was reverted on April 20. This impacted Sonnet 4.6, Opus 4.6, and Opus 4.7. Because each change affected a different slice of traffic on a different schedule, the aggregate effect looked like broad, inconsistent degradation. While we began investigating reports in early March, they were challenging to distinguish from normal variation in user feedback at first, and neither our internal usage nor evals initially reproduced the issues identified. This isn’t the experience users should expect from Claude Code. As of April 23, we’re resetting usage limits for all subscribers. A change to Claude Code&amp;#x27;s default reasoning effort When we released Opus 4.6 in Claude Code in February, we set the default reasoning effort to high . Soon after, we received user feedback that Claude Opus 4.6 in high effort mode would occasionally think for too long, causing the UI to appear frozen and leading to disproportionate latency and token usage for those users. In general, the longer the model thinks, the better the output. Effort levels are how Claude Code lets users set that tradeoff—more thinking versus lower latency and fewer usage limit hits. As we calibrate effort levels for our models, we take this tradeoff into account in order to pick points along the test-time-compute curve that give people the best range of options. In the product layer, we then choose which point along this curve we set as our default, and that is the value we send to the Messages API as the effort parameter; we then make the other options available via /effort . In our internal evals and testing, medium effort achieved slightly lower intelligence with significantly less latency for the majority of tasks. It also didn’t suffer from the same issues with occasional very long tail latencies for thinking, and it helped maximize users’ usage limits. As a result, we rolled out a change making medium the default effort, and explained the rationale via in-product dialog. Soon after rolling out, users began reporting that Claude Code felt less intelligent. We shipped a number of design iterations to make the current effort setting clearer in order to alert people they could change the default (notices on startup, an inline effort selector, and bringing back ultrathink), but most users retained the medium effort default. After hearing feedback from more custom…</td></tr>
+    <tr><td style="padding-top:14px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://www.anthropic.com/engineering/april-23-postmortem" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Read more →</a>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;">
+            <div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#64748b,#6366f1);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;">✦</div>
+          </td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">Scaling Managed Agents: Decoupling the brain from the hands</div>
+            <div style="padding-top:4px;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">blog</div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:0;"><a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer"><img src="https://cdn.sanity.io/images/4zrzovbb/website/c4c716fb31cdbd336b628549cdac0f14e10d0099-2000x1050.heif" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;max-height:340px;object-fit:cover;border-radius:12px;border:1px solid #e2e8f0;" alt="" /></a></td></tr>
+    <tr><td style="padding-top:14px;font-size:13px;line-height:21px;color:#475569;font-family:Inter,Arial,sans-serif;">Get started with Claude Managed Agents by following our docs . A running topic on the Engineering Blog is how to build effective agents and design harnesses for long-running work . A common thread across this work is that harnesses encode assumptions about what Claude can’t do on its own. However, those assumptions need to be frequently questioned because they can go stale as models improve. As just one example, in prior work we found that Claude Sonnet 4.5 would wrap up tasks prematurely as it sensed its context limit approaching—a behavior sometimes called “context anxiety.” We addressed this by adding context resets to the harness. But when we used the same harness on Claude Opus 4.5, we found that the behavior was gone. The resets had become dead weight. We expect harnesses to continue evolving. So we built Managed Agents: a hosted service in the Claude Platform that runs long-horizon agents on your behalf through a small set of interfaces meant to outlast any particular implementation—including the ones we run today. Building Managed Agents meant solving an old problem in computing: how to design a system for “ programs as yet unthought of .” Decades ago, operating systems solved this problem by virtualizing hardware into abstractions— process, file —general enough for programs that didn&amp;#x27;t exist yet. The abstractions outlasted the hardware. The read() command is agnostic as to whether it’s accessing a disk pack from the 1970s or a modern SSD. The abstractions on top stayed stable while the implementations underneath changed freely. Managed Agents follow the same pattern. We virtualized the components of an agent: a session (the append-only log of everything that happened), a harness (the loop that calls Claude and routes Claude’s tool calls to the relevant infrastructure), and a sandbox (an execution environment where Claude can run code and edit files). This allows the implementation of each to be swapped without disturbing the others. We&amp;#x27;re opinionated about the shape of these interfaces, not about what runs behind them. Don’t adopt a pet We started by placing all agent components into a single container, which meant the session, agent harness, and sandbox all shared an environment. There were benefits to this approach, including that file edits are direct syscalls, and there were no service boundaries to design. But by coupling everything into one container, we ran into an old infrastructure problem: we’d adopted a pet . In the pets-vs-cattle analogy, a pet is a named, hand-tended individual you can’t afford to lose, while cattle are interchangeable. In our case, the server became that pet; if a container failed, the session was lost. If a container was unresponsive, we had to nurse it back to health. Nursing containers meant debugging unresponsive stuck sessions. Our only window in was the WebSocket event stream, but that couldn’t tell us where failures arose, which meant that a bug in the harness, a packet drop in the event stream, or a container going offline all presented the same. To figure out what went wrong, an engineer had to open a shell inside the container, but because that container often also held user data, that approach essentially meant we lacked the ability to debug. A second issue was that the harness assumed that whatever Claude worked on lived in the container with it. When customers asked us to connect Claude to their virtual private cloud, they had to either peer their network with ours, or run our harness in their own environment. An assumption baked into the harness became a problem when we wanted to connect it to different infrastructure. Decouple the brain from the hands The solution we arrived at was to decouple what we thought of as the “brain” (Claude and its harness) from both the “hands” (sandboxes and tools that perform actions) and the “session” (the log of session events). Each became an interface that made few assumptions about the others, and each could fail or be replaced…</td></tr>
+    <tr><td style="padding-top:14px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Read more →</a>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 16px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;">
+            <div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#64748b,#6366f1);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;">✦</div>
+          </td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:16px;line-height:22px;font-weight:700;color:#1e1b4b;font-family:Manrope,Arial,sans-serif;">New in Claude Managed Agents: self-hosted sandboxes and MCP tunnels</div>
+            <div style="padding-top:4px;font-size:12px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">blog</div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:0;"><a href="https://claude.com/blog/claude-managed-agents-updates" target="_blank" rel="noopener noreferrer"><img src="https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a0b59fe189cc1f0e01ad2d4_image%20(27).png" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;max-height:340px;object-fit:cover;border-radius:12px;border:1px solid #e2e8f0;" alt="" /></a></td></tr>
+    <tr><td style="padding-top:14px;font-size:13px;line-height:21px;color:#475569;font-family:Inter,Arial,sans-serif;">Starting today, Claude Managed Agents can operate in a sandbox you control and connect to your private Model Context Protocol (MCP) servers. Both the sandbox where an agent executes tools and the services it reaches run within the established boundaries of your enterprise, under your security and runtime controls. The sandbox runs on your own infrastructure, or with managed providers like Cloudflare , Daytona , Modal , or Vercel to handle the compute and isolation for you. On the Claude Platform, self-hosted sandboxes is available in public beta and MCP tunnels in research preview ( request access ). Keep agent execution within your perimeter With self-hosted sandboxes, you keep sensitive files, packages, and services in your own infrastructure or with a managed sandbox provider. The agent loop that handles orchestration, context management, and error recovery stays on Anthropic’s infrastructure, while tool execution moves to your own configured environment. Inside your perimeter, network policies, audit logging, and security tooling are already in place, and files and repositories don&amp;#x27;t leave. You also control the compute: resource sizing and the runtime image are set on your side, so agents running compute-heavy work such as long builds or image generation get the CPU, memory, and capacity the task needs. Choose your sandbox client Bring any sandbox client you want, or start with one of our supported providers: Cloudflare runs sandboxes at scale using microVMs and lighter weight isolates. Outbound network requests are in your control with zero-trust secrets injection, customizable proxies to audit, reroute, or modify egress, and the ability to connect to internal services over Cloudflare&amp;#x27;s network. Amplitude is building Design Agent, an internal tool for on-brand production UI and marketing design, on Managed Agents and Cloudflare for tighter observability and control. Daytona sandboxes are full composable computers, long-running and stateful. The same primitive runs a quick burst or an agent that works for hours. The sandbox stays accessible while a session runs over SSH or an authenticated preview URL, or can be paused and restored with full state preserved. Clay’s GTM engineering agent, Sculptor, builds, tests, and monitors workflows autonomously on Managed Agents and Daytona. Modal is a cloud platform built for AI workloads, where sandboxes share the same foundation as Modal&amp;#x27;s functions, storage, and networking primitives, giving you everything you need to build production AI systems. Modal&amp;#x27;s custom container runtime delivers sub-second startup on any image, scales to hundreds of thousands of concurrent sandboxes, and gives you CPU and GPU resources on demand. Vercel sandboxes combine VM security, VPC peering, and bring your own cloud with millisecond startup time. Managed Agents handles the model, tools, and session state, while the Vercel Sandbox firewall injects credentials at the network boundary so they never enter the sandbox. Rogo , an AI platform for institutional finance, is building an analyst agent on Managed Agents and Vercel Sandbox to handle their proprietary data securely. Connect to services within your private network With MCP tunnels , your agents reach MCP servers inside your private network without exposing them to the public internet. Internal databases, private APIs, knowledge bases, and ticketing systems become tools your agents can call. A lightweight gateway you deploy makes a single outbound connection, no inbound firewall rules, no public endpoints, and traffic encrypted end to end. MCP tunnels is supported in Managed Agents and the Messages API. MCP tunnels is managed from workspace settings within the Claude Console by organization admins.</td></tr>
+    <tr><td style="padding-top:14px;font-size:11px;line-height:16px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      <a href="https://claude.com/blog/claude-managed-agents-updates" target="_blank" rel="noopener noreferrer" style="color:#6366f1;text-decoration:none;font-weight:600;">Read more →</a>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr><tr><td style="padding:24px 0 8px 0;text-align:center;">
+    <div style="font-size:11px;line-height:18px;color:#94a3b8;font-family:Inter,Arial,sans-serif;">
+      Generated through the Follow Builders skill ·
+      <a href="https://github.com/zarazhangrui/follow-builders" target="_blank" rel="noopener noreferrer" style="color:#a5b4fc;text-decoration:none;">github.com/zarazhangrui/follow-builders</a>
+    </div>
+  </td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
