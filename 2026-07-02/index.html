@@ -40,7 +40,15 @@
           line-height: 20px !important;
         }
       }
-    </style>
+    
+      .fb-lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:none;align-items:center;justify-content:center;cursor:grab;-webkit-font-smoothing:antialiased;}
+      .fb-lightbox.open{display:flex;}
+      .fb-lightbox img{max-width:92vw;max-height:88vh;display:block;user-select:none;-webkit-user-drag:none;touch-action:none;will-change:transform;}
+      .fb-lightbox.grabbing,.fb-lightbox.grabbing img{cursor:grabbing;}
+      .fb-lightbox-close{position:fixed;top:16px;right:16px;width:40px;height:40px;border-radius:9999px;background:rgba(255,255,255,0.14);color:#fff;font-size:24px;line-height:40px;text-align:center;cursor:pointer;border:none;padding:0;font-family:inherit;}
+      .fb-lightbox-close:hover{background:rgba(255,255,255,0.26);}
+      .fb-lightbox-hint{position:fixed;bottom:14px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.55);font-size:12px;pointer-events:none;}
+</style>
   </head>
   <body style="margin:0;padding:0;background:#f7f7f7;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;-webkit-font-smoothing:antialiased;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;">
@@ -225,7 +233,7 @@
       </td></tr>
     </table>
   </td></tr>
-          <tr><td><div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HMFlVY2asAAAnGf.jpg" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY2asAAAnGf.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFlVY6bsAA7Y4k.jpg" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY6bsAA7Y4k.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFlVY9aMAAdius.jpg" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY9aMAAdius.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFlVY6awAA0JTS.jpg" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY6awAA0JTS.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div></td></tr>
+          <tr><td><div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HMFlVY2asAAAnGf.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY2asAAAnGf.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFlVY6bsAA7Y4k.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY6bsAA7Y4k.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFlVY9aMAAdius.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY9aMAAdius.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFlVY6awAA0JTS.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFlVY6awAA0JTS.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div></td></tr>
           <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
     <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
     <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
@@ -238,7 +246,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">yes in case you missed it we are doing &quot;poaster&quot; sessions at AIE for the first time ever<br><br>no papers, no posters.<br>only poasters.<br><br>we are looking for people who physically print out their hottest takes and stand in front of them taking all comers<br><br>@QuinnyPig is there, we have room</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HLYY9IPbwAAYHfk.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HLYY9IPbwAAYHfk.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HLYY9IPbwAAYHfk.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HLYY9IPbwAAYHfk.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/swyx/status/2068868526291718334" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -311,7 +319,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">actually insane stuff happening here</div>
-    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HMFPjf0aEAAxxvW.png" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFPjf0aEAAxxvW.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFPj46bkAAYY80.png" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFPj46bkAAYY80.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HMFPjf0aEAAxxvW.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFPjf0aEAAxxvW.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMFPj46bkAAYY80.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMFPj46bkAAYY80.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/paularambles/status/2072024792056909935" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -348,7 +356,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Claude Desktop is now available on Linux (Ubuntu and Debian) in beta.<br><br>Alongside the browser and terminal, you now get a first-class desktop experience with Claude Code, Claude Cowork, and chat on all paid plans.</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMEuXrJbEAAiTYm.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMEuXrJbEAAiTYm.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMEuXrJbEAAiTYm.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMEuXrJbEAAiTYm.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/ClaudeDevs/status/2071988881717871065" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -408,7 +416,7 @@
       </td></tr>
     </table>
   </td></tr>
-          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMHPZcGaUAAfeTQ.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMHPZcGaUAAfeTQ.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMHPZcGaUAAfeTQ.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMHPZcGaUAAfeTQ.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
           
           <tr><td style="padding-top:10px;">
             <a href="https://x.com/petergyang/status/2072165346476511583" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
@@ -577,7 +585,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Interesting GLM rumor from China sources:<br><br>&quot;Apparently Z.ai has an internal router behind their coding plan that routes your Claude Code query to GLM or Claude depending on if the classifier thinks it is in distribution or not. If it is OOD and also high value,</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMD01aXWIAA13JM.png" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMD01aXWIAA13JM.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMD01aXWIAA13JM.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMD01aXWIAA13JM.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/hsu_steve/status/2071925094520078723" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -696,7 +704,7 @@
       </td></tr>
     </table>
   </td></tr>
-          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMHw3w_bcAEN5kw.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMHw3w_bcAEN5kw.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMHw3w_bcAEN5kw.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMHw3w_bcAEN5kw.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
           <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
     <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
     <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
@@ -709,7 +717,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">I&#39;ll be giving the the Day 2 opening keynote at AI Engineer World&#39;s Fair on July 1st at 9am.<br><br>Hope to see you there, here&#39;s a quick preview</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HLITRDFa8AAzQ_z.png" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HLITRDFa8AAzQ_z.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HLITRDFa8AAzQ_z.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HLITRDFa8AAzQ_z.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/trq212/status/2067737883545596368" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -884,7 +892,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">We&#39;re coming out of stealth.<br><br>We&#39;ve built our first racks after a successful A0 tapeout, $1B+ in customer contracts, and $800m raised.<br><br>Early customer tests show us achieving SOTA throughput, latency, and power efficiency on inference workloads.<br><br>Our first racks ship this summer.</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMEfnAMbAAAlKme.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMEfnAMbAAAlKme.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMEfnAMbAAAlKme.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMEfnAMbAAAlKme.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/Etched/status/2071972062202343590" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -1169,7 +1177,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Narrative violation: A new study of 21,559 firms in the U.S. finds that “companies that adopt AI tend to grow faster following adoption”. <br><br>“Firms making the largest AI investments grow employment by roughly 10% following adoption, while low-intensity adopters see no</div>
-    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HMDwCPeWUAAlQAg.jpg" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMDwCPeWUAAlQAg.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMDwCPaWsAA0eNI.jpg" target="_blank" rel="noopener noreferrer" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMDwCPaWsAA0eNI.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HMDwCPeWUAAlQAg.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMDwCPeWUAAlQAg.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HMDwCPaWsAA0eNI.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HMDwCPaWsAA0eNI.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/DavidSacks/status/2071919757209502205" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -1242,7 +1250,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">California&#39;s pragmatic center is growing. Little-tech founders, nurses, teachers, immigrant business owners, public-safety leaders—united not by ideology, but by a desire for government that actually works. Garry&#39;s List  is turning that energy into donors, volunteers, and</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMFn1cbW8AEpRW3.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMFn1cbW8AEpRW3.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMFn1cbW8AEpRW3.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMFn1cbW8AEpRW3.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/garryslist/status/2072053126207516806" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -1279,7 +1287,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">how a simple llm wiki compares to gbrain<br><br>second brains are getting popular fast, they&#39;re one of the main enablers for ai and agents right now. the context you give an agent is what makes it good<br><br>two frameworks I&#39;ve been using are the LLM Wiki and Gbrain. here&#39;s how they</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMDVx1caYAANmc0.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMDVx1caYAANmc0.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMDVx1caYAANmc0.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMDVx1caYAANmc0.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/shannholmberg/status/2071890884040499660" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -1623,7 +1631,7 @@
       </td></tr>
     </table>
   </td></tr>
-          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMHgCAebUAA-Qwc.png" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMHgCAebUAA-Qwc.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMHgCAebUAA-Qwc.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMHgCAebUAA-Qwc.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
           
           <tr><td style="padding-top:10px;">
             <a href="https://x.com/steipete/status/2072183656739983397" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
@@ -1659,7 +1667,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Sonnet 5 goes straight into the garbage bin<br><br>&amp;gt; 1.2x more expensive than Opus 4.8 Max<br>&amp;gt; 2x more expensive than GPT-5.5-xhigh<br>&amp;gt; 5x more expensive than GLM-5.2<br>&amp;gt; 7x more expensive than Kimi-K2.6<br>&amp;gt; 57x more expensive than DeepSeek-V4-Pro</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMF5VSsWoAAcNy3.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMF5VSsWoAAcNy3.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMF5VSsWoAAcNy3.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMF5VSsWoAAcNy3.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/scaling01/status/2072071305281540338" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -1696,7 +1704,7 @@
       </div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@steipete is now joining us for Crafting Software Factories!<br><br>📅 6pm Wed evening in SF after the @aiDotEngineer World&#39;s Fair<br><br>He&#39;ll be joining @zachlloydtweets and Paige Bailey from Google DeepMind to chat all-things loops, software factories, and the future of coding</div>
-    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMBEnnwaEAA-Owj.jpg" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMBEnnwaEAA-Owj.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMBEnnwaEAA-Owj.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMBEnnwaEAA-Owj.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
     <div style="margin-top:8px;"><a href="https://x.com/warpdotdev/status/2071731280178508255" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
   </div></td></tr>
           <tr><td style="padding-top:10px;">
@@ -1999,7 +2007,7 @@
       </td></tr>
     </table>
   </td></tr>
-          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMFGxPUXQAAM9OA.png" target="_blank" rel="noopener noreferrer" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMFGxPUXQAAM9OA.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          <tr><td><div style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HMFGxPUXQAAM9OA.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HMFGxPUXQAAM9OA.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
           
           <tr><td style="padding-top:10px;">
             <a href="https://x.com/claudeai/status/2072017452335087996" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
@@ -2093,5 +2101,73 @@
         </td>
       </tr>
     </table>
+    <script>
+(function(){
+  var box,img,scale=1,tx=0,ty=0,dragging=false,lastX=0,lastY=0;
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function apply(doClamp){
+    if(doClamp && img){
+      var bw=img.offsetWidth||1,bh=img.offsetHeight||1;
+      var ew=bw*scale,eh=bh*scale,vw=window.innerWidth,vh=window.innerHeight;
+      tx=ew>vw?clamp(tx,-(ew-vw)/2,(ew-vw)/2):0;
+      ty=eh>vh?clamp(ty,-(eh-vh)/2,(eh-vh)/2):0;
+    }
+    if(img) img.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';
+  }
+  function open(src){
+    if(!box) build();
+    scale=1;tx=0;ty=0;
+    img.src=src;apply(false);
+    box.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    if(!box||!box.classList.contains('open'))return;
+    box.classList.remove('open');
+    document.body.style.overflow='';
+    img.style.transform='';
+    img.removeAttribute('src');
+  }
+  function build(){
+    box=document.createElement('div');box.className='fb-lightbox';
+    box.innerHTML='<button class="fb-lightbox-close" type="button" aria-label="Close">&times;</button><img alt="" /><div class="fb-lightbox-hint">滚轮 / 双指缩放 · 拖动平移 · ESC 关闭</div>';
+    document.body.appendChild(box);
+    img=box.querySelector('img');
+    box.querySelector('.fb-lightbox-close').addEventListener('click',function(e){e.stopPropagation();close();});
+    box.addEventListener('click',function(e){if(e.target===box)close();});
+    img.addEventListener('pointerdown',function(e){
+      dragging=true;lastX=e.clientX;lastY=e.clientY;
+      box.classList.add('grabbing');
+      try{img.setPointerCapture(e.pointerId);}catch(_){}
+    });
+    img.addEventListener('pointermove',function(e){
+      if(!dragging)return;
+      tx+=e.clientX-lastX;ty+=e.clientY-lastY;
+      lastX=e.clientX;lastY=e.clientY;apply(true);
+    });
+    function end(){dragging=false;if(box)box.classList.remove('grabbing');}
+    img.addEventListener('pointerup',end);
+    img.addEventListener('pointercancel',end);
+    box.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var vw=window.innerWidth,vh=window.innerHeight;
+      var ns=clamp(scale*Math.exp(-e.deltaY*0.0015),1,6);
+      if(ns===scale)return;
+      var dx=e.clientX-vw/2,dy=e.clientY-vh/2;
+      tx=dx-(dx-tx)*(ns/scale);
+      ty=dy-(dy-ty)*(ns/scale);
+      scale=ns;apply(true);
+    },{passive:false});
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('.fb-img');
+    if(!a)return;
+    var src=a.getAttribute('href');
+    if(!src||src.charAt(0)==='#')return;
+    e.preventDefault();open(src);
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
   </body>
 </html>
