@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+    <style>
+      /* Constrain embedded content (RSS briefing HTML, enriched media) so wide
+         images / tables / code can't stretch the 680px shell. Defensive only —
+         never enlarges, only shrinks/wraps, so it's safe for the email template too. */
+      .mobile-shell img { max-width: 100% !important; height: auto !important; }
+      .mobile-shell video { max-width: 100% !important; }
+      .mobile-shell table { max-width: 100% !important; }
+      .mobile-shell pre { max-width: 100% !important; overflow-x: auto !important; }
+      .mobile-shell td, .mobile-shell th { overflow-wrap: anywhere; word-break: break-word; }
+      @media screen and (max-width: 640px) {
+        .mobile-shell {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+        .mobile-topbar {
+          padding: 12px 16px !important;
+        }
+        .mobile-card-padding {
+          padding: 20px !important;
+        }
+        .mobile-hero-title {
+          font-size: 22px !important;
+          line-height: 28px !important;
+        }
+        .mobile-overview-copy {
+          font-size: 15px !important;
+          line-height: 24px !important;
+        }
+        .mobile-section-title {
+          font-size: 18px !important;
+          line-height: 24px !important;
+        }
+        .mobile-body-text {
+          font-size: 15px !important;
+          line-height: 24px !important;
+        }
+        .mobile-translation {
+          font-size: 13px !important;
+          line-height: 20px !important;
+        }
+      }
+    
+      .fb-lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:grab;-webkit-font-smoothing:antialiased;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility 0s linear .22s;}
+      .fb-lightbox.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .22s ease,visibility 0s;}
+      .fb-lightbox-stage{width:92vw;height:88vh;overflow:hidden;transform:scale(.94);opacity:0;transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .22s ease;will-change:transform,opacity;}
+      .fb-lightbox.open .fb-lightbox-stage{transform:scale(1);opacity:1;}
+      .fb-lightbox-stage .swiper-slide{height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;scroll-snap-stop:always;}
+      .fb-lightbox-stage .swiper-zoom-container{width:100%;height:100%;}
+      .fb-lightbox img{max-width:100%;max-height:100%;display:block;user-select:none;-webkit-user-drag:none;}
+      .fb-lightbox.grabbing,.fb-lightbox.grabbing img{cursor:grabbing;}
+      .fb-lightbox-close{position:fixed;top:16px;right:16px;z-index:20;width:40px;height:40px;border-radius:9999px;background:rgba(255,255,255,0.14);color:#fff;font-size:24px;line-height:40px;text-align:center;cursor:pointer;border:none;padding:0;font-family:inherit;opacity:0;transition:opacity .22s ease,background .15s ease;}
+      .fb-lightbox-close:hover{background:rgba(255,255,255,0.26);}
+      .fb-lightbox.open .fb-lightbox-close{opacity:1;}
+      .fb-lightbox-nav{position:fixed;top:50%;z-index:20;width:44px;height:44px;margin-top:-22px;border-radius:9999px;background:rgba(255,255,255,0.14);color:#fff;font-size:30px;line-height:40px;text-align:center;cursor:pointer;border:none;padding:0;font-family:inherit;opacity:0;visibility:hidden;transition:opacity .22s ease,background .15s ease;}
+      .fb-lightbox-nav:hover{background:rgba(255,255,255,0.26);}
+      .fb-lightbox-prev{left:16px;}
+      .fb-lightbox-next{right:16px;}
+      .fb-lightbox.open.multiple .fb-lightbox-nav{opacity:1;visibility:visible;}
+      .fb-lightbox-pagination{position:fixed;bottom:38px!important;left:0!important;right:0!important;width:auto!important;z-index:1;opacity:0;visibility:hidden;transition:opacity .22s ease;}
+      .fb-lightbox.open.multiple .fb-lightbox-pagination{opacity:1;visibility:visible;}
+      .fb-lightbox-pagination .swiper-pagination-bullet{background:#fff;opacity:.42;}
+      .fb-lightbox-pagination .swiper-pagination-bullet-active{opacity:1;transform:scale(1.2);}
+      .fb-lightbox-hint{position:fixed;bottom:14px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.55);font-size:12px;pointer-events:none;opacity:0;transition:opacity .22s ease;}
+      .fb-lightbox.open .fb-lightbox-hint{opacity:1;}
+      @media (max-width:600px){.fb-lightbox-nav{width:40px;height:40px;font-size:26px;line-height:36px}.fb-lightbox-prev{left:8px}.fb-lightbox-next{right:8px}}
+</style>
+  </head>
+  <body style="margin:0;padding:0;background:#f7f7f7;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;-webkit-font-smoothing:antialiased;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;">
+      <tr>
+        <td align="center" style="padding:0 12px 40px 12px;">
+          <table role="presentation" width="680" cellspacing="0" cellpadding="0" border="0" class="mobile-shell" style="width:680px;max-width:680px;">
+            <tr>
+              <td style="background:#ffffff;border-radius:0 0 14px 14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <td style="height:3px;background:linear-gradient(90deg,#ff385c,#ff5470);font-size:0;line-height:0;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td class="mobile-topbar" style="padding:18px 24px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td style="font-size:18px;line-height:24px;font-weight:700;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;letter-spacing:-0.2px;">AI Builders Digest</td>
+                          <td align="right" style="font-size:11px;line-height:16px;color:#929292;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;">Intelligence Refined</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr><td style="padding-top:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr>
+      <td style="padding:0 0 24px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;">
+          <tr>
+            <td style="height:3px;background:linear-gradient(90deg,#ff385c,#ff5470);font-size:0;line-height:0;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="padding:28px 28px 26px 28px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td>
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="background:#fff1f2;border-radius:9999px;">
+                      <tr><td style="padding:4px 12px;font-size:10px;line-height:14px;font-weight:700;color:#ff385c;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Weekly Report</td></tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mobile-hero-title" style="padding-top:14px;font-size:26px;line-height:32px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Intelligence Summary</td>
+                </tr>
+                <tr>
+                  <td style="padding-top:6px;font-size:13px;line-height:20px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Generated 2026-08-24 08:00</td>
+                </tr>
+                <tr>
+                  <td style="padding-top:20px;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        
+                        <td style="width:20.00%;padding-right:8px;vertical-align:top;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:10px;">
+                            <tr><td align="center" style="padding:14px 6px 4px 6px;font-size:10px;line-height:12px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-weight:700;letter-spacing:0.08em;">BUILDERS</td></tr>
+                            <tr><td align="center" style="padding:0 6px 14px 6px;font-size:28px;line-height:32px;font-weight:700;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">9</td></tr>
+                          </table>
+                        </td>
+                        <td style="width:20.00%;padding-right:8px;vertical-align:top;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:10px;">
+                            <tr><td align="center" style="padding:14px 6px 4px 6px;font-size:10px;line-height:12px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-weight:700;letter-spacing:0.08em;">UPDATES</td></tr>
+                            <tr><td align="center" style="padding:0 6px 14px 6px;font-size:28px;line-height:32px;font-weight:700;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">19</td></tr>
+                          </table>
+                        </td>
+                        <td style="width:20.00%;padding-right:8px;vertical-align:top;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:10px;">
+                            <tr><td align="center" style="padding:14px 6px 4px 6px;font-size:10px;line-height:12px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-weight:700;letter-spacing:0.08em;">PODCASTS</td></tr>
+                            <tr><td align="center" style="padding:0 6px 14px 6px;font-size:28px;line-height:32px;font-weight:700;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">1</td></tr>
+                          </table>
+                        </td>
+                        <td style="width:20.00%;padding-right:8px;vertical-align:top;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:10px;">
+                            <tr><td align="center" style="padding:14px 6px 4px 6px;font-size:10px;line-height:12px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-weight:700;letter-spacing:0.08em;">BLOGS</td></tr>
+                            <tr><td align="center" style="padding:0 6px 14px 6px;font-size:28px;line-height:32px;font-weight:700;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">0</td></tr>
+                          </table>
+                        </td>
+                        <td style="width:20.00%;padding-right:0;vertical-align:top;">
+                          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:10px;">
+                            <tr><td align="center" style="padding:14px 6px 4px 6px;font-size:10px;line-height:12px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;font-weight:700;letter-spacing:0.08em;">RSS</td></tr>
+                            <tr><td align="center" style="padding:0 6px 14px 6px;font-size:28px;line-height:32px;font-weight:700;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">0</td></tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="mobile-overview-copy" style="padding-top:18px;font-size:14px;line-height:22px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">This digest tracks fresh builder updates, podcast ideas, blog posts, and RSS briefings with bilingual summaries optimized for scanning.</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td style="font-size:11px;line-height:14px;font-weight:700;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;text-transform:uppercase;letter-spacing:0.1em;">Today's Highlights</td></tr>
+    <tr><td style="padding-top:10px;font-size:15px;line-height:24px;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;"><ul>
+<li>OpenAI Codex lead Thibault Sottiaux admits image handling, "Computer History" p95 usage, and a title-generation feature were draining rate limits — fixes ship tomorrow with a full usage reset for paid accounts.<br>OpenAI Codex 负责人 Thibault Sottiaux 承认:图像处理、"Computer History" 的 p95 高消耗以及一个会话标题生成功能都在额外消耗额度——修复将于明天上线,并为付费账户全额重置用量。<br><a href="https://x.com/thsottiaux/status/2091407991736332689">x.com/thsottiaux/status/2091407991736332689</a></li>
+<li>Box CEO Aaron Levie: AI 落地的真正瓶颈是评测(evals)。模型发布的 benchmark 只反映通用能力,企业需要针对自身工作流的 evals——"你无法自动化你无法评估的东西,企业不会只凭感觉买单。"<br>Box CEO Aaron Levie: the real rate limiter on AI diffusion is evals. Model-release benchmarks only show general capability shape; enterprises need evals for their own workflows — "you can't automate what you can't assess. Enterprises will not go just on vibes."<br><a href="https://x.com/levie/status/2091359223368315050">x.com/levie/status/2091359223368315050</a></li>
+<li>Microsoft CTO Kevin Scott on the AI & I podcast: the industry faces a "capability overhang" — model reasoning has outrun what products deliver. The next story is the agentic web: MCP is its HTTP, NLWeb its HTML, and agents need identities, entitlements, and persistent memory to act on your behalf.<br>微软 CTO Kevin Scott 在 AI & I 播客中提出"能力过剩"(capability overhang)——模型推理能力已超过产品实际交付的水平。下一个主题是 agentic web:MCP 之于它如同 HTTP 之于互联网,NLWeb 如同 HTML;agent 还需要身份、权限体系与持久记忆才能真正替你行动。<br><a href="https://www.youtube.com/playlist?list=PLuMcoKK9mKgHtW_o9h5sGO2vXrffKHwJL">youtube.com — Microsoft's Vision for an Internet Made for Agents</a></li>
+<li>Zara Zhang's observation: talented individuals achieve 10x their potential with AI on their own projects, but inside large organizations the gain is often just 20% — or negative — which is why more talented people are leaving big companies (top AI labs excepted).<br>Zara Zhang 的观察:有才华的人用 AI 做自己的项目可以放大 10 倍能力,但放进大组织往往只提升 20% 甚至倒退——这正是越来越多牛人离开大公司的原因(OpenAI/Anthropic 这类顶级 AI 实验室除外)。<br><a href="https://x.com/zarazhangrui/status/2091379220257603593">x.com/zarazhangrui/status/2091379220257603593</a></li>
+<li>Meta AI Sr Director Madhu Guru's evals series part 6: "hill climbing on evals" means picking one dimension that matters — quality on high-value journeys, adjacent use cases, cost, or latency — and optimizing with harnesses and model selection; your failure-mode taxonomy is the compass.<br>Meta AI 高级总监 Madhu Guru 的 evals 系列第 6 篇:"在 evals 上爬山"就是选定一个真正重要的维度——高价值路径上的质量、相邻用例、成本或延迟——然后用更好的 harness 和模型选择去优化;失败模式分类法就是你的指南针。<br><a href="https://x.com/realmadhuguru/status/2091278653435072523">x.com/realmadhuguru/status/2091278653435072523</a></li>
+</ul>
+</td></tr>
+  
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:32px 0 18px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="width:36px;vertical-align:middle;">
+              <table role="presentation" width="32" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:9999px;">
+                <tr><td align="center" style="padding:7px 0;font-size:14px;line-height:14px;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">𝕏</td></tr>
+              </table>
+            </td>
+            <td style="vertical-align:middle;padding-left:12px;">
+              <div style="font-size:10px;line-height:12px;font-weight:700;color:#6a6a6a;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Social feed</div>
+              <div class="mobile-section-title" style="padding-top:3px;font-size:20px;line-height:26px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/2075819673263001600/pj1vyX6I_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Thibault Sottiaux<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@thsottiaux</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Codex &amp; ChatGPT @OpenAI</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 14:11 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">Update on rate limits in Codex. <br><br>We’ve found (a) some inefficiencies when using images in long sessions with multiple compactions (b) high p95+ usage for Computer History (c) a feature that was meant to generate conversation titles that was draining a bit more usage than intended. And we have a tiger team combing through everything and shipping fixes tomorrow. We also found a novel approach to drive efficiency up significantly that is completely unrelated and we will be working on next week.<br><br>As part of some of the fixes tomorrow, we will also do a full reset of the usage for all paid subscriptions.<br><br>See you then.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">Codex 速率限制更新。<br><br>我们发现 (a) 在包含多次压缩的长时间会话中使用图片时存在一些低效问题 (b) Computer History 的 p95+ 使用量偏高 (c) 一个原本用于生成对话标题的功能消耗了比预期更多的资源。我们已组建特别攻坚小组彻查所有问题，明天将发布修复。我们还发现了一种与上述问题无关的全新方法，可大幅提升效率，下周将着手推进。<br><br>作为明天部分修复的一部分，我们还将对所有付费订阅进行一次完整的使用量重置。<br><br>到时见。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/2075819673263001600/pj1vyX6I_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Tibo</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@thsottiaux</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Update on rate limits in Codex. We do see that for some users the cache hit rate has been worse this week than the stable state the weeks before. This could explain that usage is draining somewhat faster for those users as hitting the cache consistently is an important component of being efficient.<br><br>We are investigating and will have an update tomorrow.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/thsottiaux/status/2091033630147854385" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/thsottiaux/status/2091407991736332689" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />1382</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />113</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />248</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/thsottiaux" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  1 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1454103621516206083/_klMwpkk_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Peter Yang<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@petergyang</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Practical AI tutorials and interviews for busy people | Get my best AI skills and guides at <a href="https://t.co/6VAA6p81x6" style="color:#ff385c;text-decoration:none;word-break:break-all;">https://t.co/6VAA6p81x6</a></div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 09:06</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">If you care about your privacy:<br><br>1. Go to http://myaccounts.google.com in Chrome<br>2. Run this prompt in Codex or Claude Code and tell it there&#39;s an open tab in your browser<br>3. Then pick the ones you want to remove and tell AI to do it<br><br>Just disconnected half the apps that should no longer have my Google info.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">如果你在意自己的隐私：<br><br>1. 在 Chrome 中打开 http://myaccounts.google.com<br>2. 在 Codex 或 Claude Code 中运行这个提示，告诉它你的浏览器里有一个打开的标签页<br>3. 然后选择你想移除的应用，让 AI 去操作<br><br>我刚断开了半数不应该再拥有我 Google 信息的应用。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HQXmYaWbEAEQ3tx.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HQXmYaWbEAEQ3tx.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/petergyang/status/2091331251211059468" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />447</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />23</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />20</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 03:01</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">I’m working on a new AI skill. <br><br>It’s called /fuck-cancer<br><br>Goal is to help patients and their family navigate this whole process and stay informed. <br><br>What should I include in it?</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">我正在开发一个新的人工智能技能。<br><br>它叫 /fuck-cancer<br><br>目标是帮助患者及其家人应对整个过程，并保持信息透明。<br><br>我应该在里面加入什么内容？</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/petergyang/status/2091239339204415969" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />188</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />5</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />39</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-22 23:35</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">Looks like you can now delete external data (like my 36 Gmail records) if you go to https://app.instinct.co/workspace and scroll down to Data Privacy.<br><br>Kudos to the Instinct team for listening and shipping this quickly. <br><br>I will always say it like it is, especially when it comes to privacy &amp; trust.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">看起来你现在可以删除外部数据（比如我的 36 条 Gmail 记录）了，只需前往 https://app.instinct.co/workspace 并滚动到 Data Privacy（数据隐私）部分。<br><br>为 Instinct 团队点赞，他们倾听了用户反馈并迅速上线了这个功能。<br><br>尤其是在隐私和信任方面，我会始终实话实说。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HQVjgXnacAAhWSk.png" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HQVjgXnacAAhWSk.png" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/petergyang/status/2091187611507499321" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />13</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />0</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />1</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/petergyang" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1487465096242737157/AL-7r3o0_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Madhu Guru<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@realmadhuguru</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Sr Director, AI at Meta; Prev: Google - Led Gemini, Veo, Nano Banana.</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 05:38 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">Part 1<br>https://x.com/realmadhuguru/status/2089480958571331623<br><br>Part 2<br>https://x.com/realmadhuguru/status/2089918106814603728<br><br>Part 3<br>https://x.com/realmadhuguru/status/2090242427944833047<br><br>Part 4<br>https://x.com/realmadhuguru/status/2090595384905113939<br><br>Part 5<br>https://x.com/realmadhuguru/status/2090930137885774324</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">第1部分<br>https://x.com/realmadhuguru/status/2089480958571331623<br><br>第2部分<br>https://x.com/realmadhuguru/status/2089918106814603728<br><br>第3部分<br>https://x.com/realmadhuguru/status/2090242427944833047<br><br>第4部分<br>https://x.com/realmadhuguru/status/2090595384905113939<br><br>第5部分<br>https://x.com/realmadhuguru/status/2090930137885774324</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1487465096242737157/AL-7r3o0_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Madhu Guru</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@realmadhuguru</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">How to build great evals - part 5<br><br>Stop dumbing down the results from your beautiful, complex eval suite into one single score. This often happens because some senior wants a simplified number to make decisions. Happened to us in the early days of Gemini.<br><br>And I see it happening with a lot of teams.<br><br>This is the tyranny of the average.<br>AI systems do not have a simple dimension of quality.<br><br>Imagine a model that goes from:<br>85% -&gt; 89% on simple summarization<br>80% -&gt; 85% on basic factual QA<br>70% -&gt; 63% on complex financial analysis<br><br>A single score obscures the fact that the model got worse on your frontier use case.<br><br>The immediate reaction to this is to come up with a weighted score. The problem with this is that you have  created false, mathematical procession around a judgment call.<br><br>So what should you do?<br>- keep a prioritized list of your evals per the ladder we discussed in part 4 yesterday.<br>- get people who can look at the details and don’t look for abstracted simplicity.<br>- Understand all the critical eval results in depth, where they fail, where they shine and make a decision on whether your new AI system is better or worse for your users.<br><br>Next post tomorrow!<br><br>Drop your eval questions below and I will answer in future posts.<br><br>Share this with your teammates. And your managers who run from complexity.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/realmadhuguru/status/2090930137885774324" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/realmadhuguru/status/2091278899711967441" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />2</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />0</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />0</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 05:37 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">How to build great evals - part 6<br><br>Hill climbing on evals is just a fancy way of saying: pick a dimension that matters and optimize for it.<br><br>This could be improving the quality of existing features based on your latest production data on high value user journeys, expanding to adjacent use cases, lowering cost or latency.<br><br>The actual work boils down to better harnesses and model selection through methods like prompt eng, context eng, memory, post training, deterministic old school code etc.<br><br>Your failure mode taxonomy (from part 3) is a good compass for where your product struggles and needs some love.<br><br>E.g. maybe tool calling failures are your most common problem. You dig in and notice you stuff 20 tools in context, when each task really only needs 3-5. hill climbing here involves context eng to give it the right tools at the right stage and iterate until you get it to good.<br><br>Or take the cost reduction goal..<br>I’ve written about how I advise launching your product with the best model first. Get the quality as high as you can. Once you know users love the experience, hill climb to get similar quality with a smaller, cheaper, faster model. Same methods - harness, models.<br><br>The important thing is to have evals that tell you whether you are actually moving in the right direction.<br><br>More tomorrow. <br><br>Send this to your teammates!<br><br>Drop your questions in the comments and I will answer in future posts.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">如何构建优秀的评估体系 - 第6部分<br><br>在评估上做爬山优化，说白了就是：选一个重要的维度，然后针对它进行优化。<br><br>可以是基于最新的生产数据，提升高价值用户旅程上现有功能的质量；也可以是扩展到相邻用例、降低成本或延迟。<br><br>实际工作归结为：通过提示词工程、上下文工程、记忆、后训练、确定性老式代码等方法，打造更好的控制框架和模型选择。<br><br>你从第3部分得到的失败模式分类，是一张很好的指南针，能告诉你产品哪里吃力、哪里需要关爱。<br><br>比如说，工具调用失败可能是你最常遇到的问题。你深入排查后发现，你把20个工具塞进了上下文里，而每个任务其实只需要3到5个。这里的爬山优化就是做上下文工程，在合适的阶段给它合适的工具，反复迭代直到效果满意。<br><br>或者拿降低成本这个目标来说……<br>我之前写过，我建议先用最好的模型发布产品，尽量把质量做到最高。一旦你知道用户爱上了这个体验，再通过爬山优化，用更小、更便宜、更快的模型达到相近的质量。方法一样——控制框架和模型。<br><br>关键是要有评估体系，让你知道你是否真的在朝着正确的方向前进。<br><br>明天继续。<br><br>把这篇文章发给你的队友吧！<br><br>有问题在评论区留言，我会在后续文章中回复。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1487465096242737157/AL-7r3o0_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Madhu Guru</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@realmadhuguru</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">How to build great evals - part 5<br><br>Stop dumbing down the results from your beautiful, complex eval suite into one single score. This often happens because some senior wants a simplified number to make decisions. Happened to us in the early days of Gemini.<br><br>And I see it happening with a lot of teams.<br><br>This is the tyranny of the average.<br>AI systems do not have a simple dimension of quality.<br><br>Imagine a model that goes from:<br>85% -&gt; 89% on simple summarization<br>80% -&gt; 85% on basic factual QA<br>70% -&gt; 63% on complex financial analysis<br><br>A single score obscures the fact that the model got worse on your frontier use case.<br><br>The immediate reaction to this is to come up with a weighted score. The problem with this is that you have  created false, mathematical procession around a judgment call.<br><br>So what should you do?<br>- keep a prioritized list of your evals per the ladder we discussed in part 4 yesterday.<br>- get people who can look at the details and don’t look for abstracted simplicity.<br>- Understand all the critical eval results in depth, where they fail, where they shine and make a decision on whether your new AI system is better or worse for your users.<br><br>Next post tomorrow!<br><br>Drop your eval questions below and I will answer in future posts.<br><br>Share this with your teammates. And your managers who run from complexity.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/realmadhuguru/status/2090930137885774324" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/realmadhuguru/status/2091278653435072523" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />143</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />8</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />11</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/realmadhuguru" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1897858917507776512/TRVTyKFk_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Amjad Masad<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@amasad</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">ceo @replit. civilizationist</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 10:08 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">A week has 7 days<br><br>That means 7 ships</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">一周有7天<br><br>也就是说有7艘船</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/2032788971227340800/RFEbanud_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Raouf Chebri</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@raoufcode</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">The team has been busy lately. This is what shipped on Replit this week:<br>- Free Mode<br>- Conversations<br>- Routines<br>- Steer conversations<br>- Import Skills from GitHub<br>- Control models across Workspaces<br>- Black-box pen tests</div>
+    <div class="fb-media" style="margin-top:12px;display:grid;gap:10px;"><div style="border-radius:14px;overflow:hidden;border:1px solid #ebebeb;background:#000;">
+        <video controls preload="metadata" playsinline poster="https://pbs.twimg.com/amplify_video_thumb/2091309327684456448/img/dhN4miPZeYvHUhq7.jpg" referrerPolicy="no-referrer"
+          style="display:block;width:100%;height:auto;"><source src="https://video.twimg.com/amplify_video/2091309327684456448/vid/avc1/1280x720/E1NsMYFS3nLwhhBI.mp4" type="video/mp4" />
+          Your browser can't play this video — <a href="https://pbs.twimg.com/amplify_video_thumb/2091309327684456448/img/dhN4miPZeYvHUhq7.jpg" target="_blank" rel="noopener noreferrer">view on X</a>.
+        </video>
+      </div></div>
+    <div style="margin-top:8px;"><a href="https://x.com/raoufcode/status/2091311652494803424" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/amasad/status/2091346778746757204" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />70</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />4</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />12</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 01:34</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">“Pretty soon” turned out to be 3 months.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">“很快”结果变成了3个月。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HQV_JvGa8AAz7WP.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQV_JvGa8AAz7WP.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HQV_JvHasAAiHby.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQV_JvHasAAiHby.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div></td></tr>
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/amasad/status/2091217410615644349" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />643</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />43</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />37</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/amasad" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1783856060249595904/8TfcCN0r_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Guillermo Rauch<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@rauchg</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@vercel CEO</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 09:34</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">AI can do many wonderful things and grant many wishes, but we have only one earth, one California, one Patagonia, one Mendoza. USA and Argentina are two of the freest countries that also happen to have the most glorious land and geography. I&#39;m very long 🇺🇸🇦🇷. We&#39;re so early.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">AI能做很多神奇的事，实现很多愿望，但我们只有一个地球，一个加利福尼亚，一个巴塔哥尼亚，一个门多萨。美国和阿根廷是最自由的两个国家，也恰好拥有最壮丽的土地和地理。我非常长期看好🇺🇸🇦🇷。我们来得太早了。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/rauchg/status/2091338152791474331" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />735</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />30</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />27</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 04:46</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">cc @windows</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">cc @windows</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HQWrMhhbcAA7ayB.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HQWrMhhbcAA7ayB.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/rauchg/status/2091265836719956474" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />57</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />0</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />2</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 04:37</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">San Francisco is a paradise on Earth</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">旧金山是人间的天堂</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HQWo_17aYAAIabY.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HQWo_17aYAAIabY.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div></td></tr>
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/rauchg/status/2091263423359389951" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />1084</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />20</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />80</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/rauchg" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/885529357904510976/tM0vLiYS_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Aaron Levie<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@levie</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">ceo @box - your business lives in content. unleash it with AI</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 10:57 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">AI diffusion is far more rate limited by having good evals than most realize. The kind of evals that you see for every model release are incredibly helpful, but only tell you the shape of general AI progress and the relative capability level of models.<br><br>The far bigger space over time are evals on all the major workflows that enterprises do, down to the specifics of an individual company. <br><br>This will be a huge space over time because you can’t automate what you can’t assess the progress on. Enterprises will not be able to go just on vibes.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">AI 扩散受限于优秀评估的程度远超多数人的认知。每次模型发布时看到的那种评估非常有帮助，但只能勾勒出通用 AI 进展的形态和模型的相对能力水平。<br><br>随着时间推移，更大的空间在于对企业所有主要工作流程的评估，具体到单个公司的细节。<br><br>这会是一个巨大的领域，因为你无法自动化那些无法评估进展的事情。企业不能只凭感觉行事。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1906589691388043264/3ptOiVLO_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Brendan (can/do)</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@BrendanFoody</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Not enough!<br><br>It is insane how many enterprises I meet that are spending $100M / year on inference and don&#39;t have offline evals to determine which model to use.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/BrendanFoody/status/2090500944979243181" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/levie/status/2091359223368315050" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />138</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />12</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />25</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/levie" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  1 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1742369596534067200/Ts-5zSJ6_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Zara Zhang<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@zarazhangrui</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Builder. Make something people want, then make people want it. Harvard’17. GitHub: <a href="https://t.co/KCuEaje1wd" style="color:#ff385c;text-decoration:none;word-break:break-all;">https://t.co/KCuEaje1wd</a> <br>YouTube: <a href="https://t.co/8xzbGWsHgY" style="color:#ff385c;text-decoration:none;word-break:break-all;">https://t.co/8xzbGWsHgY</a></div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 12:17 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">There’s a phenomenon where talented individuals can achieve 10x their potential thanks to AI when working on their own thing <br><br>But when the same individual is put into a large organization, they at most increase their potential by 20% (and sometimes it’s even decreased)<br><br>This is why I’m seeing more and more talented people leave large companies. (The only exceptions are probably top AI labs like OpenAI/Anthropic)</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">有一种现象：有才华的人借助AI做自己的事情时，能发挥出10倍的潜力。<br><br>但同一个人被放进大型组织后，最多只能提升20%，有时甚至还会下降。<br><br>这就是为什么我越来越多地看到有才华的人离开大公司。（唯一的例外可能只有OpenAI/Anthropic这类顶尖AI实验室。）</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1678603011579420672/Mzv68cUE_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Stew Fortier</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@stewfortier</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">I asked someone this week why they left Google. They told me they had never seen such talent-dense teams produce so little</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/stewfortier/status/2090815767180656839" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/zarazhangrui/status/2091379220257603593" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />147</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />7</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />14</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 09:34</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">Everyone who’s ahead in using AI thinks they’re behind</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">所有在AI使用上领先的人，都觉得自己落后了。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/zarazhangrui/status/2091338374447763481" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />336</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />20</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />53</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/zarazhangrui" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1455548721421176841/0XHTEfkp_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Nikunj Kothari<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@nikunj</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">partner @fpvventures - investing in seed/A. previous: early hire @meter, @opendoor, @atlassian &amp; others. love @shimoleejhaveri + 👦👧</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 13:54</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">Few things:<br>1) These are Twitter DMs. I try to be helpful to as many cold DMs as I can. This one shouldn’t have passed the bar. <br><br>2) Doxxing someone is not my style. I hope they learned their lesson. <br><br>3) I can’t stress enough how important it is to find the right people to take advice from. It boils my blood to see many talented young people who actually have substance play these stupid games.</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">几件事：<br>1）这些是Twitter私信。我尽量回复更多陌生私信，能帮就帮。但这条实在不该通过审核标准。<br><br>2）人肉搜索不是我的风格。希望他们吸取教训。<br><br>3）我再怎么强调都不为过：找到对的人听取建议有多重要。看到很多有真才实学的年轻才俊浪费才华玩这些愚蠢的游戏，我真是气不打一处来。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/nikunj/status/2091403643815604629" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />23</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />0</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />0</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 12:27</td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">Kids, I don&#39;t know what advice you are getting, but ragebaiting investors and then sending them SAFE docs to just wire you money is NOT how investing works..</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">孩子们，我不知道你们得到了什么建议，但靠激怒投资人然后发SAFE文件让他们直接打钱，这不是投资的运作方式。</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HQYUD-Sb0AAofjj.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQYUD-Sb0AAofjj.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HQYUIrmboAAxL_g.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQYUIrmboAAxL_g.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HQYURWbbsAA-xTv.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQYURWbbsAA-xTv.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HQYUdmhbcAAREqf.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQYUdmhbcAAREqf.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div></td></tr>
+          
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/nikunj/status/2091381756012511244" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />370</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />4</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />73</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 01:48 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">We complain about slop at X, but LinkedIn has stooped to unimaginable levels of slop 🤮</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">我们在X上抱怨垃圾内容，但LinkedIn已经堕落到了难以想象的垃圾水平 🤮</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          <tr><td><div class="fb-media" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"><a href="https://pbs.twimg.com/media/HQWCToYacAApK9n.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQWCToYacAApK9n.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a><a href="https://pbs.twimg.com/media/HQWCToVbsAANa61.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;overflow:hidden;border:1px solid #ebebeb;border-radius:14px;aspect-ratio:1/1;background:#f7f7f7;"><img src="https://pbs.twimg.com/media/HQWCToVbsAANa61.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover;background:#f7f7f7;" /></a></div></td></tr>
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/2011483819694800897/mu-Ax0Xo_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Adrian Nicholas Radu</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@anradu</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quite remarkable how the objective function that LinkedIn is supposed to be good at (connecting professionals) is the very thing its awful at now</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/anradu/status/2090886423574688058" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/nikunj/status/2091220881590927441" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />40</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />1</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />12</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/nikunj" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  3 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;"><img src="https://pbs.twimg.com/profile_images/1946219091305340928/_Ef-eDlc_400x400.jpg" width="48" height="48" alt=""
+      referrerPolicy="no-referrer" loading="lazy"
+      style="width:48px;height:48px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" /></td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Dan Shipper<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@danshipper</span></div>
+            <div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">ceo @every | the only subscription you need to stay at the edge of AI</div>
+          </td>
+          <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">X Update</td>
+        </tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:14px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr><td style="padding-top:0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-23 11:08 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">we’re hiring @every!<br><br>https://every.to/careers</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">我们在招聘 @every！<br><br>https://every.to/careers</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/2073490215327715328/4wOfTM9__400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">New York Post</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@nypost</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">NYC surpasses San Francisco as biggest tech talent hub, study shows https://trib.al/B2Rsccz</div>
+    <div class="fb-media" style="margin-top:12px;display:grid;gap:10px;"><a href="https://pbs.twimg.com/media/HQQzzdNXoAAKqvl.jpg" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="https://pbs.twimg.com/media/HQQzzdNXoAAKqvl.jpg" alt="" referrerPolicy="no-referrer" loading="lazy" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a></div>
+    <div style="margin-top:8px;"><a href="https://x.com/nypost/status/2090853094082945216" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/danshipper/status/2091361962068254840" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />131</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />3</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />5</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr><tr><td style="padding-top:10px;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
+      <tr><td style="padding:14px 16px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">2026-08-22 21:55 <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;text-decoration:none;font-size:10px;font-weight:700;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:1px;">Quoted</span></td></tr>
+          <tr><td style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">agent native ftw</td></tr>
+          <tr><td style="padding:10px 0 0 0;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
+      <tr><td style="padding:10px 14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">原生代理最牛</div>
+      </td></tr>
+    </table>
+  </td></tr>
+          
+          <tr><td><div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;"><img src="https://pbs.twimg.com/profile_images/1499419445063655424/aBi7ZB7W_400x400.jpg" width="28" height="28" alt=""
+        referrerPolicy="no-referrer" loading="lazy"
+        style="width:28px;height:28px;border-radius:9999px;object-fit:cover;border:1px solid #ebebeb;" /></div>
+      <div>
+        <span style="font-weight:600;color:#222222;font-size:14px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Ali Spittel</span>
+        <span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">@ASpittel</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">i really don&#39;t want to use your agent, i want to use my agent to use your thing.</div>
+    
+    <div style="margin-top:8px;"><a href="https://x.com/ASpittel/status/2090889137062826240" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">View original on X →</a></div>
+  </div></td></tr>
+          <tr><td style="padding-top:10px;">
+            <a href="https://x.com/danshipper/status/2091162447029608735" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
+            <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;"><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjZmYzODVjIj48cGF0aCBkPSJNMTIgMjEuMzVsLTEuNDUtMS4zMkM1LjQgMTUuMzYgMiAxMi4yOCAyIDguNSAyIDUuNDIgNC40MiAzIDcuNSAzYzEuNzQgMCAzLjQxLjgxIDQuNSAyLjA5QzEzLjA5IDMuODEgMTQuNzYgMyAxNi41IDMgMTkuNTggMyAyMiA1LjQyIDIyIDguNWMwIDMuNzgtMy40IDYuODYtOC41NSAxMS41NEwxMiAyMS4zNXoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />149</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNNyA3aDEwdjNsNC00LTQtNHYzSDV2NmgyVjd6bTEwIDEwSDd2LTNsLTQgNCA0IDR2LTNoMTJ2LTZoLTJ2NHoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />1</span><span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;vertical-align:middle;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNmE2YTZhIj48cGF0aCBkPSJNMjAgMkg0Yy0xLjEgMC0yIC45LTIgMnYxOGw0LTRoMTRjMS4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnptMCAxNEg2bC0yIDJWNGgxNnYxMnoiLz48L3N2Zz4=" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />11</span></span>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+      </table>
+    </td></tr>
+    <tr><td style="padding-top:12px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://x.com/danshipper" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">Open profile →</a>
+      <span style="color:#929292;">  ·  2 posts</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:32px 0 18px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="width:36px;vertical-align:middle;">
+              <table role="presentation" width="32" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:9999px;">
+                <tr><td align="center" style="padding:7px 0;font-size:14px;line-height:14px;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">🎙</td></tr>
+              </table>
+            </td>
+            <td style="vertical-align:middle;padding-left:12px;">
+              <div style="font-size:10px;line-height:12px;font-weight:700;color:#6a6a6a;text-transform:uppercase;letter-spacing:0.1em;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Audio</div>
+              <div class="mobile-section-title" style="padding-top:3px;font-size:20px;line-height:26px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Podcast Episodes</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 0 20px 0;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <tr>
+            <td class="mobile-card-padding" style="padding:24px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                
+    <tr><td>
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td style="width:60px;vertical-align:top;">
+            <div style="width:48px;height:48px;border-radius:10px;background:#ffffff;border:1px solid #ebebeb;display:flex;align-items:center;justify-content:center;font-size:20px;color:#222222;">🎙</div>
+          </td>
+          <td style="vertical-align:top;padding-left:12px;">
+            <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Microsoft’s Vision for an Internet Made for Agents With CTO Kevin Scott (Best of the Pod)</div>
+            <div style="padding-top:4px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">AI &amp; I by Every</div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+    
+    <tr><td style="padding-top:14px;font-size:13px;line-height:21px;color:#3f3f3f;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Speaker 1 | 00:00 - 00:10<br>You&#39;re someone who, I think, cares a lot about the craft of things. One of the knocks on, you know, using agents for coding is it gets rid of some of that feeling or something like that. How do you feel about that?<br><br>Speaker 2 | 00:10 - 00:38<br>I love the fact that my people, you know, makers, writ large, so software engineers or, you know, mechanical engineers Yeah. Or woodworkers or potters. If you are really passionate about what you do, you&#39;re going to have very strong opinions about how you do it. I&#39;ve been a woodworker for almost as long as I&#39;ve been a programmer. This is not the first moment in the past four decades where the nature of software development has changed in a nontrivial way.<br><br>Speaker 2 | 00:38 - 01:14<br>Like, if agents are gonna be useful, they have to take action on your behalf. Yep. They have to be able to use tools and make changes in systems and consult information sources that are, you know, diverse and rich. And in order for that to, like, really be great, you need an ecosystem that looks a lot like the Internet. If you have a source of information, you already have a website, you already have an API that&#39;s doing something for people out there, like, you&#39;ve gotta figure out how to plumb things through where agents can, like, talk to those things.<br><br>Speaker 2 | 01:14 - 01:30<br>Like, one of the things, the CTO that I&#39;ve been pushing for at Microsoft is, like, I want all of our systems internally to speak a standard protocol to all of the agents that we&#39;re writing inside of Microsoft. Be curious. Try And if it works for you, use it. And if it doesn&#39;t, don&#39;t.<br><br>Speaker 1 | 01:44 - 01:45<br>Kevin, welcome to the show.<br><br>Speaker 2 | 01:45 - 01:46<br>Oh, thanks for having me.<br><br>Speaker 1 | 01:46 - 01:54<br>One of the things that&#39;s interesting is I was here last year. Yep. And you said two things. There there are two big themes. One was agents are gonna be everywhere.<br><br>Speaker 1 | 01:54 - 02:10<br>That&#39;s one of things you said, which I think really came true. That was very prescient. Another thing is I noticed a big emphasis last year on scaling laws. Yep. There were a lot of graphs of, like, we&#39;re building big infrastructure, we&#39;re building these bigger models, and every two years, we&#39;re gonna get these big performance improvements.<br><br>Speaker 2 | 02:10 - 02:10<br>Yeah.<br><br>Speaker 1 | 02:11 - 02:17<br>This year, the emphasis is really on, the agentic web. Yep. So what has changed? What have we learned from last year to this year?<br><br>Speaker 2 | 02:17 - 03:05<br>Yeah, think there&#39;s a bunch of things that have changed. Like one of the things is that I think, last year people were like really in this state of mind that they were doubting that, the scaling laws were going to continue to work really well. Whereas like, I think, you know, we&#39;ve demonstrated year after year after year that, they are in tact and working quite well that like that&#39;s not a thing that people need to be reminded of, anymore. And I think the other thing too that&#39;s happened honestly is that the reasoning capabilities of the models has, actually gotten a little bit ahead of what we&#39;re using the models to do in products. So I&#39;ve, I&#39;ve been talking a lot lately about this, thing called the capability overhang.<br><br>Speaker 2 | 03:05 - 04:06<br>And you know, I think we actually have some work to do collectively across the whole industry to close the gap between what the models are actually capable of and like what we&#39;re delivering to users, of that capability. So that, that&#39;s one of the, one of the like big thematic things why, you know, scaling laws might not be as interesting to talk about at this year&#39;s Build As Last. And then the other thing too is that we&#39;ve just discovered is all of these agents have emerged over the past year. And so like both the number of agents and like the amount of time that people are spending doing stuff inside of these agents or with these agents is that there&#39;s a bunch of other stuff other than reasoning that has to get sorted o…</td></tr>
+    
+    <tr><td style="padding-top:14px;font-size:12px;line-height:16px;color:#6a6a6a;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      <a href="https://www.youtube.com/playlist?list=PLuMcoKK9mKgHtW_o9h5sGO2vXrffKHwJL" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">▶ Watch on YouTube →</a>
+      <span style="color:#929292;">  ·  2026-08-13 00:55</span>
+    </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr><tr><td style="padding:24px 0 8px 0;text-align:center;">
+    <div style="font-size:11px;line-height:18px;color:#929292;font-family:'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+      Generated through the Follow Builders skill ·
+      <a href="https://github.com/zarazhangrui/follow-builders" target="_blank" rel="noopener noreferrer" style="color:#6a6a6a;text-decoration:none;">github.com/zarazhangrui/follow-builders</a>
+    </div>
+  </td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script><script>
+(function(){
+  var box,stage,wrapper,closeBtn,lastFocus=null,closeTimer=null,wheelTimer=null,wheelLocked=false,wheelDirection=0,wheelLastAmount=0,wheelLockedAt=0,swiper=null,DUR=230;
+  function build(){
+    box=document.createElement('div');box.className='fb-lightbox';
+    box.innerHTML='<button class="fb-lightbox-close" type="button" aria-label="关闭">&times;</button><button class="fb-lightbox-nav fb-lightbox-prev" type="button" aria-label="上一张">&#8249;</button><div class="fb-lightbox-stage swiper"><div class="swiper-wrapper"></div></div><button class="fb-lightbox-nav fb-lightbox-next" type="button" aria-label="下一张">&#8250;</button><div class="fb-lightbox-pagination swiper-pagination"></div><div class="fb-lightbox-hint">左右滑动 / 方向键切换 · 双击缩放 · ESC 关闭</div>';
+    document.body.appendChild(box);stage=box.querySelector('.fb-lightbox-stage');wrapper=box.querySelector('.swiper-wrapper');closeBtn=box.querySelector('.fb-lightbox-close');
+    closeBtn.addEventListener('click',function(e){e.stopPropagation();close();});
+    wrapper.addEventListener('wheel',function(e){
+      if(Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;
+      e.preventDefault();
+      var now=Date.now(),direction=e.deltaX>0?1:-1,amount=Math.abs(e.deltaX);
+      if(wheelTimer)clearTimeout(wheelTimer);
+      wheelTimer=setTimeout(function(){wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelTimer=null;},140);
+      if(wheelLocked){
+        var newGesture=now-wheelLockedAt>180&&(direction!==wheelDirection||amount>wheelLastAmount*1.8);
+        wheelLastAmount=amount;
+        if(!newGesture)return;
+        wheelLocked=false;
+      }
+      if(!swiper)return;
+      wheelLocked=true;wheelDirection=direction;wheelLastAmount=amount;wheelLockedAt=now;
+      if(direction>0)swiper.slideNext();else swiper.slidePrev();
+    },{passive:false});
+    box.addEventListener('click',function(e){
+      if(e.target.closest&&e.target.closest('img,.fb-lightbox-close,.fb-lightbox-nav,.fb-lightbox-pagination'))return;
+      close();
+    });
+  }
+  function open(links,active){
+    if(!window.Swiper)return;
+    if(!box)build();
+    if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}
+    if(swiper){swiper.destroy(true,true);swiper=null;}
+    lastFocus=document.activeElement;wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelLockedAt=0;
+    if(wheelTimer){clearTimeout(wheelTimer);wheelTimer=null;}
+    wrapper.scrollLeft=0;
+    wrapper.innerHTML=links.map(function(src){return '<div class="swiper-slide"><div class="swiper-zoom-container"><img src="'+src.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" alt="" /></div></div>';}).join('');
+    box.classList.toggle('multiple',links.length>1);document.body.style.overflow='hidden';void box.offsetWidth;box.classList.add('open');
+    swiper=new window.Swiper(stage,{
+      initialSlide:active,cssMode:true,loop:false,rewind:links.length>1,watchOverflow:true,
+      navigation:{nextEl:box.querySelector('.fb-lightbox-next'),prevEl:box.querySelector('.fb-lightbox-prev')},
+      pagination:{el:box.querySelector('.fb-lightbox-pagination'),clickable:true},
+      keyboard:{enabled:true,onlyInViewport:false},zoom:{enabled:true,maxRatio:8,minRatio:1,toggle:true}
+    });
+    requestAnimationFrame(function(){
+      if(!swiper)return;
+      swiper.slideTo(active,0,false);wrapper.scrollLeft=active*wrapper.clientWidth;
+    });
+    if(closeBtn)try{closeBtn.focus();}catch(_){}
+  }
+  function close(){
+    if(!box||!box.classList.contains('open'))return;
+    box.classList.remove('open');document.body.style.overflow='';wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelLockedAt=0;
+    if(wheelTimer){clearTimeout(wheelTimer);wheelTimer=null;}
+    closeTimer=setTimeout(function(){
+      if(swiper){swiper.destroy(true,true);swiper=null;}wrapper.scrollLeft=0;wrapper.innerHTML='';
+      if(lastFocus){try{lastFocus.focus();}catch(_){}lastFocus=null;}
+    },DUR);
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('.fb-img');if(!a)return;
+    var src=a.getAttribute('href');if(!src||src.charAt(0)==='#')return;
+    var group=a.closest('.fb-media');var links=group?Array.prototype.slice.call(group.querySelectorAll('.fb-img')):[a];
+    var sources=links.map(function(link){return link.getAttribute('href');}).filter(Boolean);e.preventDefault();open(sources,Math.max(0,links.indexOf(a)));
+  });
+  window.addEventListener('keydown',function(e){if((e.key==='Escape'||e.key==='Esc')&&box&&box.classList.contains('open')){e.preventDefault();close();}},true);
+})();
+</script>
+  </body>
+</html>
