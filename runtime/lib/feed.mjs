@@ -151,34 +151,46 @@ export function feedUrls(feed) {
   return urls;
 }
 
+export function feedIds(feed) {
+  const ids = new Set();
+  for (const builder of feed.x || []) {
+    for (const tweet of builder.tweets || []) {
+      if (tweet.id) ids.add(String(tweet.id));
+    }
+  }
+  return ids;
+}
+
 export function applySummary(feed, summary, language) {
   const warnings = [];
   const urls = feedUrls(feed);
-  const handles = new Set(feed.x.map(builder => builder.handle).filter(Boolean));
+  const ids = feedIds(feed);
   const byUrl = new Map();
-  const byHandle = new Map();
+  const byId = new Map();
   const entries = Array.isArray(summary?.entries) ? summary.entries : [];
   for (const entry of entries) {
     if (!entry || typeof entry !== 'object') continue;
-    const summaryText = String(entry.summary || '').trim();
-    const summaryZh = String(entry.summaryZh || '').trim();
+    const summaryText = String(entry.text || entry.summary || '').trim();
+    const summaryZh = String(entry.textZh || entry.summaryZh || '').trim();
     if (!summaryText && !summaryZh) continue;
-    if (entry.url) {
-      const url = safeUrl(entry.url);
-      if (!url || !urls.has(url)) {
-        warnings.push('dropped summary whose url is not in the prepared feed');
+    const url = entry.url ? safeUrl(entry.url) : '';
+    const id = entry.id ? String(entry.id) : '';
+    if (url || id) {
+      if (url && !urls.has(url)) {
+        warnings.push('dropped translation whose url is not in the prepared feed');
         continue;
       }
-      byUrl.set(url, { summary: summaryText, summaryZh });
+      if (id && !ids.has(id) && !url) {
+        warnings.push('dropped translation whose id is not in the prepared feed');
+        continue;
+      }
+      const note = { summary: summaryText, summaryZh, quoteTextZh: String(entry.quoteTextZh || '').trim() };
+      if (url) byUrl.set(url, note);
+      if (id) byId.set(id, note);
       continue;
     }
     if (entry.handle) {
-      const handle = String(entry.handle).replace(/^@/, '');
-      if (!handles.has(handle)) {
-        warnings.push('dropped summary whose handle is not in the prepared feed');
-        continue;
-      }
-      byHandle.set(handle, { summary: summaryText, summaryZh });
+      warnings.push(`handle summary for ${String(entry.handle).replace(/^@/, '')} is not a per-tweet translation and is not applied to the bio`);
     }
   }
 
@@ -204,5 +216,5 @@ export function applySummary(feed, summary, language) {
     });
   }
   if (highlights.length > 5) warnings.push('truncated highlights to 5');
-  return { byUrl, byHandle, highlights: highlights.slice(0, 5), warnings };
+  return { byUrl, byId, highlights: highlights.slice(0, 5), warnings };
 }

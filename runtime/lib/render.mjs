@@ -1,3 +1,72 @@
+const LIGHTBOX_SCRIPT = `
+(function(){
+  var box,stage,wrapper,closeBtn,lastFocus=null,closeTimer=null,wheelTimer=null,wheelLocked=false,wheelDirection=0,wheelLastAmount=0,wheelLockedAt=0,swiper=null,DUR=230;
+  function build(){
+    box=document.createElement('div');box.className='fb-lightbox';
+    box.innerHTML='<button class="fb-lightbox-close" type="button" aria-label="关闭">&times;</button><button class="fb-lightbox-nav fb-lightbox-prev" type="button" aria-label="上一张">&#8249;</button><div class="fb-lightbox-stage swiper"><div class="swiper-wrapper"></div></div><button class="fb-lightbox-nav fb-lightbox-next" type="button" aria-label="下一张">&#8250;</button><div class="fb-lightbox-pagination swiper-pagination"></div><div class="fb-lightbox-hint">左右滑动 / 方向键切换 · 双击缩放 · ESC 关闭</div>';
+    document.body.appendChild(box);stage=box.querySelector('.fb-lightbox-stage');wrapper=box.querySelector('.swiper-wrapper');closeBtn=box.querySelector('.fb-lightbox-close');
+    closeBtn.addEventListener('click',function(e){e.stopPropagation();close();});
+    wrapper.addEventListener('wheel',function(e){
+      if(Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;
+      e.preventDefault();
+      var now=Date.now(),direction=e.deltaX>0?1:-1,amount=Math.abs(e.deltaX);
+      if(wheelTimer)clearTimeout(wheelTimer);
+      wheelTimer=setTimeout(function(){wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelTimer=null;},140);
+      if(wheelLocked){
+        var newGesture=now-wheelLockedAt>180&&(direction!==wheelDirection||amount>wheelLastAmount*1.8);
+        wheelLastAmount=amount;
+        if(!newGesture)return;
+        wheelLocked=false;
+      }
+      if(!swiper)return;
+      wheelLocked=true;wheelDirection=direction;wheelLastAmount=amount;wheelLockedAt=now;
+      if(direction>0)swiper.slideNext();else swiper.slidePrev();
+    },{passive:false});
+    box.addEventListener('click',function(e){
+      if(e.target.closest&&e.target.closest('img,.fb-lightbox-close,.fb-lightbox-nav,.fb-lightbox-pagination'))return;
+      close();
+    });
+  }
+  function open(links,active){
+    if(!window.Swiper)return;
+    if(!box)build();
+    if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}
+    if(swiper){swiper.destroy(true,true);swiper=null;}
+    lastFocus=document.activeElement;wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelLockedAt=0;
+    if(wheelTimer){clearTimeout(wheelTimer);wheelTimer=null;}
+    wrapper.scrollLeft=0;
+    wrapper.innerHTML=links.map(function(src){return '<div class="swiper-slide"><div class="swiper-zoom-container"><img src="'+src.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" alt="" /></div></div>';}).join('');
+    box.classList.toggle('multiple',links.length>1);document.body.style.overflow='hidden';void box.offsetWidth;box.classList.add('open');
+    swiper=new window.Swiper(stage,{
+      initialSlide:active,cssMode:true,loop:false,rewind:links.length>1,watchOverflow:true,
+      navigation:{nextEl:box.querySelector('.fb-lightbox-next'),prevEl:box.querySelector('.fb-lightbox-prev')},
+      pagination:{el:box.querySelector('.fb-lightbox-pagination'),clickable:true},
+      keyboard:{enabled:true,onlyInViewport:false},zoom:{enabled:true,maxRatio:8,minRatio:1,toggle:true}
+    });
+    requestAnimationFrame(function(){
+      if(!swiper)return;
+      swiper.slideTo(active,0,false);wrapper.scrollLeft=active*wrapper.clientWidth;
+    });
+    if(closeBtn)try{closeBtn.focus();}catch(_){}
+  }
+  function close(){
+    if(!box||!box.classList.contains('open'))return;
+    box.classList.remove('open');document.body.style.overflow='';wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelLockedAt=0;
+    if(wheelTimer){clearTimeout(wheelTimer);wheelTimer=null;}
+    closeTimer=setTimeout(function(){
+      if(swiper){swiper.destroy(true,true);swiper=null;}wrapper.scrollLeft=0;wrapper.innerHTML='';
+      if(lastFocus){try{lastFocus.focus();}catch(_){}lastFocus=null;}
+    },DUR);
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('.fb-img');if(!a)return;
+    var src=a.getAttribute('href');if(!src||src.charAt(0)==='#')return;
+    var group=a.closest('.fb-media');var links=group?Array.prototype.slice.call(group.querySelectorAll('.fb-img')):[a];
+    var sources=links.map(function(link){return link.getAttribute('href');}).filter(Boolean);e.preventDefault();open(sources,Math.max(0,links.indexOf(a)));
+  });
+  window.addEventListener('keydown',function(e){if((e.key==='Escape'||e.key==='Esc')&&box&&box.classList.contains('open')){e.preventDefault();close();}},true);
+})();
+`;
 import { bodyHtml, escapeHtml, initials, linkify, youtubeEmbed, zonedParts } from './util.mjs';
 
 const FONT = "'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
@@ -18,16 +87,27 @@ function metric(icon, value) {
   return `<span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:${FONT};vertical-align:middle;"><img src="${icon}" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />${escapeHtml(value)}</span>`;
 }
 
+function translationInner(text) {
+  return `<div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">${bodyHtml(text)}</div>`;
+}
+
 function translationTile(text) {
   if (!text) return '';
   return `<tr><td style="padding:10px 0 0 0;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
       <tr><td style="padding:10px 14px;font-family:${FONT};">
-        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
-        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">${bodyHtml(text)}</div>
+        ${translationInner(text)}
       </td></tr>
     </table>
   </td></tr>`;
+}
+
+function translationBox(text) {
+  if (!text) return '';
+  return `<div class="fb-translation" style="margin:8px 0 0 0;background:#ffffff;border:1px solid #ebebeb;border-radius:8px;padding:10px 14px;font-family:${FONT};">
+    ${translationInner(text)}
+  </div>`;
 }
 
 function cardShell(inner) {
@@ -66,8 +146,41 @@ function sectionHeader(icon, label, title) {
     </tr>`;
 }
 
-function avatar(name) {
-  return `<div style="width:48px;height:48px;border-radius:9999px;background:linear-gradient(135deg,#f7f7f7,#ebebeb);border:1px solid #ebebeb;display:flex;align-items:center;justify-content:center;font-weight:700;color:#222222;font-family:${FONT};">${escapeHtml(initials(name))}</div>`;
+function avatar(name, imageUrl, size = 48) {
+  if (imageUrl) {
+    return `<img src="${escapeHtml(imageUrl)}" width="${size}" height="${size}" alt="" referrerpolicy="no-referrer" style="width:${size}px;height:${size}px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" />`;
+  }
+  return `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:linear-gradient(135deg,#f7f7f7,#ebebeb);border:1px solid #ebebeb;display:flex;align-items:center;justify-content:center;font-weight:700;color:#222222;font-family:${FONT};font-size:${size > 32 ? 14 : 10}px;">${escapeHtml(initials(name))}</div>`;
+}
+
+function renderMediaBlock(media) {
+  if (!Array.isArray(media) || media.length === 0) return '';
+  const photos = media.every(item => item.type === 'photo');
+  const grid = photos && media.length >= 2 && media.length <= 4;
+  const photo = item => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.altText || '')}" referrerpolicy="no-referrer" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a>`;
+  const video = item => `<div style="border-radius:14px;overflow:hidden;border:1px solid #ebebeb;background:#000;"><video ${item.type === 'animated_gif' ? 'loop muted autoplay playsinline' : 'controls playsinline'} poster="${escapeHtml(item.url)}" referrerpolicy="no-referrer" style="display:block;width:100%;height:auto;">${item.video?.mp4Url ? `<source src="${escapeHtml(item.video.mp4Url)}" type="video/mp4" />` : ''}</video></div>`;
+  const cell = item => (item.type === 'photo' ? photo(item) : video(item));
+  if (grid) {
+    return `<div class="fb-media" style="margin-top:12px;display:grid;grid-template-columns:repeat(${media.length === 4 ? 2 : media.length},1fr);gap:4px;">${media.map(cell).join('')}</div>`;
+  }
+  return `<div class="fb-media" style="margin-top:12px;display:grid;gap:10px;">${media.map(cell).join('')}</div>`;
+}
+
+function renderQuotedTweet(quoted, quoteTextZh) {
+  if (!quoted) return '';
+  const name = quoted.author?.name || 'Quoted post';
+  const handle = quoted.author?.screenName ? `@${escapeHtml(quoted.author.screenName)}` : '';
+  return `<div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:${FONT};">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;">${avatar(name, quoted.author?.profileImageUrlHttps, 28)}</div>
+      <div><span style="font-weight:600;color:#222222;font-size:14px;font-family:${FONT};">${escapeHtml(name)}</span><span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:${FONT};">${handle}</span></div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(quoted.text)}</div>
+    ${quoteTextZh ? translationBox(quoteTextZh) : ''}
+    ${renderMediaBlock(quoted.media)}
+    ${quoted.url ? `<div style="margin-top:8px;"><a href="${escapeHtml(quoted.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:${FONT};">View original on X →</a></div>` : ''}
+  </div>`;
 }
 
 function stamp(iso, timeZone) {
@@ -134,21 +247,25 @@ function overview(model) {
 
 function tweetCard(builder, model) {
   const showZh = model.language !== 'en';
+  const portrait = builder.tweets.map(tweet => tweet.enriched?.author?.profileImageUrlHttps).find(Boolean) || '';
   const tweets = builder.tweets.map((tweet, index) => {
-    const quote = tweet.isQuote
-      ? ` <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;font-size:10px;font-weight:700;font-family:${FONT};vertical-align:1px;">Quoted</span>`
-      : '';
-    const quoteLink = tweet.quotedTweetId
+    const mediaHtml = renderMediaBlock(tweet.enriched?.media);
+    const quoted = tweet.enriched?.quotedTweet;
+    const quoteLink = !quoted && tweet.quotedTweetId
       ? `<tr><td style="padding-top:8px;"><a href="https://x.com/i/status/${tweet.quotedTweetId}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:${FONT};">Quoted post →</a></td></tr>`
+      : '';
+    const quote = tweet.isQuote || quoted
+      ? ` <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;font-size:10px;font-weight:700;font-family:${FONT};vertical-align:1px;">Quoted</span>`
       : '';
     return `<tr><td style="padding-top:${index === 0 ? '0' : '10px'};">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
         <tr><td style="padding:14px 16px;font-family:${FONT};">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">${escapeHtml(stamp(tweet.createdAt, model.timezone))}${quote}</td></tr>
-            <tr><td class="mobile-body-text" style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">${bodyHtml(tweet.text)}</td></tr>
-            ${showZh ? translationTile(tweet.summaryZh) : ''}
-            ${quoteLink}
+            <tr><td class="mobile-body-text fb-tweet-body" style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">${bodyHtml(tweet.text)}</td></tr>
+            ${showZh ? translationTile(tweet.textZh) : ''}
+            ${mediaHtml ? `<tr><td>${mediaHtml}</td></tr>` : ''}
+            ${quoted ? `<tr><td class="fb-quote">${renderQuotedTweet(quoted, showZh ? tweet.quoteTextZh : '')}</td></tr>` : quoteLink}
             <tr><td style="padding-top:10px;">
               <a href="${escapeHtml(tweet.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
               <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;">${metric(ICON_HEART, tweet.likes)}${metric(ICON_RETWEET, tweet.retweets)}${metric(ICON_REPLY, tweet.replies)}</span>
@@ -162,12 +279,10 @@ function tweetCard(builder, model) {
   return cardShell(`<tr><td>
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
-          <td style="width:60px;vertical-align:top;">${avatar(builder.name || builder.handle)}</td>
+          <td style="width:60px;vertical-align:top;">${avatar(builder.name || builder.handle, portrait)}</td>
           <td style="vertical-align:top;padding-left:12px;">
             <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:${FONT};">${escapeHtml(builder.name || builder.handle || 'Builder')}${builder.handle ? `<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@${escapeHtml(builder.handle)}</span>` : ''}</div>
-            ${builder.bio ? `<div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:${FONT};">${linkify(builder.bio)}</div>` : ''}
-            ${builder.summary && model.language !== 'zh' ? `<div style="padding-top:8px;font-size:14px;line-height:22px;color:#222222;font-family:${FONT};">${bodyHtml(builder.summary)}</div>` : ''}
-            ${showZh && builder.summaryZh ? `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${translationTile(builder.summaryZh)}</table>` : ''}
+            ${builder.bio ? `<div class="fb-bio" style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:${FONT};">${linkify(builder.bio)}</div>` : ''}
           </td>
           <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:${FONT};">X Update</td>
         </tr>
@@ -180,7 +295,15 @@ function tweetCard(builder, model) {
     </td></tr>`);
 }
 
-function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, href, hrefLabel, embed, language }) {
+function renderSegments(segments, zhSegments, language) {
+  const chinese = Array.isArray(zhSegments) && zhSegments.length === segments.length ? zhSegments : [];
+  return segments.map((segment, index) => `<div class="fb-segment" style="margin:0 0 16px 0;">
+    <div class="fb-segment-en" style="font-size:13px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(segment)}</div>
+    ${language !== 'en' && chinese[index] ? translationBox(chinese[index]) : ''}
+  </div>`).join('');
+}
+
+function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, segments, zhSegments, href, hrefLabel, embed, language }) {
   const showZh = language !== 'en' && bodyZh;
   const english = language === 'zh' ? (bodyZh || body) : body;
   return cardShell(`<tr><td>
@@ -198,8 +321,10 @@ function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, href, hrefLab
       </table>
     </td></tr>
     ${embed ? `<tr><td style="padding-top:14px;">${embed}</td></tr>` : ''}
-    ${english ? `<tr><td class="mobile-body-text" style="padding-top:14px;font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(english)}</td></tr>` : ''}
-    ${showZh && language !== 'zh' ? `<tr><td><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${translationTile(bodyZh)}</table></td></tr>` : ''}
+    ${Array.isArray(segments) && segments.length
+      ? `<tr><td class="mobile-body-text" style="padding-top:14px;">${renderSegments(segments, zhSegments, language)}</td></tr>`
+      : `${english ? `<tr><td class="mobile-body-text" style="padding-top:14px;font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(english)}</td></tr>` : ''}
+    ${showZh && language !== 'zh' ? `<tr><td><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${translationTile(bodyZh)}</table></td></tr>` : ''}`}
     <tr><td style="padding-top:14px;font-size:12px;line-height:16px;font-family:${FONT};">
       <a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">${escapeHtml(hrefLabel)}</a>
     </td></tr>`);
@@ -215,7 +340,7 @@ function documentShell({ title, subtitle, rows, interactive }) {
     <title>${escapeHtml(title)}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    ${interactive ? '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />' : ''}
     ${interactive ? '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />' : ''}
     <style>
       .mobile-shell img { max-width: 100% !important; height: auto !important; }
@@ -266,6 +391,7 @@ function documentShell({ title, subtitle, rows, interactive }) {
         </td>
       </tr>
     </table>
+    ${interactive ? `<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script><script>${LIGHTBOX_SCRIPT}</script>` : ''}
   </body>
 </html>`;
 }
@@ -326,8 +452,8 @@ export function renderDigestHtml(model) {
         kicker: 'Podcast',
         title: item.title,
         subtitle: item.name,
-        body: item.body,
-        bodyZh: item.bodyZh,
+        segments: item.segments,
+        zhSegments: item.zhSegments,
         href: item.url,
         hrefLabel: embed ? 'Watch on YouTube →' : 'Open episode →',
         embed,
@@ -382,12 +508,14 @@ export function renderDigestHtml(model) {
 }
 
 export function renderNotificationHtml({ pageUrl, date, highlightsHtml, counts }) {
+  const c = counts || {};
   const countLine = [
-    counts.xBuilders ? `${counts.xBuilders} builders` : '',
-    counts.totalTweets ? `${counts.totalTweets} posts` : '',
-    counts.podcastEpisodes ? `${counts.podcastEpisodes} podcasts` : '',
-    counts.blogPosts ? `${counts.blogPosts} blogs` : ''
-  ].filter(Boolean).join(' · ');
+    c.xBuilders ? `${c.xBuilders} builder${c.xBuilders === 1 ? '' : 's'}` : '',
+    c.totalTweets ? `${c.totalTweets} post${c.totalTweets === 1 ? '' : 's'}` : '',
+    c.podcastEpisodes ? `${c.podcastEpisodes} podcast${c.podcastEpisodes === 1 ? '' : 's'}` : '',
+    c.blogPosts ? `${c.blogPosts} blog${c.blogPosts === 1 ? '' : 's'}` : '',
+    c.rssItems ? `${c.rssItems} rss briefing${c.rssItems === 1 ? '' : 's'}` : ''
+  ].filter(Boolean).join('  ·  ');
   const rows = [
     cardShell(`<tr><td>
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="background:#fff1f2;border-radius:9999px;"><tr><td style="padding:5px 14px;font-size:10px;line-height:14px;font-weight:700;color:#ff385c;font-family:${FONT};text-transform:uppercase;letter-spacing:0.1em;">Today's Digest</td></tr></table>
@@ -398,7 +526,7 @@ export function renderNotificationHtml({ pageUrl, date, highlightsHtml, counts }
       ? cardShell(`<tr><td style="font-size:11px;line-height:14px;font-weight:700;color:#6a6a6a;font-family:${FONT};text-transform:uppercase;letter-spacing:0.1em;">Highlights</td></tr>
         <tr><td style="padding-top:10px;font-size:15px;line-height:24px;color:#222222;font-family:${FONT};">${highlightsHtml}</td></tr>`)
       : '',
-    cardShell(`<tr><td style="font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">完整条目、双语摘要和原文链接在页面上。</td></tr>
+    cardShell(`<tr><td style="font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">Open the full page to see every post with <strong style="color:#222222;">images, videos, and quote-tweets</strong>, plus the podcast episode — inline and playable in your browser.</td></tr>
       <tr><td style="padding-top:18px;" align="center">
         <table role="presentation" cellspacing="0" cellpadding="0" border="0">
           <tr><td style="border-radius:8px;background:#ff385c;">

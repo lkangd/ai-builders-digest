@@ -1,0 +1,86 @@
+{
+  "highlights": [
+    {
+      "text": "Vercel CEO Guillermo Rauch introduced xeet, a hermetic Rust/WASM renderer that turns an X post into a pixel-perfect PNG in about 1ms without a browser, network, or system fonts—an “autorepo” built around verification engineering.",
+      "textZh": "Vercel CEO Guillermo Rauch 发布了 xeet：一套封闭的 Rust/WASM 渲染器，可在约 1 毫秒内把一条 X 帖子画成像素级准确的 PNG，无需浏览器、网络或系统字体；项目以验证工程为核心，做成可自动对照原站的 autorepo。",
+      "url": "https://x.com/rauchg/status/2122184794209714368"
+    },
+    {
+      "text": "OpenAI Codex & ChatGPT engineer Thibault Sottiaux said the Codex team may have finally fixed the “model at capacity” errors that have been pestering users.",
+      "textZh": "OpenAI 的 Codex 与 ChatGPT 工程师 Thibault Sottiaux 表示，Codex 团队可能已经修好了长期困扰用户的 “model at capacity” 错误。",
+      "url": "https://x.com/thsottiaux/status/2122206990101536852"
+    },
+    {
+      "text": "Every CEO Dan Shipper described “compounding skills” that improve with use; he used autoresearch to iterate a context-window summary skill until it reached about 80% of his taste versus a no-skill baseline.",
+      "textZh": "Every CEO Dan Shipper 介绍了会随使用而变好的 compounding skills：他用 autoresearch 迭代一个上下文窗口摘要 skill，直到相对无 skill 基线达到他大约 80% 的品味标准。",
+      "url": "https://x.com/danshipper/status/2122091033001337134"
+    },
+    {
+      "text": "Anthropic designer Nate Parrott told Peter Yang that Claude often defaults to the same “original” look (serif type, off-white, orange, card bars) because each request feels first-time; their design prompt explicitly tells the model to avoid those habits unless asked.",
+      "textZh": "Anthropic 设计师 Nate Parrott 对 Peter Yang 说，Claude 常会重复同一套自认“原创”的视觉（衬线字体、米白底、橙色、卡片边栏），因为每次请求在它看来都是第一次；他们的设计提示会明确让模型避开这些习惯，除非用户要求。",
+      "url": "https://x.com/petergyang/status/2122132596352327816"
+    }
+  ],
+  "entries": [
+    {
+      "handle": "rauchg",
+      "summary": "Vercel CEO Guillermo Rauch launched xeet, a hermetic, pixel-perfect X post renderer written in safe Rust and WASM. It uses no browser, network, filesystem, or system fonts, and can render a post to PNG in about a millisecond (0.4 ms for Jack’s first tweet). He says that is 100x–1000x faster than opening Chrome for a screenshot, while still reproducing Blink and HarfBuzz shaping, fine-grained line breaking, RTL, Chirp font subsets, and CJK/emoji fallbacks. xeet is structured as an “autorepo”: an oracle boots Chrome to check tens of thousands of layout rules, and a CI canary watches the live product and opens signed PRs for agents. He also joked that models are getting good at naming, after a slowdown-diagnosis CLI came back as hog.",
+      "summaryZh": "Vercel CEO Guillermo Rauch 发布了 xeet：用安全的 Rust 和 WASM 实现的封闭式、像素级准确 X 帖子渲染器。它不依赖浏览器、网络、文件系统或系统字体，大约 1 毫秒即可把帖子渲成 PNG（Jack 的第一条推文约 0.4 毫秒）。他称这比启动 Chrome 截图快 100 到 1000 倍，同时复现 Blink 与 HarfBuzz 排版、精细断行、RTL、28 套 Chirp 字体子集以及 CJK/数学/Emoji 回退。xeet 被做成 autorepo：一个 oracle 启动 Chrome 核对数万条排版规则，CI canary 跟踪原产品变化并提交带签名的 PR 供 agent 处理。他还提到模型越来越会起名，自己做的系统卡顿诊断 CLI 被命名为 hog。"
+    },
+    {
+      "handle": "thsottiaux",
+      "summary": "OpenAI Codex and ChatGPT engineer Thibault Sottiaux said the Codex team might have actually fixed the “model at capacity” errors that have been pestering users.",
+      "summaryZh": "OpenAI 的 Codex 与 ChatGPT 工程师 Thibault Sottiaux 说，Codex 团队可能已经真正修好了反复出现、让用户很烦的 “model at capacity” 错误。"
+    },
+    {
+      "handle": "danshipper",
+      "summary": "Every CEO Dan Shipper said the team has been working on compounding skills—skills that get better every time they are used. He thinks a collaborator finally cracked it: over the weekend he made a skill for context-window summaries and used autoresearch to iterate until it hit 80% of his taste versus a no-skill baseline, and he pointed to a writeup on Every’s frontier feed.",
+      "summaryZh": "Every CEO Dan Shipper 说团队最近在做会越用越好的 compounding skills。他认为这次有人终于打通了：周末他做了一个写上下文窗口摘要的 skill，并用 autoresearch 迭代到相对无 skill 基线达到自己约 80% 的品味，相关文章发在 Every 的 frontier feed。"
+    },
+    {
+      "handle": "petergyang",
+      "summary": "Peter Yang, who publishes practical AI tutorials and interviews, shared two clips from Anthropic designer Nate Parrott. Parrott explained why Claude keeps inventing the same “brilliant” visual style—serif text, off-white backgrounds, orange, and bars on cards—because each request is a fresh context that feels original; their Claude Design prompt tells the model it overly biases toward those fonts and colors and not to use them unless asked. He also said prototyping cycles have compressed from weeks in Arc’s pre-production to one or two days at Anthropic, but the slower cycle is still putting work in people’s hands and learning whether they will use it.",
+      "summaryZh": "制作实用 AI 教程和访谈的 Peter Yang 分享了 Anthropic 设计师 Nate Parrott 的两段内容。Parrott 解释 Claude 为何总是“发明”同一套自认精彩的视觉——衬线字、米白背景、橙色、卡片边条——因为每次请求都是全新上下文，模型会觉得这是原创；他们的 Claude Design 提示会写明这个模型过度偏向这些字体和颜色，除非用户要求否则不要用。他还说，原型周期已从在 The Browser Company 做 Arc 时的数周预研，压缩到 Anthropic 的一两天，但把作品交到用户手里、观察他们是否真用，这一环并没有被压缩。"
+    },
+    {
+      "handle": "swyx",
+      "summary": "Swyx (smol.ai, Cognition, Temporal, AI Engineer, Latent Space) posted that “apparently it is pretty normal,” and that “clanker” wrote up his talk plus a short recap, pointing to the writeups.",
+      "summaryZh": "Swyx（smol.ai、Cognition、Temporal、AI Engineer、Latent Space）发帖说“这其实挺常见”，并指出 “clanker” 已经为他的演讲写了记录和一则短复盘，附上了链接。"
+    },
+    {
+      "handle": "amasad",
+      "summary": "Replit CEO Amjad Masad said it had been an interesting 48 hours and separately called out a writeup as a good summary, with links in both posts.",
+      "summaryZh": "Replit CEO Amjad Masad 说这 48 小时很有意思，并在另一则帖子里称某篇复盘是很好的摘要，两则都附了链接。"
+    },
+    {
+      "handle": "thenanyu",
+      "summary": "OpenAI Codex product lead Nan Yu (formerly head of product at Linear) asked for a plug-and-play home automation hub that Codex could treat like another computer, and separately noted that his Waymo turned on its windshield wipers in the rain.",
+      "summaryZh": "OpenAI Codex 产品负责人、曾在 Linear 任产品负责人的 Nan Yu 在寻找一个即插即用的家居自动化中枢，最好能被 Codex 当成另一台电脑来控制；他还提到自己的 Waymo 会在雨中自动打开雨刷。"
+    },
+    {
+      "handle": "nikunj",
+      "summary": "FPV Ventures partner Nikunj Kothari previewed a Friday, Nov 20 noon IRL session in San Francisco with CoreAuto cofounder Kanav, covering RL methods, synthetic data, loops, and automation, off the record under Chatham House rules.",
+      "summaryZh": "FPV Ventures 合伙人 Nikunj Kothari 预告 11 月 20 日周五中午在旧金山的闭门线下交流，嘉宾是 CoreAuto 联合创始人 Kanav，主题覆盖强化学习、合成数据、闭环与自动化，按 Chatham House 规则进行。"
+    },
+    {
+      "handle": "zarazhangrui",
+      "summary": "Builder Zara Zhang quipped that being good at LinkedIn probably makes you bad at X, and separately posted that she loves a particular store.",
+      "summaryZh": "Builder Zara Zhang 调侃“LinkedIn 玩得好，X 大概就玩不好”，并另发一则帖子说自己非常喜欢某家店。"
+    },
+    {
+      "handle": "adityaag",
+      "summary": "SPC general partner and Bevel Health cofounder Aditya Agarwal shared a photo from an Indian aerospace portfolio company, writing that the journey to the stars starts with a single plane on a remote runway on an early Sunday morning.",
+      "summaryZh": "SPC 普通合伙人、Bevel Health 联合创始人 Aditya Agarwal 分享了印度一家航天组合公司的照片，并写道：通往星辰的旅程，始于周日清晨偏远跑道上的一架飞机。"
+    },
+    {
+      "handle": "trq212",
+      "summary": "Thariq, formerly of Claude Code at Anthropic, posted that there is a new arena and two new characters, with media attached.",
+      "summaryZh": "曾在 Anthropic 做 Claude Code 的 Thariq 发帖说有了新的 arena 和两个新角色，并附上了媒体。"
+    },
+    {
+      "url": "https://www.youtube.com/@NoPriorsPodcast",
+      "summary": "On No Priors, Robinhood founder and CEO Vlad Tenev frames the company as an “ownership” business now live in some form in over 120 countries: individual asset ownership as a path to independence, and broad ownership as a stabilizer for society under AI disruption. He ties together earlier-stage access (including “ownership at age zero” and private-company exposure), plus tokenization as a way to plug people outside the US—even where banking is weak—into that economic fabric. He also called prediction markets an evolution of news, because odds make likely futures visible, and said agentic trading already has product-market fit, with more than 150,000 customers opening agentic trading accounts. Asked about AI and math, he warned that the current setup is too centralized: large AI labs, data centers, and secret models doing the work, versus more distributed discovery. The feed supplies only a shortened transcript and the show’s YouTube channel URL, not a specific episode link.",
+      "summaryZh": "在 No Priors 节目中，Robinhood 创始人兼 CEO Vlad Tenev 把公司定位为一家“所有权”公司，业务已以某种形式覆盖 120 多个国家：对个人而言，持有资产是走向独立的路径；对社会而言，更广泛的所有权能在 AI 冲击下让系统更稳。他把更早阶段的所有权（包括“从零岁开始的所有权”以及对未上市公司的参与）串在一起，并把 tokenization 视为让美国以外、甚至银行系统并不健全的人群接入这一经济网络的方式。他还把预测市场看作新闻的进化，因为赔率让未来更可被看见；并表示 agentic trading 已有产品市场契合，超过 15 万名客户开了代理交易账户。谈到 AI 与数学时，他认为现在的格局过于中心化：大实验室、数据中心和保密模型包揽工作，而不是更分布式的发现。本次 feed 只提供了截短的转录和节目的 YouTube 频道地址，没有具体单集链接。"
+    }
+  ]
+}
