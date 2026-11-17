@@ -112,7 +112,12 @@ test('syndication media renders avatars, quote media, and video without using th
     highlights: [],
     builders: feed.x.map(builder => ({
       ...builder,
-      tweets: builder.tweets.map(tweet => ({ ...tweet, text: tweet.enriched.resolvedText, textZh: '夹具这条推文的译文' }))
+      tweets: builder.tweets.map(tweet => ({
+        ...tweet,
+        text: tweet.enriched.resolvedText,
+        textZh: '父推译文专用',
+        quoteTextZh: '引用译文专用'
+      }))
     })),
     podcasts: [],
     blogs: [],
@@ -126,12 +131,76 @@ test('syndication media renders avatars, quote media, and video without using th
   assert.match(html, />Quoting</);
   assert.match(html, /FIXTURE quoted body/);
   assert.match(html, /FIXTURE first line<br>FIXTURE second line/);
-  assert.match(html, /夹具这条推文的译文/);
+  assert.match(html, /父推译文专用/);
+  assert.match(html, /引用译文专用/);
+  const quoteStart = html.indexOf('class="fb-quote"');
+  const quote = html.slice(quoteStart, html.indexOf('View on X', quoteStart));
+  assert.match(quote, /引用译文专用/);
+  assert.equal(quote.includes('父推译文专用'), false);
   assert.match(html, /FIXTURE biography stays the identity line/);
   const bioAt = html.indexOf('fb-bio');
-  const translationAt = html.indexOf('夹具这条推文的译文');
+  const translationAt = html.indexOf('父推译文专用');
   assert.ok(bioAt > 0 && translationAt > bioAt);
-  assert.equal(html.slice(bioAt, bioAt + 400).includes('夹具这条推文的译文'), false);
+  assert.equal(html.slice(bioAt, bioAt + 400).includes('父推译文专用'), false);
+});
+
+test('each of the 19 tweet translations stays on its own post and 14 audio paragraphs pair', async () => {
+  const prepared = JSON.parse(await readFile(path.join(DAY, 'prepare.json'), 'utf8'));
+  const tweets = prepared.x.flatMap(builder => builder.tweets);
+  assert.equal(tweets.length, 19);
+  const segments = segmentText(prepared.podcasts[0].transcript);
+  assert.equal(segments.length, 14);
+  const summary = {
+    highlights: tweets.slice(0, 3).map((tweet, index) => ({
+      text: `Highlight ${index}`,
+      textZh: `亮点 ${index}`,
+      url: tweet.url
+    })),
+    entries: [
+      ...tweets.map(tweet => ({ id: tweet.id, url: tweet.url, textZh: `正文译文 ${tweet.id}`, quoteTextZh: tweet.isQuote ? `引用译文 ${tweet.quotedTweetId}` : '' })),
+      {
+        url: prepared.podcasts[0].url,
+        summary: prepared.podcasts[0].transcript,
+        summaryZh: segments.map((segment, index) => `音频段 ${index + 1}:${segment.slice(0, 24)}`).join('\n\n')
+      }
+    ]
+  };
+  const stateDir = await mkdtemp(path.join(tmpdir(), 'fb-complete-'));
+  const runDir = path.join(stateDir, 'runs', '2026-11-17');
+  await mkdir(runDir, { recursive: true });
+  await writeFile(path.join(runDir, 'prepare.json'), JSON.stringify(prepared));
+  const summaryPath = path.join(stateDir, 'summary.json');
+  await writeFile(summaryPath, JSON.stringify(summary));
+  const rendered = await render({ stateDir, now: NOW, summaryPath, enrich: false });
+  assert.equal(rendered.status, 'ok');
+  assert.equal(rendered.action, 'rendered');
+  const html = await readFile(rendered.paths.digest, 'utf8');
+  let cursor = 0;
+  for (const tweet of tweets) {
+    const marker = `正文译文 ${tweet.id}`;
+    const at = html.indexOf(marker, cursor);
+    assert.ok(at > cursor, marker);
+    const between = html.slice(cursor, at);
+    const raw = tweet.text.split('\n')[0].slice(0, 40);
+    const snippet = raw
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;')
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    assert.match(between, new RegExp(snippet));
+    assert.equal(between.includes('音频段'), false);
+    cursor = at + marker.length;
+  }
+  assert.equal((html.match(/class="fb-segment"/g) || []).length, 14);
+  for (let index = 0; index < 14; index += 1) {
+    assert.match(html, new RegExp(`音频段 ${index + 1}:`));
+  }
+  const swapped = html.indexOf(`正文译文 ${tweets[0].id}`);
+  const second = html.indexOf(`正文译文 ${tweets[1].id}`);
+  assert.ok(swapped < second);
+  assert.equal(html.slice(swapped, second).includes(tweets[1].id) && html.slice(swapped, second).includes(`正文译文 ${tweets[1].id}`), false);
 });
 
 test('2026-11-17 handle summaries are not painted onto bios, and the transcript stays segmented', async () => {
@@ -145,9 +214,12 @@ test('2026-11-17 handle summaries are not painted onto bios, and the transcript 
     summaryPath: path.join(DAY, 'summary.json'),
     enrich: false
   });
-  assert.equal(rendered.action, 'rendered');
+  assert.equal(rendered.status, 'error');
+  assert.equal(rendered.action, 'incomplete');
+  assert.equal(rendered.reason, 'translation-incomplete');
+  assert.equal(rendered.gaps.filter(item => item.startsWith('missing textZh')).length, 19);
+  assert.ok(rendered.gaps.some(item => item.includes('podcast paragraph mismatch') && item.includes('0/14')));
   assert.ok(rendered.warnings.some(item => item.includes('not a per-tweet translation')));
-  assert.ok(rendered.warnings.some(item => item.includes('not split into the same paragraphs')));
   const html = await readFile(rendered.paths.digest, 'utf8');
   assert.match(html, /Codex &amp; ChatGPT @OpenAI/);
   assert.equal(html.includes('反复出现、让用户很烦'), false);
@@ -176,10 +248,12 @@ test('2026-11-17 handle summaries are not painted onto bios, and the transcript 
   assert.equal(/<img\b/.test(noted.html), false);
   assert.equal(/<video\b/.test(noted.html), false);
   assert.match(noted.text, /https:\/\/lkangd\.github\.io\/ai-builders-digest\/2026-11-17\//);
-  assert.match(noted.resend.html, /Open today's digest →/);
-  const shown = redactForStdout(noted);
+  assert.equal(noted.shouldSend, false);
+  assert.equal(noted.reason, 'translation-incomplete');
+  assert.equal(noted.resend, null);
+  const shown = redactForStdout({ ...noted, resend: { to: ['fixture-recipient@example.invalid'], from: 'fixture-from@example.invalid', html: noted.html, text: noted.text } });
   assert.match(shown.html, /mobile-shell/);
-  assert.match(shown.resend.html, /Highlights/);
+  assert.match(shown.resend.html, /Open today's digest/);
   assert.equal(JSON.stringify(shown).includes('fixture-recipient@example.invalid'), false);
   const direct = renderNotificationHtml({
     pageUrl: noted.pageUrl,

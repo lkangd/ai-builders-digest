@@ -24,8 +24,14 @@
   ],
   "entries": [
     {
+      "id": "fixture-1",
       "url": "https://example.invalid/fixture/tweet-1",
-      "summaryZh": "夹具译文一。<script>alert(1)</script>"
+      "textZh": "夹具译文一。<script>alert(1)</script>"
+    },
+    {
+      "id": "fixture-2",
+      "url": "https://example.invalid/fixture/tweet-2",
+      "textZh": "夹具译文二。"
     },
     {
       "url": "https://www.youtube.com/watch?v=Fixture1",

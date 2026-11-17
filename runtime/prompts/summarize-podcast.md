@@ -15,3 +15,4 @@ the key insights without watching the full episode.
 - Keep the tone sharp and conversational — like a smart friend briefing you
 - Do NOT include filler like "In this episode..." or "The host and guest discussed..."
 - Jump straight into the substance
+- When this remix is saved for the page, keep the transcript's blank-line paragraphs. The Chinese version needs one paragraph per English paragraph, in the same order. Do not merge the turns into a single block.

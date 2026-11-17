@@ -385,6 +385,24 @@ export async function prepare(options) {
   };
 }
 
+function translationGaps(model) {
+  if (model.language === 'en') return [];
+  const gaps = [];
+  for (const builder of model.builders || []) {
+    for (const tweet of builder.tweets || []) {
+      if (!String(tweet.textZh || '').trim()) gaps.push(`missing textZh for tweet ${tweet.id || ''} ${tweet.url}`);
+    }
+  }
+  for (const item of model.podcasts || []) {
+    const segments = item.segments || [];
+    const zhSegments = item.zhSegments || [];
+    if (segments.length > 0 && zhSegments.length !== segments.length) {
+      gaps.push(`podcast paragraph mismatch ${zhSegments.length}/${segments.length} ${item.url}`);
+    }
+  }
+  return gaps;
+}
+
 function alignedSegments(source, translation) {
   const segments = segmentText(source);
   const zhSegments = segmentText(translation);
@@ -406,7 +424,7 @@ function attach(feed, applied) {
       tweets: builder.tweets.map(tweet => {
         const note = applied.byUrl.get(tweet.url) || applied.byId.get(String(tweet.id || '')) || {};
         const text = tweet.enriched?.resolvedText || tweet.text;
-        return { ...tweet, text, textZh: note.summaryZh || '' };
+        return { ...tweet, text, textZh: note.summaryZh || '', quoteTextZh: note.quoteTextZh || '' };
       })
     })),
     podcasts: feed.podcasts.map(item => {
@@ -493,6 +511,7 @@ export async function render(options) {
     ...(enriched.enrichWarnings || []),
     ...attached.podcasts.filter(item => item.unaligned).map(item => `podcast translation for ${item.url} is not split into the same paragraphs as the transcript`)
   ];
+  const gaps = translationGaps(model);
   const digest = renderDigestHtml(model);
   const root = renderRootIndex(config.page.baseUrl, date);
   await writeText(paths.digest, digest);
@@ -507,9 +526,25 @@ export async function render(options) {
     published: false,
     notified: false,
     highlightCount: applied.highlights.length,
+    translationComplete: gaps.length === 0,
     updatedAt: now.toISOString()
   };
   await saveState(stateDir, state);
+  if (gaps.length > 0) {
+    return {
+      status: 'error',
+      action: 'incomplete',
+      reason: 'translation-incomplete',
+      message: 'Refusing to treat this render as complete until every tweet and podcast paragraph has its own translation.',
+      date,
+      pageUrl: prepared.pageUrl,
+      fingerprint: prepared.fingerprint,
+      highlightCount: applied.highlights.length,
+      gaps,
+      warnings,
+      paths
+    };
+  }
   return {
     status: 'ok',
     action: 'rendered',
@@ -797,6 +832,7 @@ export async function notify(options) {
   ]);
   let reason = 'ready';
   if (day.notified) reason = 'already-notified';
+  else if (day.translationComplete === false) reason = 'translation-incomplete';
   else if (!pages.ready) reason = pages.reason;
   else if (highlightGate(language, applied.highlights)) reason = highlightGate(language, applied.highlights);
   else if (!boxes.to) reason = 'recipient-unset';

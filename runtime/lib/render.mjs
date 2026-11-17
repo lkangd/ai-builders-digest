@@ -1,3 +1,72 @@
+const LIGHTBOX_SCRIPT = `
+(function(){
+  var box,stage,wrapper,closeBtn,lastFocus=null,closeTimer=null,wheelTimer=null,wheelLocked=false,wheelDirection=0,wheelLastAmount=0,wheelLockedAt=0,swiper=null,DUR=230;
+  function build(){
+    box=document.createElement('div');box.className='fb-lightbox';
+    box.innerHTML='<button class="fb-lightbox-close" type="button" aria-label="关闭">&times;</button><button class="fb-lightbox-nav fb-lightbox-prev" type="button" aria-label="上一张">&#8249;</button><div class="fb-lightbox-stage swiper"><div class="swiper-wrapper"></div></div><button class="fb-lightbox-nav fb-lightbox-next" type="button" aria-label="下一张">&#8250;</button><div class="fb-lightbox-pagination swiper-pagination"></div><div class="fb-lightbox-hint">左右滑动 / 方向键切换 · 双击缩放 · ESC 关闭</div>';
+    document.body.appendChild(box);stage=box.querySelector('.fb-lightbox-stage');wrapper=box.querySelector('.swiper-wrapper');closeBtn=box.querySelector('.fb-lightbox-close');
+    closeBtn.addEventListener('click',function(e){e.stopPropagation();close();});
+    wrapper.addEventListener('wheel',function(e){
+      if(Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;
+      e.preventDefault();
+      var now=Date.now(),direction=e.deltaX>0?1:-1,amount=Math.abs(e.deltaX);
+      if(wheelTimer)clearTimeout(wheelTimer);
+      wheelTimer=setTimeout(function(){wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelTimer=null;},140);
+      if(wheelLocked){
+        var newGesture=now-wheelLockedAt>180&&(direction!==wheelDirection||amount>wheelLastAmount*1.8);
+        wheelLastAmount=amount;
+        if(!newGesture)return;
+        wheelLocked=false;
+      }
+      if(!swiper)return;
+      wheelLocked=true;wheelDirection=direction;wheelLastAmount=amount;wheelLockedAt=now;
+      if(direction>0)swiper.slideNext();else swiper.slidePrev();
+    },{passive:false});
+    box.addEventListener('click',function(e){
+      if(e.target.closest&&e.target.closest('img,.fb-lightbox-close,.fb-lightbox-nav,.fb-lightbox-pagination'))return;
+      close();
+    });
+  }
+  function open(links,active){
+    if(!window.Swiper)return;
+    if(!box)build();
+    if(closeTimer){clearTimeout(closeTimer);closeTimer=null;}
+    if(swiper){swiper.destroy(true,true);swiper=null;}
+    lastFocus=document.activeElement;wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelLockedAt=0;
+    if(wheelTimer){clearTimeout(wheelTimer);wheelTimer=null;}
+    wrapper.scrollLeft=0;
+    wrapper.innerHTML=links.map(function(src){return '<div class="swiper-slide"><div class="swiper-zoom-container"><img src="'+src.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" alt="" /></div></div>';}).join('');
+    box.classList.toggle('multiple',links.length>1);document.body.style.overflow='hidden';void box.offsetWidth;box.classList.add('open');
+    swiper=new window.Swiper(stage,{
+      initialSlide:active,cssMode:true,loop:false,rewind:links.length>1,watchOverflow:true,
+      navigation:{nextEl:box.querySelector('.fb-lightbox-next'),prevEl:box.querySelector('.fb-lightbox-prev')},
+      pagination:{el:box.querySelector('.fb-lightbox-pagination'),clickable:true},
+      keyboard:{enabled:true,onlyInViewport:false},zoom:{enabled:true,maxRatio:8,minRatio:1,toggle:true}
+    });
+    requestAnimationFrame(function(){
+      if(!swiper)return;
+      swiper.slideTo(active,0,false);wrapper.scrollLeft=active*wrapper.clientWidth;
+    });
+    if(closeBtn)try{closeBtn.focus();}catch(_){}
+  }
+  function close(){
+    if(!box||!box.classList.contains('open'))return;
+    box.classList.remove('open');document.body.style.overflow='';wheelLocked=false;wheelDirection=0;wheelLastAmount=0;wheelLockedAt=0;
+    if(wheelTimer){clearTimeout(wheelTimer);wheelTimer=null;}
+    closeTimer=setTimeout(function(){
+      if(swiper){swiper.destroy(true,true);swiper=null;}wrapper.scrollLeft=0;wrapper.innerHTML='';
+      if(lastFocus){try{lastFocus.focus();}catch(_){}lastFocus=null;}
+    },DUR);
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('.fb-img');if(!a)return;
+    var src=a.getAttribute('href');if(!src||src.charAt(0)==='#')return;
+    var group=a.closest('.fb-media');var links=group?Array.prototype.slice.call(group.querySelectorAll('.fb-img')):[a];
+    var sources=links.map(function(link){return link.getAttribute('href');}).filter(Boolean);e.preventDefault();open(sources,Math.max(0,links.indexOf(a)));
+  });
+  window.addEventListener('keydown',function(e){if((e.key==='Escape'||e.key==='Esc')&&box&&box.classList.contains('open')){e.preventDefault();close();}},true);
+})();
+`;
 import { bodyHtml, escapeHtml, initials, linkify, youtubeEmbed, zonedParts } from './util.mjs';
 
 const FONT = "'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
@@ -86,7 +155,7 @@ function renderMediaBlock(media) {
   return `<div class="fb-media" style="margin-top:12px;display:grid;gap:10px;">${media.map(cell).join('')}</div>`;
 }
 
-function renderQuotedTweet(quoted) {
+function renderQuotedTweet(quoted, quoteTextZh) {
   if (!quoted) return '';
   const name = quoted.author?.name || 'Quoted post';
   const handle = quoted.author?.screenName ? `@${escapeHtml(quoted.author.screenName)}` : '';
@@ -97,6 +166,7 @@ function renderQuotedTweet(quoted) {
       <div><span style="font-weight:600;color:#222222;font-size:14px;font-family:${FONT};">${escapeHtml(name)}</span><span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:${FONT};">${handle}</span></div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(quoted.text)}</div>
+    ${quoteTextZh ? translationTile(quoteTextZh) : ''}
     ${renderMediaBlock(quoted.media)}
     ${quoted.url ? `<div style="margin-top:8px;"><a href="${escapeHtml(quoted.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:${FONT};">View original on X →</a></div>` : ''}
   </div>`;
@@ -184,7 +254,7 @@ function tweetCard(builder, model) {
             <tr><td class="mobile-body-text fb-tweet-body" style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">${bodyHtml(tweet.text)}</td></tr>
             ${showZh ? translationTile(tweet.textZh) : ''}
             ${mediaHtml ? `<tr><td>${mediaHtml}</td></tr>` : ''}
-            ${quoted ? `<tr><td>${renderQuotedTweet(quoted)}</td></tr>` : quoteLink}
+            ${quoted ? `<tr><td class="fb-quote">${renderQuotedTweet(quoted, showZh ? tweet.quoteTextZh : '')}</td></tr>` : quoteLink}
             <tr><td style="padding-top:10px;">
               <a href="${escapeHtml(tweet.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
               <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;">${metric(ICON_HEART, tweet.likes)}${metric(ICON_RETWEET, tweet.retweets)}${metric(ICON_REPLY, tweet.replies)}</span>
@@ -307,6 +377,7 @@ function documentShell({ title, subtitle, rows, interactive }) {
         </td>
       </tr>
     </table>
+    ${interactive ? `<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script><script>${LIGHTBOX_SCRIPT}</script>` : ''}
   </body>
 </html>`;
 }

@@ -184,7 +184,7 @@ export function applySummary(feed, summary, language) {
         warnings.push('dropped translation whose id is not in the prepared feed');
         continue;
       }
-      const note = { summary: summaryText, summaryZh };
+      const note = { summary: summaryText, summaryZh, quoteTextZh: String(entry.quoteTextZh || '').trim() };
       if (url) byUrl.set(url, note);
       if (id) byId.set(id, note);
       continue;

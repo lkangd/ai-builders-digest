@@ -2,7 +2,7 @@
 
 这份手册给父级助手保存成 Grok Bot 技能，并据此创建例程。本仓库里的运行时只准备公开 feed、接受助手写好的摘要和译文、渲染静态 HTML、写出通知载荷。它不发信，不推送，不合并，也不改 Pages 设置。
 
-调度和改写都由 Grok Bot 自己做。不要再接 DeepSeek，不要再跑原来的抓取、富化或中央 feed 发布脚本。
+调度、摘要和翻译由 Grok Bot 自己做。不要接 DeepSeek，也不要重新抓取中央 X、播客或博客。公开 JSON feed 仍是正文来源。`render` 会在这之后用无密钥的公开 syndication 补头像、图片、视频和引用卡片。
 
 ## 安装
 
@@ -39,8 +39,8 @@ Grok Bot 的时区设为 `Asia/Shanghai`。例程为每天 08:00，包含周六�
    - `await-publish` 或 `skip`：不要再写页面。若尚未发信，只做 `notify`。
    - `empty`：今天没有带链接的条目。不要开 PR，不要发信。
    - `status: error`：三个 feed 都失败。停下并报告，不要用昨天的页面冒充今天。
-3. 只根据 `prepare.json` 写 `summary.json`。不要重新抓网页，不要发明 feed 里没有的人或链接。
-4. `render` 把全文 HTML 和根目录跳转页写进状态目录。
+3. 只根据 `prepare.json` 写 `summary.json`。每条推文都要有 `id`、`url` 和 `textZh`。播客按空行分段，中英段落数相同。不要只写 `handle`。不要重新抓网页，不要发明 feed 里没有的人或链接。
+4. `render` 先补媒体，再写全文 HTML 和根目录跳转页。双语或缺中文时，只要有一条推文没有 `textZh`，或播客中英段落数不同，命令就以 `action: incomplete` 失败。这时 HTML 只供检查，不能发布，也不能发信。
 5. `plan`。它只看 `main` 上的 raw 文件，用来避免覆盖已有归档。`archive-live` 表示日期文件已经在 `main`，不表示 Pages 已经能打开。此时不要再写。`pr-already-open` 时也不要再开 PR。
 6. 发布交给绑定了 `lkangd/ai-builders-digest` 的 Cursor 云端代理，按下一节做。
 7. PR 已经打开后执行 `mark --pr`。这只是本地记号，不代表页面已经公开。
@@ -58,7 +58,7 @@ node "$FB_HOME/runtime/bin/fb.mjs" mark --state "$FB_STATE" --pr
 node "$FB_HOME/runtime/bin/fb.mjs" mark --state "$FB_STATE" --published --notified
 ```
 
-标准输出会把收件人显示成 `configured` 或 `null`。完整载荷只在 `runs/YYYY-MM-DD/notification.json`。
+标准输出保留 `html` 和 `resend.html`，只把收件地址显示成 `configured`。同一份载荷也写在 `runs/YYYY-MM-DD/notification.json`。
 
 ## 摘要契约
 
@@ -67,30 +67,30 @@ node "$FB_HOME/runtime/bin/fb.mjs" mark --state "$FB_STATE" --published --notifi
 ```json
 {
   "highlights": [
-    { "text": "英文一句", "textZh": "中文一句", "url": "https://必须来自本次 feed" }
+    { "text": "英文短亮点", "textZh": "中文短亮点", "url": "https://必须来自本次 feed" }
   ],
   "entries": [
-    { "url": "https://必须来自本次 feed", "summary": "英文摘要", "summaryZh": "中文译文" },
-    { "handle": "feed 里的 handle", "summary": "这个人的英文导语", "summaryZh": "中文导语" }
+    { "id": "推文数字 id", "url": "https://x.com/handle/status/同一id", "textZh": "只翻译这条推文正文，保留换行", "quoteTextZh": "可选，只翻译引用正文" },
+    { "url": "播客 url", "summary": "第1段\n\n第2段", "summaryZh": "第一段\n\n第二段" }
   ]
 }
 ```
 
 规则：
 
-- 提示词用 `prepare.json` 的 `prompts.digest_intro`、`prompts.summarize_tweets`、`prompts.summarize_podcast`、`prompts.summarize_blogs`、`prompts.translate`。
-- `bilingual`：亮点先英文再中文。页面上英文原文在上，中文放进现有的「译文」块。不要先写完全部英文再写完全部中文。
-- `zh`：亮点和长文主体用中文。`en`：不渲染译文块。
-- 亮点 3 到 5 条。超过 5 条会截断。少于 3 条仍然可以渲染页面，但通知的 `shouldSend` 为 false。
-- 没有出现在本次 feed 里的 URL 或 handle 会被丢掉。没有 URL 的内容不要写进摘要。
-- 推文页面保留原文，并附上 `summaryZh`。播客和博客在有 `summary` 时用摘要，不再把长转录贴进页面。
-- 输入按文本转义。不要交原始 HTML。
+- 提示词用 `prepare.json` 的 `prompts.digest_intro`、`prompts.summarize_tweets`、`prompts.summarize_podcast`、`prompts.summarize_blogs`、`prompts.translate`。`prompts.translate` 要求按上面的字段写，不是只写人物导语。
+- 亮点是 3 到 5 条短摘要，先英文再中文。它们不是 19 条推文的全文翻译。少于 3 条时页面仍可检查，但 `shouldSend` 为 false。
+- 推文正文保留 feed 原文。`textZh` 只属于该 `id`/`url` 的正文，并保留换行。简介保持原文，只作身份说明。
+- 只写 `handle`、不写 `id` 和 `url` 的项会被拒绝，不能当成完成。
+- 引用正文来自 syndication 的被引用帖，不使用父推正文。`quoteTextZh` 若提供，只出现在引用卡片里。原页面的引用卡片没有单独译文；不提供时引用保持原文，不因此判为不完整。
+- 播客按转录空行分段。`summary` 与 `summaryZh` 段落数必须相同。段落数不同时 `render` 失败，不能发信。
+- 输入是纯文本。不要交原始 HTML。
 
 ## 页面
 
 全文页沿用现在的版式：680 像素、Inter、`#ff385c`、概览数字、Highlights、X、Podcast、Blog、RSS 分区和根目录跳转。根 `index.html` 只跳到上海日期目录。`.nojekyll` 只在缺失时补一个空文件，已有文件不动。
 
-公开 feed 本身没有头像、图片和引用正文。运行时不再调用富化接口。引用推文只保留标记和状态链接。播客 URL 若已经是 YouTube 观看地址，页面内嵌播放器，这是本地解析，不是新的 API。
+公开 feed 只有正文、互动数和引用 id。`render` 对每条数字推文 id 请求 `https://cdn.syndication.twimg.com/tweet-result`，补上头像、图片、视频和引用卡片。引用长文在 syndication 缺正文时才再请求公开的 `api.fxtwitter.com`。这两处都不需要密钥。单条失败会记入 `warnings`，该条降为文本，其他条继续。播客频道地址没有视频 id 时不编造播放器。YouTube 观看地址仍只在本地解析后内嵌。
 
 中央仓库不发布 RSS。运行时不再生成本地 RSS，也不再提交 seen state。只有私人配置显式写了 `feeds.rss` 指向一份公开 JSON 时才会读取。
 
@@ -126,7 +126,9 @@ Resend 连接器负责发送。`notify` 只在下面全部成立时把 `shouldSe
 
 载荷里的 `archiveOnMain` 只说明 `main` 上有没有当天文件。`pages.ready` 才决定能不能发。raw 为 200 而 Pages 为 404 时，`shouldSend` 是 false，`mark --published` 也会拒绝。Pages 返回另一个日期时，原因是 `page-stale`。
 
-载荷里的 `resend` 对象只有 `to`、`from`、`subject`、`text`、`html`、`idempotencyKey`。HTML 和纯文本都是亮点加当天页面链接，不含全文、转录或凭据。把 `idempotencyKey` 交给 Resend，避免同一次发送重试时重复投递。
+`resend` 同时包含 `html` 和 `text`。发送时两个都要交给 Resend。只发 `text` 会让邮件变成纯文字，这是不合格的。`html` 是 680px 表格式亮点加 “Open today's digest →” 按钮，不含图片和视频。标准输出保留这份 HTML，只把收件地址显示成 `configured`。
+
+当天译文不完整时 `shouldSend` 为 false，原因是 `translation-incomplete`。不要改发纯文本凑合。
 
 `shouldSend` 不是 true 时不要调用连接器。发送成功之后才 `mark --published --notified`。
 
@@ -142,17 +144,6 @@ Resend 连接器负责发送。`notify` 只在下面全部成立时把 `shouldSe
 
 在 `runtime/` 执行 `npm test`。其中一项会把 `runtime/` 和根目录 `runbook.md` 打成包，解到新的临时目录，再在那个目录里重跑测试。安装包不需要仓库里的 `docs/`。测试使用带 `FIXTURE` 和 `example.invalid` 的夹具，不读取线上正文，不发信，不推送。
 
-## 协调层需要重做的摘要
+## 发布和发信仍要人工确认
 
-亮点仍然是 3 到 5 条短摘要，不是逐条全文翻译。页面上的中文必须另交：
-
-- 每条推文一个 `entries` 项，带上该推文的 `id` 和 `url`。`textZh` 只翻译这条推文的正文，并保留换行。
-- 只写 `handle`、不写 `id`/`url` 的中文不会贴到简介上，也不会当成推文译文。简介保持 feed 里的原文身份说明。
-- 播客按转录里的空行分段。`summary` 和 `summaryZh` 的段落数必须相同、顺序相同。不能收成一整段。
-- 通知同时带 `html` 和 `text`。`html` 是旧版亮点加链接的表格式邮件，不是全文页，也不含图片和视频。发送时必须把 `resend.html` 一并交给 Resend。标准输出会保留这份 HTML，只隐去收件地址。
-
-2026-11-17 那份按人物 `handle` 写的 `summaryZh`，以及收成一段的播客译文，需要按上面重做后页面才会出现逐条译文和逐段中英对照。
-
-## 还不能当成每日无人值守
-
-代码合并进这个仓库之后，例程仍然要由人保存并打开，私人收发件人也要配好。每一天的页面要等 `digest/YYYY-MM-DD` 被批准合并后才会出现在 Pages 上，邮件链接在那之前不能发。本运行时没有做端到端的发布或投递验证。
+上面的 prepare、译文、render 和 notify 就是每日步骤，不要改回“不富化”或“只按人物写中文”。页面要等 `digest/YYYY-MM-DD` 被批准合并后才会出现在 Pages 上。`notify` 在 `shouldSend` 为 true 时必须同时发送 `html` 和 `text`。本运行时没有做端到端的发布或投递验证。
