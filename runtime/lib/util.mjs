@@ -70,6 +70,13 @@ export function pageUrlFor(baseUrl, date) {
   return `${String(baseUrl || '').replace(/\/$/, '')}/${date}/`;
 }
 
+export function pageServesDate(html, date) {
+  const title = String(html || '').match(/<title>([^<]*)<\/title>/i);
+  if (!title) return false;
+  const dates = title[1].match(/\d{4}-\d{2}-\d{2}/g) || [];
+  return dates.length > 0 && dates.every(item => item === date);
+}
+
 export function latestDateFromRoot(html) {
   const match = String(html || '').match(/rel="canonical" href="[^"]+\/(\d{4}-\d{2}-\d{2})\//);
   return match ? match[1] : null;

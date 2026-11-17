@@ -13,6 +13,7 @@ import {
 import {
   assertTimeZone,
   latestDateFromRoot,
+  pageServesDate,
   pageUrlFor,
   parseMailbox,
   walkKeys,
@@ -44,6 +45,7 @@ const BANNED_CONFIG_KEYS = new Set([
   'token',
   'secret'
 ]);
+const PRIVATE_ADDRESS_KEYS = new Set(['to', 'from', 'email', 'recipient', 'mailbox']);
 
 export const DEFAULT_CONFIG = {
   language: 'bilingual',
@@ -75,8 +77,12 @@ function clone(value) {
 
 export function assertConfigSafe(config) {
   walkKeys(config, key => {
-    if (BANNED_CONFIG_KEYS.has(String(key).toLowerCase().replaceAll('-', '_'))) {
+    const normalized = String(key).toLowerCase().replaceAll('-', '_');
+    if (BANNED_CONFIG_KEYS.has(normalized)) {
       throw new Error(`Refusing config key "${key}". Credentials stay outside this runtime.`);
+    }
+    if (PRIVATE_ADDRESS_KEYS.has(normalized)) {
+      throw new Error(`Refusing config key "${key}". Notification addresses come only from FB_NOTIFY_TO and FB_NOTIFY_FROM.`);
     }
   });
 }
@@ -94,10 +100,6 @@ export function mergeConfig(override = {}) {
     config.feeds.rss = override.feeds.rss;
   }
   config.limits = { ...config.limits, ...(override.limits || {}) };
-  config.notification = {
-    to: typeof override.notification?.to === 'string' ? override.notification.to : '',
-    from: typeof override.notification?.from === 'string' ? override.notification.from : ''
-  };
   if (!['en', 'zh', 'bilingual'].includes(config.language)) config.language = 'bilingual';
   return config;
 }
@@ -271,10 +273,11 @@ function publicConfig(config) {
   };
 }
 
-function mailboxes(config, env) {
-  const to = parseMailbox(env.FB_NOTIFY_TO || config.notification?.to || '');
-  const from = parseMailbox(env.FB_NOTIFY_FROM || config.notification?.from || '');
-  return { to, from };
+function mailboxes(env) {
+  return {
+    to: parseMailbox(env.FB_NOTIFY_TO || ''),
+    from: parseMailbox(env.FB_NOTIFY_FROM || '')
+  };
 }
 
 export async function prepare(options) {
@@ -505,6 +508,34 @@ async function fetchText(url, fetchImpl) {
   return { ok: Boolean(response.ok), status: response.status, text };
 }
 
+async function probeArchive(config, date, fetchImpl) {
+  const url = rawUrl(config.page.repo, config.page.branch || 'main', `${date}/index.html`);
+  try {
+    const file = await fetchText(url, fetchImpl);
+    return { onMain: file.status === 200 && file.ok, status: file.status, url };
+  } catch (error) {
+    return { onMain: false, status: 0, url, error: error.message };
+  }
+}
+
+async function checkPages(config, date, fetchImpl) {
+  const url = pageUrlFor(config.page.baseUrl, date);
+  try {
+    const file = await fetchText(url, fetchImpl);
+    if (file.status !== 200 || !file.ok) {
+      return { url, status: file.status, ready: false, reason: 'page-not-live' };
+    }
+    if (!pageServesDate(file.text, date)) {
+      const title = file.text.match(/<title>([^<]*)<\/title>/i);
+      const stale = Boolean(title && /\d{4}-\d{2}-\d{2}/.test(title[1]));
+      return { url, status: 200, ready: false, reason: stale ? 'page-stale' : 'page-not-live' };
+    }
+    return { url, status: 200, ready: true, reason: 'pages-ready' };
+  } catch (error) {
+    return { url, status: 0, ready: false, reason: 'page-check-failed', message: error.message };
+  }
+}
+
 export async function plan(options) {
   const stateDir = options.stateDir;
   const config = options.config ? mergeConfig(options.config) : await loadConfig(stateDir);
@@ -599,7 +630,13 @@ export async function plan(options) {
     rootLatest,
     files,
     guards,
-    archive: { dateUrl, rootUrl, dateStatus: dateFile.status, rootStatus: rootFile.status },
+    archive: {
+      dateUrl,
+      rootUrl,
+      dateStatus: dateFile.status,
+      rootStatus: rootFile.status,
+      means: 'file-on-main-not-pages'
+    },
     dedupe: {
       branch: `digest/${date}`,
       titleIncludes: date,
@@ -694,7 +731,7 @@ export async function notify(options) {
   const state = await loadState(stateDir);
   const day = state.days[date];
   const env = options.env || process.env;
-  const boxes = mailboxes(config, env);
+  const boxes = mailboxes(env);
   const base = {
     date,
     pageUrl: day?.pageUrl || pageUrlFor(config.page.baseUrl, date),
@@ -728,16 +765,17 @@ export async function notify(options) {
     counts: prepared.stats
   });
   const idempotencyKey = `fb-digest-${date}-${prepared.fingerprint.slice(0, 16)}`;
+  const fetchImpl = options.fetchImpl || globalThis.fetch;
+  const [archive, pages] = await Promise.all([
+    probeArchive(config, date, fetchImpl),
+    checkPages(config, date, fetchImpl)
+  ]);
   let reason = 'ready';
   if (day.notified) reason = 'already-notified';
-  else if (!day.rendered) reason = 'not-rendered';
-  else {
-    const archive = await plan({ ...options, config, fetchImpl: options.fetchImpl });
-    if (archive.reason !== 'archive-live') reason = 'page-not-live';
-    else if (highlightGate(language, applied.highlights)) reason = highlightGate(language, applied.highlights);
-    else if (!boxes.to) reason = 'recipient-unset';
-    else if (!boxes.from) reason = 'sender-unset';
-  }
+  else if (!pages.ready) reason = pages.reason;
+  else if (highlightGate(language, applied.highlights)) reason = highlightGate(language, applied.highlights);
+  else if (!boxes.to) reason = 'recipient-unset';
+  else if (!boxes.from) reason = 'sender-unset';
   const shouldSend = reason === 'ready';
   const payload = {
     ...base,
@@ -749,6 +787,8 @@ export async function notify(options) {
     html,
     idempotencyKey,
     highlightCount: applied.highlights.length,
+    archiveOnMain: archive.onMain,
+    pages,
     resend: shouldSend
       ? {
         to: [boxes.to],
@@ -786,21 +826,27 @@ export async function mark(options) {
   }
   if (options.published) {
     if (!day.rendered) return { status: 'error', action: 'stop', reason: 'not-rendered', date };
-    const archive = await plan({ ...options, fetchImpl: options.fetchImpl });
-    if (archive.reason !== 'archive-live') {
+    const fetchImpl = options.fetchImpl || globalThis.fetch;
+    const [archive, pages] = await Promise.all([
+      probeArchive(config, date, fetchImpl),
+      checkPages(config, date, fetchImpl)
+    ]);
+    if (!pages.ready) {
       return {
         status: 'error',
         action: 'stop',
-        reason: 'page-not-live',
-        message: 'Refusing to mark the day published until its date page is on main.',
-        date
+        reason: pages.reason,
+        message: 'Refusing to mark the day published until the public Pages URL serves this date.',
+        date,
+        archiveOnMain: archive.onMain,
+        pages
       };
     }
     day.published = true;
   }
   if (options.notified) {
     if (!day.published && !options.published) {
-      return { status: 'error', action: 'stop', reason: 'not-published', message: 'Mark published only after the date page is on main.', date };
+      return { status: 'error', action: 'stop', reason: 'not-published', message: 'Mark published only after the public Pages URL serves this date.', date };
     }
     day.notified = true;
   }

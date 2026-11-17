@@ -1,22 +1,23 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdtemp, mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { applySummary, fingerprintOf, normalizeFeeds } from '../lib/feed.mjs';
-import { mark, notify, plan, prepare, render, stage, status, withLock } from '../lib/pipeline.mjs';
+import { mark, mergeConfig, notify, plan, prepare, render, stage, status, withLock } from '../lib/pipeline.mjs';
 import { renderDigestHtml } from '../lib/render.mjs';
-import { latestDateFromRoot, redactForStdout, zonedParts } from '../lib/util.mjs';
+import { latestDateFromRoot, pageUrlFor, redactForStdout, zonedParts } from '../lib/util.mjs';
 
 const FIXTURES = fileURLToPath(new URL('./fixtures/', import.meta.url));
 const FEEDS = path.join(FIXTURES, 'feeds');
 const SUMMARY = path.join(FIXTURES, 'summary.json');
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
-const DOCS = path.resolve(fileURLToPath(new URL('../../docs/', import.meta.url)));
 const NOW = '2026-11-16T16:30:00.000Z';
 const DATE = '2026-11-17';
+const PAGES = pageUrlFor('https://lkangd.github.io/ai-builders-digest', DATE);
 
 function mockFetch(routes) {
   return async url => {
@@ -165,15 +166,55 @@ test('prepare, render, stage, and notify stay idempotent on labelled fixtures', 
   });
   assert.equal(blocked.shouldSend, false);
   assert.equal(blocked.reason, 'page-not-live');
+  assert.equal(blocked.archiveOnMain, false);
+  assert.equal(blocked.pages.ready, false);
   assert.equal(blocked.html.includes('FIXTURE_TRANSCRIPT_BODY_DO_NOT_EMAIL'), false);
   assert.equal(blocked.html.includes('FIXTURE tweet two'), false);
   assert.match(blocked.html, /FIXTURE highlight one/);
   assert.match(blocked.text, new RegExp(`Full digest: https://lkangd.github.io/ai-builders-digest/${DATE}/`));
 
   const liveHtml = await readFile(rendered.paths.digest, 'utf8');
+  const rawOnly = mockFetch({
+    [planned.archive.dateUrl]: { status: 200, text: liveHtml },
+    [planned.archive.rootUrl]: { status: 200, text: root },
+    [PAGES]: { status: 404, text: 'missing' }
+  });
+  const archived = await plan({ stateDir, now: NOW, fetchImpl: rawOnly });
+  assert.equal(archived.action, 'skip');
+  assert.equal(archived.reason, 'archive-live');
+  assert.deepEqual(archived.files, []);
+  const rawNotPages = await notify({
+    stateDir,
+    now: NOW,
+    fetchImpl: rawOnly,
+    env: { FB_NOTIFY_TO: 'fixture-recipient@example.invalid', FB_NOTIFY_FROM: 'fixture-from@example.invalid' }
+  });
+  assert.equal(rawNotPages.archiveOnMain, true);
+  assert.equal(rawNotPages.pages.status, 404);
+  assert.equal(rawNotPages.shouldSend, false);
+  assert.equal(rawNotPages.reason, 'page-not-live');
+  const rawMark = await mark({ stateDir, now: NOW, published: true, fetchImpl: rawOnly });
+  assert.equal(rawMark.status, 'error');
+  assert.equal(rawMark.reason, 'page-not-live');
+  assert.equal(rawMark.archiveOnMain, true);
+  const stale = mockFetch({
+    [planned.archive.dateUrl]: { status: 200, text: liveHtml },
+    [PAGES]: { status: 200, text: liveHtml.replaceAll(DATE, '2026-11-01') }
+  });
+  const staleNote = await notify({
+    stateDir,
+    now: NOW,
+    fetchImpl: stale,
+    env: { FB_NOTIFY_TO: 'fixture-recipient@example.invalid', FB_NOTIFY_FROM: 'fixture-from@example.invalid' }
+  });
+  assert.equal(staleNote.shouldSend, false);
+  assert.equal(staleNote.reason, 'page-stale');
+  const staleMark = await mark({ stateDir, now: NOW, published: true, fetchImpl: stale });
+  assert.equal(staleMark.reason, 'page-stale');
   const live = mockFetch({
     [planned.archive.dateUrl]: { status: 200, text: liveHtml },
-    [planned.archive.rootUrl]: { status: 200, text: root }
+    [planned.archive.rootUrl]: { status: 200, text: root },
+    [PAGES]: { status: 200, text: liveHtml }
   });
   const early = await mark({ stateDir, now: NOW, published: true, fetchImpl: absent });
   assert.equal(early.reason, 'page-not-live');
@@ -192,6 +233,8 @@ test('prepare, render, stage, and notify stay idempotent on labelled fixtures', 
     env: { FB_NOTIFY_TO: 'fixture-recipient@example.invalid', FB_NOTIFY_FROM: 'fixture-from@example.invalid' }
   });
   assert.equal(ready.shouldSend, true);
+  assert.equal(ready.pages.reason, 'pages-ready');
+  assert.equal(ready.pages.url, PAGES);
   assert.equal(ready.resend.to[0], 'fixture-recipient@example.invalid');
   assert.equal(ready.resend.idempotencyKey, `fb-digest-${DATE}-${prepared.fingerprint.slice(0, 16)}`);
   const saved = JSON.parse(await readFile(ready.paths.notification, 'utf8'));
@@ -278,12 +321,19 @@ test('english pages omit the Chinese tile and six highlights truncate', () => {
   assert.equal(html.includes('不应出现'), false);
 });
 
-test('private config rejects credential keys and the repo has no personal mailbox', async () => {
+test('private config rejects credential keys and shipped files have no personal mailbox', async () => {
   const stateDir = await workspace();
   await writeFile(path.join(stateDir, 'config.json'), JSON.stringify({ token: 'fixture' }));
-  await assert.rejects(prepare({ stateDir, now: NOW, feedsDir: FEEDS }), /Refusing config key/);
-  const files = [...await walk(ROOT), ...await walk(DOCS)];
+  await assert.rejects(prepare({ stateDir, now: NOW, feedsDir: FEEDS }), /Credentials stay outside/);
+  const addressDir = await workspace();
+  await writeFile(path.join(addressDir, 'config.json'), JSON.stringify({
+    notification: { to: 'hidden@example.invalid', from: 'hidden-from@example.invalid' }
+  }));
+  await assert.rejects(prepare({ stateDir: addressDir, now: NOW, feedsDir: FEEDS }), /FB_NOTIFY_TO/);
+  assert.throws(() => mergeConfig({ email: 'hidden@example.invalid' }), /FB_NOTIFY_TO/);
+  const files = await shippedFiles(ROOT);
   const email = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+  assert.ok(files.length > 0);
   for (const file of files) {
     if (file.endsWith('.test.mjs')) continue;
     const text = await readFile(file, 'utf8');
@@ -352,6 +402,15 @@ async function walk(dir, found = []) {
     else found.push(full);
   }
   return found;
+}
+
+async function shippedFiles(runtimeRoot) {
+  const parent = path.dirname(runtimeRoot);
+  const optional = [
+    path.join(parent, 'runbook.md'),
+    path.join(parent, 'docs', 'runbook.md')
+  ].filter(file => existsSync(file));
+  return [...await walk(runtimeRoot), ...optional];
 }
 
 function runCli(args, env = process.env) {

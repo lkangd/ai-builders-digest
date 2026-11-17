@@ -19,9 +19,5 @@
     "transcriptChars": 4000,
     "blogChars": 4000,
     "rssChars": 4000
-  },
-  "notification": {
-    "toEnv": "FB_NOTIFY_TO",
-    "fromEnv": "FB_NOTIFY_FROM"
   }
 }

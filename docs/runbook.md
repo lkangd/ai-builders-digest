@@ -6,7 +6,7 @@
 
 ## 安装
 
-在 Grok Bot 的持久 Linux 环境里放一份 `runtime/`，不必每次克隆 Pages 仓库。状态目录也放在这台机器上，不要放进仓库。
+在 Grok Bot 的持久 Linux 环境里放一份 `runtime/`，旁边放 `runbook.md`。这个布局不包含仓库，也不包含 `docs/`。状态目录放在这台机器上，不要放进仓库。
 
 ```bash
 export FB_HOME="$HOME/.follow-builders-cloud"
@@ -19,12 +19,12 @@ node "$FB_HOME/runtime/bin/fb.mjs" status --state "$FB_STATE"
 
 `runtime/config.example.json` 是默认值：语言 `bilingual`，时区 `Asia/Shanghai`，仓库 `lkangd/ai-builders-digest`，页面根 `https://lkangd.github.io/ai-builders-digest`。归档日期一律用上海日历，不用 `America/New_York`。
 
-私人收件人只放在环境变量里：
+私人收件人只放在运行环境变量里，不放进 `config.json`：
 
 - `FB_NOTIFY_TO`：收件人
 - `FB_NOTIFY_FROM`：Resend 里已经验证过的发件人
 
-不要把这两个值写进仓库、示例配置或提交说明。运行时拒绝配置文件里的 `token`、`api_key`、`GH_TOKEN`、`RESEND_API_KEY` 一类键。准备页面和通知载荷都不需要 Resend 密钥。
+配置里如果出现 `notification.to`、`notification.from`、`email` 或 `recipient`，运行时直接拒绝，不会读取。不要把地址写进仓库、示例配置、运行时包或提交说明。运行时同样拒绝 `token`、`api_key`、`GH_TOKEN`、`RESEND_API_KEY` 一类键。准备页面和通知载荷都不需要 Resend 密钥。
 
 ## 每天做什么
 
@@ -41,10 +41,10 @@ Grok Bot 的时区设为 `Asia/Shanghai`。例程为每天 08:00，包含周六�
    - `status: error`：三个 feed 都失败。停下并报告，不要用昨天的页面冒充今天。
 3. 只根据 `prepare.json` 写 `summary.json`。不要重新抓网页，不要发明 feed 里没有的人或链接。
 4. `render` 把全文 HTML 和根目录跳转页写进状态目录。
-5. `plan`。只有 `action` 为 `open-pr` 时才进入发布。`skip` 且原因是 `archive-live` 或 `pr-already-open` 时不要再开 PR。
+5. `plan`。它只看 `main` 上的 raw 文件，用来避免覆盖已有归档。`archive-live` 表示日期文件已经在 `main`，不表示 Pages 已经能打开。此时不要再写。`pr-already-open` 时也不要再开 PR。
 6. 发布交给绑定了 `lkangd/ai-builders-digest` 的 Cursor 云端代理，按下一节做。
 7. PR 已经打开后执行 `mark --pr`。这只是本地记号，不代表页面已经公开。
-8. `main` 上出现当天页面之后，`notify` 才会给出 `shouldSend: true`。用 Resend 连接器发送载荷，成功后再 `mark --published --notified`。`mark --published` 会再次检查公开的日期页，检查失败就拒绝标记。
+8. `notify` 请求配置里的 Pages 日期地址，也就是 `{baseUrl}/{YYYY-MM-DD}/`。只有 HTTP 200，并且页面标题里的日期就是这一天，`shouldSend` 才会是 true。raw 已经是 200 而 Pages 仍是 404，或者 Pages 打开的是别的日期，都不要发信，也不要 `mark --published`。发送成功后再 `mark --published --notified`。标记会再查一次同一个 Pages 地址。
 
 命令：
 
@@ -113,16 +113,18 @@ node "$FB_HOME/runtime/bin/fb.mjs" mark --state "$FB_STATE" --published --notifi
 
 Pages 从 `main` 的仓库根目录提供网站。PR 合并进 `main` 之后，日期页和根跳转才会公开。这个运行时没有合并命令。合并必须是仓库里已经存在、并且由人批准的规则；不要假设云端代理会自动合并。
 
-失败时的停止条件：feed 全失败、`plan.action` 不是 `open-pr`、`stage` 没有写出文件、diff 含有其他路径、公开日期页已存在、同日 PR 已打开、推送或开 PR 失败。任何一条成立都不要发信。
+失败时的停止条件：feed 全失败、`plan.action` 不是 `open-pr`、`stage` 没有写出文件、diff 含有其他路径、`main` 上已经有当天归档、同日 PR 已打开、推送或开 PR 失败。任何一条成立都不要覆盖归档。另外，Pages 日期地址还没有以 HTTP 200 返回这一天的标题时，不要发信，也不要标记已发布。
 
 ## 通知
 
 Resend 连接器负责发送。`notify` 只在下面全部成立时把 `shouldSend` 设为 true：
 
-- 当天页面的公开 raw URL 返回 200
+- `{baseUrl}/{YYYY-MM-DD}/` 返回 HTTP 200，并且 `<title>` 里的日期就是这一天。这是邮件里的链接，不是 raw GitHub 地址。
 - 亮点有 3 到 5 条，且双语模式下每条都有中文
-- `FB_NOTIFY_TO` 和 `FB_NOTIFY_FROM` 都已设置
+- `FB_NOTIFY_TO` 和 `FB_NOTIFY_FROM` 都已设置，而且没有从配置文件读取
 - 这一天还没有标记为已通知
+
+载荷里的 `archiveOnMain` 只说明 `main` 上有没有当天文件。`pages.ready` 才决定能不能发。raw 为 200 而 Pages 为 404 时，`shouldSend` 是 false，`mark --published` 也会拒绝。Pages 返回另一个日期时，原因是 `page-stale`。
 
 载荷里的 `resend` 对象只有 `to`、`from`、`subject`、`text`、`html`、`idempotencyKey`。HTML 和纯文本都是亮点加当天页面链接，不含全文、转录或凭据。把 `idempotencyKey` 交给 Resend，避免同一次发送重试时重复投递。
 
@@ -132,13 +134,13 @@ Resend 连接器负责发送。`notify` 只在下面全部成立时把 `shouldSe
 
 持久磁盘上的 `$FB_STATE` 是去重依据。云端代理每次新的检出没有这份状态。
 
-- 日期页已经在 `main` 上：`plan` 返回 `archive-live`，不要再写。
+- 日期文件已经在 `main` 上：`plan` 返回 `archive-live`，不要再写。这还不表示可以发信。
 - 同日 PR 还开着：先 `mark --pr`，之后 `plan` 不再要求开第二个 PR。状态丢了就用只读查询找 `digest/YYYY-MM-DD`。
-- 页面已经公开但本地没有「已通知」记录：不要补发。先核对 Resend 是否送出，再决定是不是人工 `mark --notified`。
+- Pages 已经打开当天页面，但本地没有「已通知」记录：不要补发。先核对 Resend 是否送出，再决定是不是人工 `mark --notified`。
 
 ## 验证
 
-在 `runtime/` 执行 `npm test`。测试使用带 `FIXTURE` 和 `example.invalid` 的夹具，不读取线上正文，不发信，不推送。
+在 `runtime/` 执行 `npm test`。其中一项会把 `runtime/` 和根目录 `runbook.md` 打成包，解到新的临时目录，再在那个目录里重跑测试。安装包不需要仓库里的 `docs/`。测试使用带 `FIXTURE` 和 `example.invalid` 的夹具，不读取线上正文，不发信，不推送。
 
 ## 还不能当成每日无人值守
 
