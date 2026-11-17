@@ -1,0 +1,50 @@
+{
+  "label": "FIXTURE summary — not a published digest",
+  "highlights": [
+    {
+      "text": "FIXTURE highlight one.",
+      "textZh": "夹具亮点一。",
+      "url": "https://example.invalid/fixture/tweet-1"
+    },
+    {
+      "text": "FIXTURE highlight two.",
+      "textZh": "夹具亮点二。",
+      "url": "https://www.youtube.com/watch?v=Fixture1"
+    },
+    {
+      "text": "FIXTURE highlight three.",
+      "textZh": "夹具亮点三。",
+      "url": "https://example.invalid/fixture/blog-1"
+    },
+    {
+      "text": "FIXTURE invented highlight.",
+      "textZh": "不应出现。",
+      "url": "https://example.invalid/not-in-feed"
+    }
+  ],
+  "entries": [
+    {
+      "url": "https://example.invalid/fixture/tweet-1",
+      "summaryZh": "夹具译文一。<script>alert(1)</script>"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Fixture1",
+      "summary": "FIXTURE podcast summary.",
+      "summaryZh": "夹具播客译文。"
+    },
+    {
+      "url": "https://example.invalid/fixture/blog-1",
+      "summary": "FIXTURE blog summary.",
+      "summaryZh": "夹具博客译文。"
+    },
+    {
+      "handle": "fixture_builder",
+      "summary": "FIXTURE builder summary.",
+      "summaryZh": "夹具人物译文。"
+    },
+    {
+      "url": "https://example.invalid/not-in-feed",
+      "summary": "FIXTURE invented must be dropped."
+    }
+  ]
+}

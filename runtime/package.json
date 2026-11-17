@@ -1,0 +1,16 @@
+{
+  "name": "follow-builders-cloud-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable Follow Builders digest runtime for a Grok Bot routine. Prepares public feeds, renders static HTML, and writes a notification payload. It does not send mail or publish.",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "fb-digest": "./bin/fb.mjs"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

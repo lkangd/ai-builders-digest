@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2000-01-01T00:00:00.000Z",
+  "label": "FIXTURE — not a published digest",
+  "podcasts": [
+    {
+      "name": "Fixture Podcast",
+      "title": "FIXTURE episode older",
+      "url": "https://example.invalid/fixture/podcast-old",
+      "publishedAt": "2026-11-01T00:00:00.000Z",
+      "transcript": "FIXTURE_OLD_PODCAST"
+    },
+    {
+      "name": "Fixture Podcast",
+      "title": "FIXTURE episode newest",
+      "url": "https://www.youtube.com/watch?v=Fixture1",
+      "publishedAt": "2026-11-16T00:00:00.000Z",
+      "transcript": "FIXTURE_TRANSCRIPT_BODY_DO_NOT_EMAIL and more labelled source text."
+    }
+  ]
+}
