@@ -2,6 +2,7 @@ import { mkdir, open, readFile, readdir, rename, rm, stat, unlink, writeFile } f
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { enrichFeed, segmentText } from './enrich.mjs';
 import { applySummary, fingerprintOf, normalizeFeeds, statsOf } from './feed.mjs';
 import {
   highlightListHtml,
@@ -351,8 +352,8 @@ export async function prepare(options) {
     errors: loaded.errors.length ? loaded.errors : undefined,
     warnings: warnings.length ? warnings : undefined,
     summaryContract: {
-      highlights: '3 to 5 items. Each needs url from this feed, text, and textZh when language is zh or bilingual.',
-      entries: 'Optional url or handle already present in this feed, plus summary and summaryZh. Unknown urls are dropped.'
+      highlights: '3 to 5 items for the page hero and the notification. Each needs a url from this feed. These are short summaries, not full tweet translations.',
+      entries: 'One entry per tweet, with that tweet id and url, and textZh translating that tweet text only. Preserve line breaks. Do not translate the bio into this field. A handle without id/url is ignored. Podcast summary and summaryZh must use the same blank-line paragraphs, in the same order.'
     }
   };
   await writeJson(paths.prepare, prepareDoc);
@@ -384,26 +385,41 @@ export async function prepare(options) {
   };
 }
 
+function alignedSegments(source, translation) {
+  const segments = segmentText(source);
+  const zhSegments = segmentText(translation);
+  if (segments.length > 1 && zhSegments.length === segments.length) {
+    return { segments, zhSegments, unaligned: false };
+  }
+  if (segments.length > 1) {
+    return { segments, zhSegments: [], unaligned: zhSegments.length > 0 };
+  }
+  return { segments: segments.length ? segments : zhSegments, zhSegments: segments.length ? zhSegments : [], unaligned: false };
+}
+
 function attach(feed, applied) {
   return {
-    builders: feed.x.map(builder => {
-      const handleNote = applied.byHandle.get(builder.handle) || {};
-      return {
-        ...builder,
-        summary: handleNote.summary || '',
-        summaryZh: handleNote.summaryZh || '',
-        tweets: builder.tweets.map(tweet => {
-          const note = applied.byUrl.get(tweet.url) || {};
-          return { ...tweet, summary: note.summary || '', summaryZh: note.summaryZh || '' };
-        })
-      };
-    }),
+    builders: feed.x.map(builder => ({
+      ...builder,
+      summary: '',
+      summaryZh: '',
+      tweets: builder.tweets.map(tweet => {
+        const note = applied.byUrl.get(tweet.url) || applied.byId.get(String(tweet.id || '')) || {};
+        const text = tweet.enriched?.resolvedText || tweet.text;
+        return { ...tweet, text, textZh: note.summaryZh || '' };
+      })
+    })),
     podcasts: feed.podcasts.map(item => {
       const note = applied.byUrl.get(item.url) || {};
+      const transcript = item.transcript || item.content || '';
+      const aligned = alignedSegments(transcript || note.summary, note.summaryZh);
       return {
         ...item,
-        body: note.summary || item.transcript,
-        bodyZh: note.summaryZh || ''
+        segments: aligned.segments,
+        zhSegments: aligned.zhSegments,
+        unaligned: aligned.unaligned,
+        body: aligned.segments.join('\n\n'),
+        bodyZh: aligned.zhSegments.join('\n\n')
       };
     }),
     blogs: feed.blogs.map(item => {
@@ -459,6 +475,10 @@ export async function render(options) {
     rss: prepared.rss || []
   };
   const applied = applySummary(feed, summary, prepared.config?.language || config.language);
+  const enriched = options.enrich === false
+    ? feed
+    : await enrichFeed(feed, { fetchImpl: options.fetchImpl || globalThis.fetch });
+  const attached = attach(enriched, applied);
   const model = {
     date,
     timezone: zone,
@@ -466,8 +486,13 @@ export async function render(options) {
     generatedAt: prepared.generatedAt || now.toISOString(),
     stats: prepared.stats,
     highlights: applied.highlights,
-    ...attach(feed, applied)
+    ...attached
   };
+  const warnings = [
+    ...applied.warnings,
+    ...(enriched.enrichWarnings || []),
+    ...attached.podcasts.filter(item => item.unaligned).map(item => `podcast translation for ${item.url} is not split into the same paragraphs as the transcript`)
+  ];
   const digest = renderDigestHtml(model);
   const root = renderRootIndex(config.page.baseUrl, date);
   await writeText(paths.digest, digest);
@@ -493,7 +518,7 @@ export async function render(options) {
     pageUrl: prepared.pageUrl,
     fingerprint: prepared.fingerprint,
     highlightCount: applied.highlights.length,
-    warnings: applied.warnings,
+    warnings,
     paths
   };
 }

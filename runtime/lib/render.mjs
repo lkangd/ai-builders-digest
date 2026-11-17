@@ -66,8 +66,40 @@ function sectionHeader(icon, label, title) {
     </tr>`;
 }
 
-function avatar(name) {
-  return `<div style="width:48px;height:48px;border-radius:9999px;background:linear-gradient(135deg,#f7f7f7,#ebebeb);border:1px solid #ebebeb;display:flex;align-items:center;justify-content:center;font-weight:700;color:#222222;font-family:${FONT};">${escapeHtml(initials(name))}</div>`;
+function avatar(name, imageUrl, size = 48) {
+  if (imageUrl) {
+    return `<img src="${escapeHtml(imageUrl)}" width="${size}" height="${size}" alt="" referrerpolicy="no-referrer" style="width:${size}px;height:${size}px;border-radius:9999px;object-fit:cover;display:block;border:1px solid #ebebeb;" />`;
+  }
+  return `<div style="width:${size}px;height:${size}px;border-radius:9999px;background:linear-gradient(135deg,#f7f7f7,#ebebeb);border:1px solid #ebebeb;display:flex;align-items:center;justify-content:center;font-weight:700;color:#222222;font-family:${FONT};font-size:${size > 32 ? 14 : 10}px;">${escapeHtml(initials(name))}</div>`;
+}
+
+function renderMediaBlock(media) {
+  if (!Array.isArray(media) || media.length === 0) return '';
+  const photos = media.every(item => item.type === 'photo');
+  const grid = photos && media.length >= 2 && media.length <= 4;
+  const photo = item => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="fb-img" style="display:block;border-radius:14px;overflow:hidden;border:1px solid #ebebeb;"><img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.altText || '')}" referrerpolicy="no-referrer" style="display:block;width:100%;height:auto;background:#f7f7f7;" /></a>`;
+  const video = item => `<div style="border-radius:14px;overflow:hidden;border:1px solid #ebebeb;background:#000;"><video ${item.type === 'animated_gif' ? 'loop muted autoplay playsinline' : 'controls playsinline'} poster="${escapeHtml(item.url)}" referrerpolicy="no-referrer" style="display:block;width:100%;height:auto;">${item.video?.mp4Url ? `<source src="${escapeHtml(item.video.mp4Url)}" type="video/mp4" />` : ''}</video></div>`;
+  const cell = item => (item.type === 'photo' ? photo(item) : video(item));
+  if (grid) {
+    return `<div class="fb-media" style="margin-top:12px;display:grid;grid-template-columns:repeat(${media.length === 4 ? 2 : media.length},1fr);gap:4px;">${media.map(cell).join('')}</div>`;
+  }
+  return `<div class="fb-media" style="margin-top:12px;display:grid;gap:10px;">${media.map(cell).join('')}</div>`;
+}
+
+function renderQuotedTweet(quoted) {
+  if (!quoted) return '';
+  const name = quoted.author?.name || 'Quoted post';
+  const handle = quoted.author?.screenName ? `@${escapeHtml(quoted.author.screenName)}` : '';
+  return `<div style="margin-top:14px;border:1px solid #ebebeb;border-radius:14px;padding:14px 16px;background:#ffffff;">
+    <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;font-family:${FONT};">Quoting</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <div style="flex-shrink:0;">${avatar(name, quoted.author?.profileImageUrlHttps, 28)}</div>
+      <div><span style="font-weight:600;color:#222222;font-size:14px;font-family:${FONT};">${escapeHtml(name)}</span><span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:${FONT};">${handle}</span></div>
+    </div>
+    <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(quoted.text)}</div>
+    ${renderMediaBlock(quoted.media)}
+    ${quoted.url ? `<div style="margin-top:8px;"><a href="${escapeHtml(quoted.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:${FONT};">View original on X →</a></div>` : ''}
+  </div>`;
 }
 
 function stamp(iso, timeZone) {
@@ -134,21 +166,25 @@ function overview(model) {
 
 function tweetCard(builder, model) {
   const showZh = model.language !== 'en';
+  const portrait = builder.tweets.map(tweet => tweet.enriched?.author?.profileImageUrlHttps).find(Boolean) || '';
   const tweets = builder.tweets.map((tweet, index) => {
-    const quote = tweet.isQuote
-      ? ` <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;font-size:10px;font-weight:700;font-family:${FONT};vertical-align:1px;">Quoted</span>`
-      : '';
-    const quoteLink = tweet.quotedTweetId
+    const mediaHtml = renderMediaBlock(tweet.enriched?.media);
+    const quoted = tweet.enriched?.quotedTweet;
+    const quoteLink = !quoted && tweet.quotedTweetId
       ? `<tr><td style="padding-top:8px;"><a href="https://x.com/i/status/${tweet.quotedTweetId}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:${FONT};">Quoted post →</a></td></tr>`
+      : '';
+    const quote = tweet.isQuote || quoted
+      ? ` <span style="display:inline-block;padding:1px 8px;background:#fff1f2;border-radius:9999px;color:#ff385c;font-size:10px;font-weight:700;font-family:${FONT};vertical-align:1px;">Quoted</span>`
       : '';
     return `<tr><td style="padding-top:${index === 0 ? '0' : '10px'};">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f7f7;border-radius:14px;">
         <tr><td style="padding:14px 16px;font-family:${FONT};">
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tr><td style="font-size:13px;line-height:18px;color:#6a6a6a;">${escapeHtml(stamp(tweet.createdAt, model.timezone))}${quote}</td></tr>
-            <tr><td class="mobile-body-text" style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">${bodyHtml(tweet.text)}</td></tr>
-            ${showZh ? translationTile(tweet.summaryZh) : ''}
-            ${quoteLink}
+            <tr><td class="mobile-body-text fb-tweet-body" style="padding-top:5px;font-size:15px;line-height:24px;color:#222222;">${bodyHtml(tweet.text)}</td></tr>
+            ${showZh ? translationTile(tweet.textZh) : ''}
+            ${mediaHtml ? `<tr><td>${mediaHtml}</td></tr>` : ''}
+            ${quoted ? `<tr><td>${renderQuotedTweet(quoted)}</td></tr>` : quoteLink}
             <tr><td style="padding-top:10px;">
               <a href="${escapeHtml(tweet.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;font-size:12px;">View on X →</a>
               <span style="display:inline-flex;align-items:center;gap:14px;margin-left:14px;white-space:nowrap;vertical-align:middle;">${metric(ICON_HEART, tweet.likes)}${metric(ICON_RETWEET, tweet.retweets)}${metric(ICON_REPLY, tweet.replies)}</span>
@@ -162,12 +198,10 @@ function tweetCard(builder, model) {
   return cardShell(`<tr><td>
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
-          <td style="width:60px;vertical-align:top;">${avatar(builder.name || builder.handle)}</td>
+          <td style="width:60px;vertical-align:top;">${avatar(builder.name || builder.handle, portrait)}</td>
           <td style="vertical-align:top;padding-left:12px;">
             <div style="font-size:17px;line-height:22px;font-weight:600;color:#222222;font-family:${FONT};">${escapeHtml(builder.name || builder.handle || 'Builder')}${builder.handle ? `<span style="font-size:12px;font-weight:500;color:#6a6a6a;margin-left:6px;">@${escapeHtml(builder.handle)}</span>` : ''}</div>
-            ${builder.bio ? `<div style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:${FONT};">${linkify(builder.bio)}</div>` : ''}
-            ${builder.summary && model.language !== 'zh' ? `<div style="padding-top:8px;font-size:14px;line-height:22px;color:#222222;font-family:${FONT};">${bodyHtml(builder.summary)}</div>` : ''}
-            ${showZh && builder.summaryZh ? `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${translationTile(builder.summaryZh)}</table>` : ''}
+            ${builder.bio ? `<div class="fb-bio" style="padding-top:4px;font-size:12px;line-height:17px;color:#6a6a6a;font-family:${FONT};">${linkify(builder.bio)}</div>` : ''}
           </td>
           <td align="right" style="vertical-align:top;font-size:9px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.08em;font-family:${FONT};">X Update</td>
         </tr>
@@ -180,7 +214,12 @@ function tweetCard(builder, model) {
     </td></tr>`);
 }
 
-function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, href, hrefLabel, embed, language }) {
+function renderSegments(segments, zhSegments, language) {
+  const chinese = Array.isArray(zhSegments) && zhSegments.length === segments.length ? zhSegments : [];
+  return segments.map((segment, index) => `<div class="fb-segment" style="margin:0 0 14px 0;font-size:13px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(segment)}</div>${language !== 'en' && chinese[index] ? translationTile(chinese[index]) : ''}`).join('');
+}
+
+function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, segments, zhSegments, href, hrefLabel, embed, language }) {
   const showZh = language !== 'en' && bodyZh;
   const english = language === 'zh' ? (bodyZh || body) : body;
   return cardShell(`<tr><td>
@@ -198,8 +237,10 @@ function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, href, hrefLab
       </table>
     </td></tr>
     ${embed ? `<tr><td style="padding-top:14px;">${embed}</td></tr>` : ''}
-    ${english ? `<tr><td class="mobile-body-text" style="padding-top:14px;font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(english)}</td></tr>` : ''}
-    ${showZh && language !== 'zh' ? `<tr><td><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${translationTile(bodyZh)}</table></td></tr>` : ''}
+    ${Array.isArray(segments) && segments.length
+      ? `<tr><td class="mobile-body-text" style="padding-top:14px;">${renderSegments(segments, zhSegments, language)}</td></tr>`
+      : `${english ? `<tr><td class="mobile-body-text" style="padding-top:14px;font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(english)}</td></tr>` : ''}
+    ${showZh && language !== 'zh' ? `<tr><td><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">${translationTile(bodyZh)}</table></td></tr>` : ''}`}
     <tr><td style="padding-top:14px;font-size:12px;line-height:16px;font-family:${FONT};">
       <a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-weight:600;">${escapeHtml(hrefLabel)}</a>
     </td></tr>`);
@@ -215,7 +256,7 @@ function documentShell({ title, subtitle, rows, interactive }) {
     <title>${escapeHtml(title)}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    ${interactive ? '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />' : ''}
     ${interactive ? '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />' : ''}
     <style>
       .mobile-shell img { max-width: 100% !important; height: auto !important; }
@@ -326,8 +367,8 @@ export function renderDigestHtml(model) {
         kicker: 'Podcast',
         title: item.title,
         subtitle: item.name,
-        body: item.body,
-        bodyZh: item.bodyZh,
+        segments: item.segments,
+        zhSegments: item.zhSegments,
         href: item.url,
         hrefLabel: embed ? 'Watch on YouTube →' : 'Open episode →',
         embed,
@@ -382,12 +423,14 @@ export function renderDigestHtml(model) {
 }
 
 export function renderNotificationHtml({ pageUrl, date, highlightsHtml, counts }) {
+  const c = counts || {};
   const countLine = [
-    counts.xBuilders ? `${counts.xBuilders} builders` : '',
-    counts.totalTweets ? `${counts.totalTweets} posts` : '',
-    counts.podcastEpisodes ? `${counts.podcastEpisodes} podcasts` : '',
-    counts.blogPosts ? `${counts.blogPosts} blogs` : ''
-  ].filter(Boolean).join(' · ');
+    c.xBuilders ? `${c.xBuilders} builder${c.xBuilders === 1 ? '' : 's'}` : '',
+    c.totalTweets ? `${c.totalTweets} post${c.totalTweets === 1 ? '' : 's'}` : '',
+    c.podcastEpisodes ? `${c.podcastEpisodes} podcast${c.podcastEpisodes === 1 ? '' : 's'}` : '',
+    c.blogPosts ? `${c.blogPosts} blog${c.blogPosts === 1 ? '' : 's'}` : '',
+    c.rssItems ? `${c.rssItems} rss briefing${c.rssItems === 1 ? '' : 's'}` : ''
+  ].filter(Boolean).join('  ·  ');
   const rows = [
     cardShell(`<tr><td>
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="background:#fff1f2;border-radius:9999px;"><tr><td style="padding:5px 14px;font-size:10px;line-height:14px;font-weight:700;color:#ff385c;font-family:${FONT};text-transform:uppercase;letter-spacing:0.1em;">Today's Digest</td></tr></table>
@@ -398,7 +441,7 @@ export function renderNotificationHtml({ pageUrl, date, highlightsHtml, counts }
       ? cardShell(`<tr><td style="font-size:11px;line-height:14px;font-weight:700;color:#6a6a6a;font-family:${FONT};text-transform:uppercase;letter-spacing:0.1em;">Highlights</td></tr>
         <tr><td style="padding-top:10px;font-size:15px;line-height:24px;color:#222222;font-family:${FONT};">${highlightsHtml}</td></tr>`)
       : '',
-    cardShell(`<tr><td style="font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">完整条目、双语摘要和原文链接在页面上。</td></tr>
+    cardShell(`<tr><td style="font-size:14px;line-height:22px;color:#3f3f3f;font-family:${FONT};">Open the full page to see every post with <strong style="color:#222222;">images, videos, and quote-tweets</strong>, plus the podcast episode — inline and playable in your browser.</td></tr>
       <tr><td style="padding-top:18px;" align="center">
         <table role="presentation" cellspacing="0" cellpadding="0" border="0">
           <tr><td style="border-radius:8px;background:#ff385c;">

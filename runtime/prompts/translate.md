@@ -16,3 +16,12 @@ You are translating an AI industry digest from English to Chinese.
   (separated by a blank line), then move to the next builder. Same for podcasts.
   Do NOT output all English first then all Chinese.
 - Never use em-dashes
+
+## Page item mapping
+
+Highlights are short summaries for the hero and the notification. They are not substitutes for translating each post.
+
+- Leave each builder bio as identity text. Do not translate the bio in place of a post.
+- For every tweet, add an entry with that tweet's `id` and `url`. `textZh` translates that tweet's own `text` and keeps its line breaks.
+- A handle without `id` or `url` is not a tweet translation.
+- For a podcast transcript, split on blank lines. `summary` and `summaryZh` need the same number of paragraphs, in the same order. Do not join the turns into one paragraph.

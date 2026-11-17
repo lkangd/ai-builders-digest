@@ -130,8 +130,13 @@ export function redactForStdout(value) {
   const copy = { ...value };
   if (copy.toStatus) copy.to = copy.toStatus === 'configured' ? 'configured' : null;
   if (copy.fromStatus) copy.from = copy.fromStatus === 'configured' ? 'configured' : null;
-  if (copy.resend) copy.resend = { ready: true, idempotencyKey: copy.idempotencyKey };
-  delete copy.html;
+  if (copy.resend && typeof copy.resend === 'object') {
+    copy.resend = {
+      ...copy.resend,
+      ...(copy.resend.to ? { to: ['configured'] } : {}),
+      ...(copy.resend.from ? { from: 'configured' } : {})
+    };
+  }
   return copy;
 }
 

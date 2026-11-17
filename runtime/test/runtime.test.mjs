@@ -117,12 +117,13 @@ test('prepare, render, stage, and notify stay idempotent on labelled fixtures', 
   assert.match(digest, /2026-11-16 08:00/);
   assert.match(digest, /夹具译文一。&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
   assert.equal(digest.includes('<script>alert(1)</script>'), false);
-  assert.match(digest, /FIXTURE builder summary/);
+  assert.equal(digest.includes('FIXTURE builder summary'), false);
+  assert.equal(digest.includes('夹具人物译文'), false);
   assert.match(digest, /夹具播客译文/);
   assert.match(digest, /youtube\.com\/embed\/Fixture1/);
   assert.match(digest, /Quoted/);
   assert.match(digest, /https:\/\/x\.com\/i\/status\/999/);
-  assert.equal(digest.includes('FIXTURE_TRANSCRIPT_BODY_DO_NOT_EMAIL'), false);
+  assert.match(digest, /FIXTURE_TRANSCRIPT_BODY_DO_NOT_EMAIL/);
   assert.equal(digest.includes('FIXTURE invented'), false);
   assert.match(root, /rel="canonical" href="https:\/\/lkangd\.github\.io\/ai-builders-digest\/2026-11-17\/"/);
   assert.equal(latestDateFromRoot(root), DATE);
@@ -384,13 +385,21 @@ test('cli prepares fixtures without network and redacts the recipient', async ()
     from: 'fixture-from@example.invalid',
     toStatus: 'configured',
     fromStatus: 'configured',
-    html: '<p>fixture-recipient@example.invalid</p>',
-    resend: { to: ['fixture-recipient@example.invalid'], idempotencyKey: 'fb-digest-fixture' },
+    html: '<table class="mobile-shell"><a href="https://example.invalid/digest">Open today\'s digest →</a></table>',
+    resend: {
+      to: ['fixture-recipient@example.invalid'],
+      from: 'fixture-from@example.invalid',
+      html: '<table class="mobile-shell">Open today\'s digest →</table>',
+      text: 'Open today\'s digest →',
+      idempotencyKey: 'fb-digest-fixture'
+    },
     idempotencyKey: 'fb-digest-fixture'
   });
   assert.equal(JSON.stringify(redacted).includes('fixture-recipient@example.invalid'), false);
   assert.equal(redacted.to, 'configured');
-  assert.equal(redacted.resend.ready, true);
+  assert.match(redacted.html, /mobile-shell/);
+  assert.match(redacted.resend.html, /Open today's digest/);
+  assert.equal(redacted.resend.text, 'Open today\'s digest →');
   const current = await status({ stateDir, now: NOW });
   assert.equal(current.day.rendered, true);
 });
