@@ -15,6 +15,8 @@ mkdir -p "$FB_STATE"
 node "$FB_HOME/runtime/bin/fb.mjs" status --state "$FB_STATE"
 ```
 
+日常运行 `fb.mjs` 没有生产依赖，不需要 `npm ci`。只有跑测试时才安装。详见「验证」。
+
 `FB_STATE` 里可以有可选的 `config.json` 和 `prompts/*.md`。提示词优先用状态目录里的同名文件，否则用包内 `runtime/prompts/`。不要从中央仓库临时拉取提示词。
 
 `runtime/config.example.json` 是默认值：语言 `bilingual`，时区 `Asia/Shanghai`，仓库 `lkangd/ai-builders-digest`，页面根 `https://lkangd.github.io/ai-builders-digest`。归档日期一律用上海日历，不用 `America/New_York`。
@@ -142,7 +144,20 @@ Resend 连接器负责发送。`notify` 只在下面全部成立时把 `shouldSe
 
 ## 验证
 
-在 `runtime/` 执行 `npm test`。其中一项会把 `runtime/` 和根目录 `runbook.md` 打成包，解到新的临时目录，再在那个目录里重跑测试。安装包不需要仓库里的 `docs/`。测试使用带 `FIXTURE` 和 `example.invalid` 的夹具，不读取线上正文，不发信，不推送。
+在 `runtime/` 里，可携测试的安装是：
+
+```bash
+npm ci
+npm test
+```
+
+`package-lock.json` 锁定唯一的 devDependency `parse5@8.1.1`。不要设置 `NODE_ENV=production`，否则 npm 不安装 devDependencies，HTML5 解析器缺失，测试会失败。发布包不要带 `node_modules`，也不要带个人状态。
+
+`npm test` 不启动 Chrome，也不调用 `google-chrome` 或 `box-chrome`。播客中英相邻由 parse5 按 HTML5 树构造检查：标题在分段之前，每一段英文和对应中文是同一个 `fb-segment` 的子节点。同一组测试会把旧的译文 `<tr>` 放回单元格再解析。源字符串里标题仍在后段英文之前，解析树会把那些英文挪到标题前面，并把引用译文移出引用卡。这项不能跳过，也不能改成只看源码顺序。
+
+`npm run test:chrome` 是另一套验收，不在 `npm test` 里。它要求一次性 Chrome 执行 `--dump-dom` 并把 DOM 写到 stdout。持久桌面 launcher 如果把 stdout 丢掉，这项会超时失败。不要把它当成可携测试，也不要为了通过而跳过。
+
+打包测试会把不含 `node_modules` 的 `runtime/` 和旁边的 `runbook.md` 打成包，解到临时目录，先 `npm ci` 再跑 `npm test`。安装包不需要仓库里的 `docs/`。测试使用带 `FIXTURE` 和 `example.invalid` 的夹具，不读取线上正文，不发信，不推送。
 
 ## 发布和发信仍要人工确认
 
