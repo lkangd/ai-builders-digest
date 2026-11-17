@@ -36,13 +36,32 @@ test('extracted bundle passes its own tests in the shipped layout', { skip: proc
   const runbook = await readFile(path.join(extracted, 'runbook.md'), 'utf8');
   assert.equal(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/.test(runbook), false);
 
+  const cwd = path.join(extracted, 'runtime');
+  const tap = await runExtractedTests(process.execPath, cwd, 'tap');
+  assert.equal(tap.code, 0, tap.stderr || tap.stdout);
+  const summary = parseTapSummary(tap.stdout);
+  assert.equal(summary.fail, 0);
+  assert.ok(summary.pass >= 7);
+  assert.equal(summary.skipped, 1);
+  assert.equal(summary.tests, summary.pass + summary.fail + summary.skipped + summary.cancelled + summary.todo);
+  assert.match(tap.stdout, /extracted bundle passes its own tests in the shipped layout # SKIP/);
+
+  const spec = await runExtractedTests(process.execPath, cwd, 'spec');
+  assert.equal(spec.code, 0, spec.stderr || spec.stdout);
+});
+
+function runExtractedTests(nodeBin, cwd, reporter) {
   const env = { ...process.env, FB_INSIDE_BUNDLE: '1' };
   for (const key of Object.keys(env)) {
     if (key === 'NODE_CHANNEL_FD' || key.startsWith('NODE_TEST')) delete env[key];
   }
-  const result = await new Promise(resolve => {
-    execFile(process.execPath, ['--test'], {
-      cwd: path.join(extracted, 'runtime'),
+  return new Promise(resolve => {
+    execFile(nodeBin, [
+      '--test',
+      '--test-reporter', reporter,
+      '--test-reporter-destination', 'stdout'
+    ], {
+      cwd,
       env,
       encoding: 'utf8',
       maxBuffer: 10 * 1024 * 1024
@@ -54,6 +73,18 @@ test('extracted bundle passes its own tests in the shipped layout', { skip: proc
       });
     });
   });
-  assert.equal(result.code, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, /# fail 0/);
-});
+}
+
+function parseTapSummary(stdout) {
+  const summary = {};
+  for (const line of String(stdout).split('\n')) {
+    const match = /^# (tests|suites|pass|fail|cancelled|skipped|todo) (\d+)\s*$/.exec(line);
+    if (match) summary[match[1]] = Number(match[2]);
+  }
+  for (const key of ['tests', 'pass', 'fail', 'cancelled', 'skipped', 'todo']) {
+    if (!Number.isInteger(summary[key])) {
+      throw new Error(`TAP summary missing ${key}\n${stdout}`);
+    }
+  }
+  return summary;
+}
