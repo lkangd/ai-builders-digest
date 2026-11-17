@@ -11,6 +11,10 @@
     "fb-digest": "./bin/fb.mjs"
   },
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "test:chrome": "node --test browser-suite/chrome-dom-acceptance.mjs"
+  },
+  "devDependencies": {
+    "parse5": "8.1.1"
   }
 }

@@ -23,20 +23,33 @@ test('extracted bundle passes its own tests in the shipped layout', { skip: proc
   const source = runbookSource();
   assert.ok(source, 'a runbook must sit beside the runtime or in docs/');
   const pack = await mkdtemp(path.join(tmpdir(), 'fb-pack-'));
-  await cp(RUNTIME, path.join(pack, 'runtime'), { recursive: true });
+  await cp(RUNTIME, path.join(pack, 'runtime'), {
+    recursive: true,
+    filter: src => !src.split(path.sep).includes('node_modules')
+  });
   await cp(source, path.join(pack, 'runbook.md'));
   const tarPath = path.join(pack, 'follow-builders-cloud-runtime.tar.gz');
   await execFileAsync('tar', ['-C', pack, '-czf', tarPath, 'runtime', 'runbook.md']);
+  const packed = await execFileAsync('tar', ['-tzf', tarPath]);
+  assert.equal(packed.stdout.includes('node_modules/'), false);
+  assert.equal(packed.stdout.includes('runtime/package-lock.json'), true);
 
   const extracted = await mkdtemp(path.join(tmpdir(), 'fb-ship-'));
   await execFileAsync('tar', ['-C', extracted, '-xzf', tarPath]);
   assert.equal(existsSync(path.join(extracted, 'runtime', 'bin', 'fb.mjs')), true);
+  assert.equal(existsSync(path.join(extracted, 'runtime', 'node_modules')), false);
   assert.equal(existsSync(path.join(extracted, 'runbook.md')), true);
   assert.equal(existsSync(path.join(extracted, 'docs')), false);
   const runbook = await readFile(path.join(extracted, 'runbook.md'), 'utf8');
   assert.equal(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/.test(runbook), false);
 
   const cwd = path.join(extracted, 'runtime');
+  const install = await execFileAsync('npm', ['ci', '--ignore-scripts'], {
+    cwd,
+    env: { ...process.env, NODE_ENV: 'development' }
+  });
+  assert.equal(install.stderr?.includes('npm error') || false, false);
+  assert.equal(existsSync(path.join(cwd, 'node_modules', 'parse5', 'package.json')), true);
   const tap = await runExtractedTests(process.execPath, cwd, 'tap');
   assert.equal(tap.code, 0, tap.stderr || tap.stdout);
   const summary = parseTapSummary(tap.stdout);

@@ -407,7 +407,10 @@ test('cli prepares fixtures without network and redacts the recipient', async ()
 async function walk(dir, found = []) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) await walk(full, found);
+    if (entry.isDirectory()) {
+      if (entry.name === 'node_modules') continue;
+      await walk(full, found);
+    }
     else found.push(full);
   }
   return found;
