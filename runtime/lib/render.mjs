@@ -87,16 +87,27 @@ function metric(icon, value) {
   return `<span style="display:inline-block;font-size:12px;line-height:16px;color:#6a6a6a;font-family:${FONT};vertical-align:middle;"><img src="${icon}" width="13" height="13" style="display:inline-block;vertical-align:-2px;margin-right:3px;" alt="" />${escapeHtml(value)}</span>`;
 }
 
+function translationInner(text) {
+  return `<div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
+        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">${bodyHtml(text)}</div>`;
+}
+
 function translationTile(text) {
   if (!text) return '';
   return `<tr><td style="padding:10px 0 0 0;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#ffffff;border:1px solid #ebebeb;border-radius:8px;">
       <tr><td style="padding:10px 14px;font-family:${FONT};">
-        <div style="font-size:10px;line-height:12px;font-weight:700;color:#929292;text-transform:uppercase;letter-spacing:0.1em;">译文</div>
-        <div style="padding-top:4px;font-size:13px;line-height:21px;color:#3f3f3f;">${bodyHtml(text)}</div>
+        ${translationInner(text)}
       </td></tr>
     </table>
   </td></tr>`;
+}
+
+function translationBox(text) {
+  if (!text) return '';
+  return `<div class="fb-translation" style="margin:8px 0 0 0;background:#ffffff;border:1px solid #ebebeb;border-radius:8px;padding:10px 14px;font-family:${FONT};">
+    ${translationInner(text)}
+  </div>`;
 }
 
 function cardShell(inner) {
@@ -166,7 +177,7 @@ function renderQuotedTweet(quoted, quoteTextZh) {
       <div><span style="font-weight:600;color:#222222;font-size:14px;font-family:${FONT};">${escapeHtml(name)}</span><span style="color:#6a6a6a;font-weight:500;font-size:12px;margin-left:6px;font-family:${FONT};">${handle}</span></div>
     </div>
     <div style="margin-top:8px;font-size:14px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(quoted.text)}</div>
-    ${quoteTextZh ? translationTile(quoteTextZh) : ''}
+    ${quoteTextZh ? translationBox(quoteTextZh) : ''}
     ${renderMediaBlock(quoted.media)}
     ${quoted.url ? `<div style="margin-top:8px;"><a href="${escapeHtml(quoted.url)}" target="_blank" rel="noopener noreferrer" style="color:#ff385c;text-decoration:none;font-size:12px;font-weight:600;font-family:${FONT};">View original on X →</a></div>` : ''}
   </div>`;
@@ -286,7 +297,10 @@ function tweetCard(builder, model) {
 
 function renderSegments(segments, zhSegments, language) {
   const chinese = Array.isArray(zhSegments) && zhSegments.length === segments.length ? zhSegments : [];
-  return segments.map((segment, index) => `<div class="fb-segment" style="margin:0 0 14px 0;font-size:13px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(segment)}</div>${language !== 'en' && chinese[index] ? translationTile(chinese[index]) : ''}`).join('');
+  return segments.map((segment, index) => `<div class="fb-segment" style="margin:0 0 16px 0;">
+    <div class="fb-segment-en" style="font-size:13px;line-height:21px;color:#3f3f3f;font-family:${FONT};">${bodyHtml(segment)}</div>
+    ${language !== 'en' && chinese[index] ? translationBox(chinese[index]) : ''}
+  </div>`).join('');
 }
 
 function sourceCard({ icon, kicker, title, subtitle, body, bodyZh, segments, zhSegments, href, hrefLabel, embed, language }) {

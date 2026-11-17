@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -9,6 +11,7 @@ import { renderDigestHtml, renderNotificationHtml } from '../lib/render.mjs';
 import { notify, render } from '../lib/pipeline.mjs';
 import { redactForStdout } from '../lib/util.mjs';
 
+const execFileAsync = promisify(execFile);
 const DAY = fileURLToPath(new URL('./fixtures/day-2026-11-17/', import.meta.url));
 const HISTORICAL = fileURLToPath(new URL('./fixtures/historical-2026-04-22/feed-podcasts.json', import.meta.url));
 const NOW = '2026-11-16T16:30:00.000Z';
@@ -25,6 +28,142 @@ function mockFetch(routes) {
     };
   };
 }
+
+function elementBlocks(html, className) {
+  const blocks = [];
+  const marker = `class="${className}"`;
+  let from = 0;
+  while (from < html.length) {
+    const classAt = html.indexOf(marker, from);
+    if (classAt < 0) break;
+    const start = html.lastIndexOf('<', classAt);
+    const tag = html.slice(start + 1).match(/^[a-z0-9]+/i)?.[0];
+    if (!tag) break;
+    const openRe = new RegExp(`<${tag}\\b`, 'gi');
+    const closeRe = new RegExp(`</${tag}>`, 'gi');
+    openRe.lastIndex = start;
+    closeRe.lastIndex = start;
+    let depth = 0;
+    let cursor = start;
+    let end = -1;
+    while (cursor < html.length) {
+      openRe.lastIndex = cursor;
+      closeRe.lastIndex = cursor;
+      const open = openRe.exec(html);
+      const close = closeRe.exec(html);
+      if (!close) break;
+      if (open && open.index < close.index) {
+        depth += 1;
+        cursor = open.index + tag.length + 1;
+      } else {
+        depth -= 1;
+        cursor = close.index + close[0].length;
+        if (depth === 0) {
+          end = cursor;
+          break;
+        }
+      }
+    }
+    if (end < 0) break;
+    blocks.push(html.slice(start, end));
+    from = end;
+  }
+  return blocks;
+}
+
+async function browserDom(html) {
+  const dir = await mkdtemp(path.join(tmpdir(), 'fb-dom-'));
+  const file = path.join(dir, 'page.html');
+  await writeFile(file, html);
+  const { stdout } = await execFileAsync('google-chrome', [
+    '--headless=new',
+    '--no-sandbox',
+    '--disable-gpu',
+    '--disable-dev-shm-usage',
+    `--user-data-dir=${path.join(dir, 'profile')}`,
+    '--virtual-time-budget=1500',
+    '--timeout=8000',
+    '--dump-dom',
+    `file://${file}`
+  ], { maxBuffer: 20 * 1024 * 1024, timeout: 20000 });
+  return stdout;
+}
+
+test('podcast English and Chinese stay paired after the browser parses the table', async () => {
+  const html = renderDigestHtml({
+    date: '2026-11-17',
+    timezone: 'Asia/Shanghai',
+    language: 'bilingual',
+    generatedAt: NOW,
+    stats: { xBuilders: 1, totalTweets: 1, podcastEpisodes: 1, blogPosts: 0, rssItems: 0 },
+    highlights: [],
+    builders: [{
+      name: 'Fixture Builder',
+      handle: 'fixture_builder',
+      bio: 'Fixture identity bio',
+      tweets: [{
+        id: '100',
+        url: 'https://x.com/fixture_builder/status/100',
+        text: 'PARENT tweet body stays outside the quote.',
+        textZh: '父推正文译文',
+        quoteTextZh: '引用正文译文',
+        createdAt: NOW,
+        likes: 1,
+        retweets: 0,
+        replies: 0,
+        enriched: {
+          quotedTweet: {
+            text: 'QUOTED source body',
+            url: 'https://x.com/quoted/status/200',
+            author: { name: 'Quoted Person', screenName: 'quoted' }
+          }
+        }
+      }]
+    }],
+    podcasts: [{
+      name: 'No Priors',
+      title: 'FIXTURE Episode Title',
+      url: 'https://example.invalid/fixture/podcast',
+      segments: ['Speaker 1 | 00:00\nAlpha paragraph.', 'Speaker 2 | 00:07\nBeta paragraph.', 'Speaker 1 | 00:11\nGamma paragraph.'],
+      zhSegments: ['发言人1 甲段', '发言人2 乙段', '发言人1 丙段']
+    }],
+    blogs: [],
+    rss: []
+  });
+  assert.ok(html.indexOf('FIXTURE Episode Title') < html.indexOf('class="fb-segment"'));
+  assert.equal((html.match(/<div class="fb-segment"/g) || []).length, 3);
+  const dom = await browserDom(html);
+  const titleAt = dom.indexOf('FIXTURE Episode Title');
+  const firstEn = dom.indexOf('Alpha paragraph.');
+  const firstZh = dom.indexOf('发言人1 甲段');
+  const secondEn = dom.indexOf('Beta paragraph.');
+  const secondZh = dom.indexOf('发言人2 乙段');
+  const thirdEn = dom.indexOf('Gamma paragraph.');
+  const thirdZh = dom.indexOf('发言人1 丙段');
+  assert.ok(titleAt >= 0 && titleAt < firstEn && firstEn < firstZh && firstZh < secondEn && secondEn < secondZh && secondZh < thirdEn && thirdEn < thirdZh);
+  const beforeTitle = dom.slice(0, titleAt);
+  assert.equal(beforeTitle.includes('Beta paragraph.'), false);
+  assert.equal(beforeTitle.includes('发言人2 乙段'), false);
+  const pairs = [
+    ['Alpha paragraph.', '发言人1 甲段'],
+    ['Beta paragraph.', '发言人2 乙段'],
+    ['Gamma paragraph.', '发言人1 丙段']
+  ];
+  const segments = elementBlocks(dom, 'fb-segment');
+  assert.equal(segments.length, 3);
+  segments.forEach((block, index) => {
+    assert.equal(block.includes(pairs[index][0]), true);
+    assert.equal(block.includes(pairs[index][1]), true);
+    assert.equal(block.includes('<tr'), false);
+    pairs.forEach((pair, other) => {
+      if (other !== index) assert.equal(block.includes(pair[0]), false);
+    });
+  });
+  const quote = elementBlocks(dom, 'fb-quote').join('\n');
+  assert.equal(quote.includes('引用正文译文'), true);
+  assert.equal(quote.includes('父推正文译文'), false);
+  assert.equal(quote.includes('<tr'), false);
+});
 
 test('historical podcast transcript stays in separate blocks', async () => {
   const feed = JSON.parse(await readFile(HISTORICAL, 'utf8'));
