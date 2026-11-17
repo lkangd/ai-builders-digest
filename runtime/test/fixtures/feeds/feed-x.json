@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2000-01-01T00:00:00.000Z",
+  "label": "FIXTURE — not a published digest",
+  "x": [
+    {
+      "name": "Fixture Builder",
+      "handle": "fixture_builder",
+      "bio": "FIXTURE biography. Not a published digest.",
+      "tweets": [
+        {
+          "id": "fixture-1",
+          "text": "FIXTURE tweet one about a labelled example.",
+          "createdAt": "2026-11-16T00:00:00.000Z",
+          "url": "https://example.invalid/fixture/tweet-1",
+          "likes": 3,
+          "retweets": 2,
+          "replies": 1,
+          "isQuote": false
+        },
+        {
+          "id": "fixture-skip",
+          "text": "FIXTURE_DROPPED_TWEET without a url.",
+          "createdAt": "2026-11-16T00:30:00.000Z",
+          "likes": 9
+        },
+        {
+          "id": "fixture-2",
+          "text": "FIXTURE tweet two.",
+          "url": "https://example.invalid/fixture/tweet-2",
+          "createdAt": "2026-11-16T01:00:00.000Z",
+          "likes": 1,
+          "retweets": 0,
+          "replies": 0,
+          "isQuote": true,
+          "quotedTweetId": "999"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "language": "bilingual",
+  "timezone": "Asia/Shanghai",
+  "schedule": "08:00",
+  "includeWeekends": true,
+  "page": {
+    "repo": "lkangd/ai-builders-digest",
+    "baseUrl": "https://lkangd.github.io/ai-builders-digest",
+    "branch": "main"
+  },
+  "feeds": {
+    "x": "https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-x.json",
+    "podcasts": "https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-podcasts.json",
+    "blogs": "https://raw.githubusercontent.com/zarazhangrui/follow-builders/main/feed-blogs.json"
+  },
+  "limits": {
+    "tweetsPerBuilder": 8,
+    "podcasts": 1,
+    "transcriptChars": 4000,
+    "blogChars": 4000,
+    "rssChars": 4000
+  }
+}
