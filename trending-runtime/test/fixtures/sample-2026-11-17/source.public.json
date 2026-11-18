@@ -1,0 +1,205 @@
+{
+  "fixture_purpose": "design-regression-only",
+  "not_a_new_issue": true,
+  "do_not_publish_or_send_as_today": true,
+  "issue_date": "2026-11-17",
+  "timezone": "America/New_York",
+  "language": "zh",
+  "source": {
+    "list": "GitHub Trending official daily, all languages",
+    "url": "https://github.com/trending?since=daily",
+    "collected_at": "2026-11-17 08:04",
+    "collected_at_timezone": "America/New_York",
+    "collected_at_tz_abbr": "EST",
+    "listed_repo_count": 15
+  },
+  "intro": "这是 2026-11-17 的 GitHub Trending 精选。榜单来自官方每日页面（所有编程语言）：https://github.com/trending?since=daily ，采集时间为 2026-11-17 08:04（America/New_York，EST）。当日页面共列出 15 个仓库。下面的语言、star 总数和「今日新增」均引自该页面当时显示的数字；许可证来自各仓库 LICENSE 文件或 GitHub 元数据。与昨日（2026-11-16）报告对照：再次出现的有 Open Code Review、Plannotator、AG-UI、Univer、Stitch Skills、Arcane、last30days-skill、paper-orchestra、Svelte 和 Claude-BugHunter。新上榜并值得写开的，主要是官方的 Cursor Plugins，以及 Superpowers 和 ECC 这两套面向编码助手的技能/方法论框架；LoopForge 在昨日掉出榜单后今天重新出现。昨日在榜的 NVIDIA SkillEvaluator、ffmpeg-skill、Chrome DevTools MCP、claude-trading-skills 与 jiangshan-map，今天未出现在官方每日页面。热度不等于成熟度；项目自述与已核对事实会分开写。",
+  "featured_lede": "今天最值得先看的是两个方向：Cursor Plugins，Cursor 官方插件规范与插件集合——本系列此前没有展开过，今天默认分支合入了 Redo 插件，昨日采集之后还合入了 Google Search Console 插件；以及 Open Code Review，昨天还写明「按分支过滤会话」和 VS Code 里部分失败审查的显示修复尚未进入正式版，今天已经发布了包含这些变化的 v1.13.11。",
+  "picks": [
+    {
+      "rank": 1,
+      "name": "Cursor Plugins",
+      "title_as_recorded": "1. Cursor Plugins",
+      "repo": "cursor/plugins",
+      "url": "https://github.com/cursor/plugins",
+      "metrics": {
+        "as_recorded": "TypeScript · README 写明 MIT（GitHub 元数据未标注许可证，仓库根目录也没有 LICENSE 文件；各插件目录可能自带许可） · 16,750 stars · 今日 +196",
+        "language": "TypeScript",
+        "stars": 16750,
+        "stars_today": 196,
+        "license": "README 写明 MIT（GitHub 元数据未标注许可证，仓库根目录也没有 LICENSE 文件；各插件目录可能自带许可）"
+      },
+      "purpose": "Cursor 官方维护的插件规范，以及面向常用开发工具、框架和 SaaS 的官方插件集合。README 称这是一个多插件 marketplace 仓库：根目录 `.cursor-plugin/marketplace.json` 列出全部插件，每个插件是根目录下的独立目录，自带 `.cursor-plugin/plugin.json`。本报告采集时，README 表格里列有 136 个插件，覆盖代码审查、团队工作流、文档画布，以及 Gmail、Google Drive 等集成。",
+      "highlights": "昨日采集（2026-11-16 07:57 EST）之后，默认分支合入了 `google-search-console`（路径 `third_party/google-search-console/`，README 描述为查询搜索表现、检查 URL 和管理 sitemap）。今天 01:18 EST 又合入了 `redo`（路径 `third_party/redo/`）。这里的 Redo 不是编辑器里的「重做」，而是一个第三方电商/售后集成：README 写它可查询订单和顾客、处理退货、工单、营销活动、履约库存并生成分析。仓库没有 GitHub Releases。",
+      "potential_value": "你日常使用 Cursor，这是今天榜上最直接对应编辑器生态的仓库。不必一次装很多插件。Google Search Console 插件只在你本来就管理网站搜索数据时才有意义；Redo 只在你使用该商业产品时才有意义。",
+      "try_suggestion": "先打开上述仓库，看这两个目录的 README 和 manifest，确认权限和所需账号。再在 Cursor 的插件市场按插件名 `google-search-console` 或 `redo` 搜索。先不要为了试用而接入含生产数据的账号，也不要把密钥贴进聊天。",
+      "highlights_qualifier": "已核对仓库内容，未在 Cursor 里安装验证"
+    },
+    {
+      "rank": 2,
+      "name": "Open Code Review",
+      "title_as_recorded": "2. Open Code Review（再次入选）",
+      "repo": "alibaba/open-code-review",
+      "url": "https://github.com/alibaba/open-code-review",
+      "homepage": "https://open-codereview.ai",
+      "selection_notes": [
+        "再次入选"
+      ],
+      "returning": true,
+      "lead": "昨日已介绍用途（确定性规则加上 LLM 的混合代码审查）以及 v1.13.10。相对昨日（52,662 stars，当日 +946）：今日新增有所回落，但发布了 v1.13.11（2026-11-17 00:30 EST）。发行说明包括：列出会话时可按分支过滤；新增 Move 语言审查规则；比较不同路径写法记录下的会话；VS Code 里把部分失败或未完成的审查显示为失败，而不再显示成「无问题」；以及配置里带点号的 MCP 服务名、多字节路径截断等修复。这些正是昨日报告里写过、当时还不能当成已发布功能的默认分支变化，现在已经进入正式版。仓库描述中的「在阿里巴巴规模上经过实战检验」仍是项目自述，不是本报告的独立核实。",
+      "metrics": {
+        "as_recorded": "Go · Apache-2.0 · 53,407 stars · 今日 +764",
+        "language": "Go",
+        "stars": 53407,
+        "stars_today": 764,
+        "license": "Apache-2.0"
+      },
+      "try_suggestion": "若已经在用，更新到 v1.13.11，在非关键仓库试一次按分支过滤会话列表，或看一次故意失败的审查在 VS Code 里是否不再显示成「无问题」。仍不要一上来接到生产 CI。",
+      "verified_facts": "默认分支在 v1.13.11 之后还有提交，公开说明包括会话发现项的身份字段处理、遥测初始化，以及 git 命令取消后的等待上限；这些尚未进入更新的正式版，不要当成已包含在 v1.13.11 里。"
+    },
+    {
+      "rank": 3,
+      "name": "last30days-skill",
+      "title_as_recorded": "3. last30days-skill（再次入选，昨日只点名）",
+      "repo": "mvanhorn/last30days-skill",
+      "url": "https://github.com/mvanhorn/last30days-skill",
+      "selection_notes": [
+        "再次入选，昨日只点名"
+      ],
+      "returning": true,
+      "metrics": {
+        "as_recorded": "Python · MIT · 68,594 stars · 今日 +772",
+        "language": "Python",
+        "stars": 68594,
+        "stars_today": 772,
+        "license": "MIT"
+      },
+      "purpose": "一个 Agent Skill，可在 Reddit、X、YouTube、Hacker News、Polymarket 和网页等来源上调研某个主题，再汇总成有依据的摘要。昨日首次出现在本系列日报，当时只点名（67,836 stars，当日 +122，最新正式版还是当天 02:55 EST 的 v4.2.0）。",
+      "changes": "昨日采集之后又发布了 v4.2.1（11:42 EST）和 v4.3.0（18:57 EST）。v4.3.0 相对 v4.2.1 的发行说明，主要围绕 Polymarket：实体主题会优先带上更值得看的市场、描述性主题的单复数匹配，以及部分搜索会报告并受流式截止时间约束；另外修复了公司调研里寻找职位信号的逻辑。默认分支在 v4.3.0 之后目前只有 README 文档提交。今日新增从昨日的 +122 升到 +772，这是热度变化，不能理解成今天刚发布。",
+      "try_suggestion": "若要试，在一次性工作区用 README 中的 `npx skills add mvanhorn/last30days-skill` 安装，先选一个只依赖免登录来源（如 HN 或 Reddit）的题目。先不要交出已登录的浏览器会话或令牌。",
+      "verified_facts": "README 宣传语言较多。它声称 Reddit、HN、Polymarket、GitHub 可以零配置使用，X / YouTube 等则需要密钥或浏览器登录态。star 总量很高，不要把热度当成熟度。"
+    },
+    {
+      "rank": 4,
+      "name": "Plannotator",
+      "title_as_recorded": "4. Plannotator（再次入选）",
+      "repo": "backnotprop/plannotator",
+      "url": "https://github.com/backnotprop/plannotator",
+      "homepage": "https://plannotator.ai",
+      "selection_notes": [
+        "再次入选"
+      ],
+      "returning": true,
+      "lead": "昨日已介绍用途（本地审阅工作区，把计划、diff 和反馈送回编码助手）以及 v0.28.66。相对昨日（12,222 stars，当日 +689）：今日新增接近，并发布了 v0.28.67（2026-11-17 01:38 EST）。发行说明中的主要变化（项目自述，未运行验证）包括：可把线程拖到 Priority / Archive / Quiet，或拖到另一条线程上打开合并对话框；可在回复里提及另一条线程；Linear 链接会显示悬停卡片（需在设置里填写 key）；标签可自选颜色，关闭高亮后仍保留颜色。两个修复值得单独记下：HTML 附件里的脚本不能再把 Inbox 跳到另一条线程；设置保存失败时不能再把 `config.json` 清空。默认分支在正式版之后还有界面文案相关提交，尚未进入更新的正式版。这仍是 0.28 的小版本更新。",
+      "metrics": {
+        "as_recorded": "TypeScript · Apache-2.0 · 12,897 stars · 今日 +691",
+        "language": "TypeScript",
+        "stars": 12897,
+        "stars_today": 691,
+        "license": "Apache-2.0"
+      },
+      "try_suggestion": "若已经在用，到 GitHub Releases 核对并更新到 v0.28.67，可试一次把线程拖到 Archive，或在回复里提及另一条不含密钥的线程。先保持 Routines 关闭。不要对含密钥的计划做分享。不要用 `curl | bash` 安装。"
+    },
+    {
+      "rank": 5,
+      "name": "Superpowers",
+      "title_as_recorded": "5. Superpowers",
+      "repo": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "metrics": {
+        "as_recorded": "Shell · MIT · 318,979 stars · 今日 +1,905",
+        "language": "Shell",
+        "stars": 318979,
+        "stars_today": 1905,
+        "license": "MIT"
+      },
+      "purpose": "一套面向编码助手的技能框架和软件开发方法论。项目自述的核心流程是：先头脑风暴并确认设计，再写可执行的实现计划，然后用子智能体按任务推进，并强调测试驱动和计划对照审查。README 写技能会自动触发，并列出 Claude Code、Cursor、Codex、Gemini CLI、GitHub Copilot CLI 等多种安装入口。今日新增 1,905，是全榜「今日新增」最高。",
+      "try_suggestion": "按 README，在 Cursor Agent 对话里执行 `/add-plugin superpowers`，或在插件市场搜索 superpowers。先在非关键的小改动上试一次「先设计再写代码」的流程，看它是否真会在动手前停下来确认。不要在生产仓库一上来就打开长时间无人值守的自动循环。",
+      "verified_facts": "许可证为 MIT。仓库创建于 2025-10-09。最新正式版是 2026-11-03 17:17 EST 的 v7.0.2，发行说明主要是减少头脑风暴提问、先问「为什么」，以及六个 harness 的启动修复。自该版本以来，默认分支没有更新的提交。今天上榜不是新发布。star 总量非常高，不要把热度当成熟度，更不要当成已经在你的工作流里验证过。"
+    },
+    {
+      "rank": 6,
+      "name": "ECC",
+      "title_as_recorded": "6. ECC",
+      "repo": "affaan-m/ECC",
+      "url": "https://github.com/affaan-m/ECC",
+      "homepage": "https://ecc.tools",
+      "metrics": {
+        "as_recorded": "JavaScript · MIT · 305,025 stars · 今日 +902",
+        "language": "JavaScript",
+        "stars": 305025,
+        "stars_today": 902,
+        "license": "MIT"
+      },
+      "purpose": "项目自称是「agent harness 性能优化系统」，给编码助手提供计划、测试、实现、审查、记忆和可复用技能。README 写它目前和 Claude Code 配合最好，Codex 与 Qoder 有原生插件路径，对 Cursor、OpenCode、Gemini、GitHub Copilot 等则是能力受限的适配器，并提醒先看支持状态表，不要假定功能对等。仓库里的数量（72 个 agents、327 个 skills 等）是项目自述，本报告未逐项清点。",
+      "try_suggestion": "今天先读 README 里的平台支持说明和 Security 一节，不要急着在常用 Cursor 工作区执行 `./install.sh`。若只是了解它为 Cursor 提供了什么，可在一次性目录查看 `.cursor/` 适配器内容。官方推荐的引导安装 `npx ecc-universal@2.2.3 setup` 面向 Claude Code；README 自己也写，版本钉死不等于安全审计。先不要在含密钥的仓库里装。",
+      "verified_facts": "许可证为 MIT。仓库创建于 2026-01-18。最新正式版是 2026-10-01 19:00（America/New_York，EDT）的 v2.2.3，主要是命名与发布流程可靠性，并不是今天的新功能版。默认分支今天仍有提交，主要涉及 hook 校验和依赖锁定，这些尚未进入更新的正式版。star 总量与创建时间相比非常高，只把它当作今日热度，不当成熟度或安全背书。安装脚本会写入编辑器配置、hooks，并可能涉及 MCP；应视为可执行配置，而不是普通文档。"
+    }
+  ],
+  "other_listed": [
+    {
+      "repo": "Tencent/LoopForge",
+      "url": "https://github.com/Tencent/LoopForge",
+      "note_as_recorded": "2,819 stars，今日 +590。11 月 15 日曾点名，昨日掉出榜单后今天重新出现。LICENSE 文件写明以 MIT 授权，第三方组件除外；GitHub 元数据为 NOASSERTION。最新正式版仍是 2026-11-12 的 v0.3.8，预发行 v0.3.9-rc.1 没有更新。默认分支今天还有提交，公开说明包括保留 @提及关联的问题、切换会话时保留排队消息，以及通过 workspaceRunId 绑定 SOP 工作区；这些尚未进入新的正式版，不要用预发行版改真实代码",
+      "stars": 2819,
+      "stars_today": 590
+    },
+    {
+      "repo": "ag-ui-protocol/ag-ui",
+      "url": "https://github.com/ag-ui-protocol/ag-ui",
+      "note_as_recorded": "19,780 stars，今日 +1,444。昨日已正式介绍。最新带日期的正式发布仍是 2026-11-13 的 release/2026-11-13。昨日采集之后默认分支有提交，公开说明只涉及 CodeRabbit 审查配置，不是新的协议或 SDK 发布。热度继续升高，不代表今天有产品变化",
+      "stars": 19780,
+      "stars_today": 1444
+    },
+    {
+      "repo": "dream-num/univer",
+      "url": "https://github.com/dream-num/univer",
+      "note_as_recorded": "28,669 stars，今日 +1,776，全榜「今日新增」第二。正式版仍是昨日已提到的 v1.5.2。默认分支今天有表格排序、焦点样式和公式 SEARCH 通配符相关提交，尚未进入更新的正式版",
+      "stars": 28669,
+      "stars_today": 1776
+    },
+    {
+      "repo": "getarcaneapp/arcane",
+      "url": "https://github.com/getarcaneapp/arcane",
+      "note_as_recorded": "9,073 stars，今日 +654。昨日已介绍 v3.0.1；今天没有更新的正式版，默认分支提交主要是翻译与依赖版本。今日新增远高于昨日的 +31，这是热度变化",
+      "stars": 9073,
+      "stars_today": 654
+    },
+    {
+      "repo": "google-labs-code/stitch-skills",
+      "url": "https://github.com/google-labs-code/stitch-skills",
+      "note_as_recorded": "9,931 stars，今日 +350。昨日已介绍。最新标签仍是 2026-05-18 的 v1.0，默认分支最近一次推送仍是 2026-08-17，没有新变化",
+      "stars": 9931,
+      "stars_today": 350
+    },
+    {
+      "repo": "google-research/paper-orchestra",
+      "url": "https://github.com/google-research/paper-orchestra",
+      "note_as_recorded": "2,199 stars，今日 +1,175。昨日为 1,023 stars、当日 +306。仍没有 GitHub Releases。README 写明这不是 Google 正式支持的产品，评估数据集也不在本仓库里，运行还需要模型凭据。今天只点名，不做试用建议",
+      "stars": 2199,
+      "stars_today": 1175
+    },
+    {
+      "repo": "sveltejs/svelte",
+      "url": "https://github.com/sveltejs/svelte",
+      "note_as_recorded": "89,269 stars，今日 +533。最新正式版仍是 2026-10-26 的 svelte@5.57.3，今天只点名",
+      "stars": 89269,
+      "stars_today": 533
+    },
+    {
+      "repo": "jingyaogong/minimind",
+      "url": "https://github.com/jingyaogong/minimind",
+      "note_as_recorded": "65,682 stars，今日 +188；首次出现在本系列日报。面向从零训练小型 LLM 的教学项目，最新相关发布记录停留在 2025-10-21 的文档发布，默认分支最近一次提交是 2026-10-27。今天只点名",
+      "stars": 65682,
+      "stars_today": 188
+    },
+    {
+      "repo": "elementalsouls/Claude-BugHunter",
+      "url": "https://github.com/elementalsouls/Claude-BugHunter",
+      "note_as_recorded": "8,211 stars，今日 +1,007；面向漏洞挖掘与对外红队的 Claude Code 技能包，与本次工程主线较远，不作试用建议",
+      "stars": 8211,
+      "stars_today": 1007
+    }
+  ],
+  "data_notes": "数据说明：榜单以官方 Trending 页面为准，不以搜索结果或 star 总量变化来猜测上榜。本报告只读取了公共页面、README 与仓库元数据，未运行各仓库代码，也未按其文档中的安装脚本在生产环境执行。"
+}

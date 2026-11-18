@@ -1,0 +1,20 @@
+{
+  "name": "github-trending-digest-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable GitHub Trending daily digest runtime. Validates assistant-written JSON, renders a static page and an email payload. It does not fetch rankings, run repository code, call an LLM, send mail, or publish.",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "gt-digest": "./bin/gt.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:site": "node --test test-site/site.test.mjs"
+  },
+  "devDependencies": {
+    "parse5": "8.1.1"
+  }
+}
