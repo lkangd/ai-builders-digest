@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
+import { readdir, readFile } from 'node:fs/promises';
+import path from 'node:path';
+import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { normalizePublicSample, sha256 } from '../lib/normalize-public-sample.mjs';
+import { render } from '../lib/pipeline.mjs';
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+
+const RUNTIME = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
+const REPO = path.resolve(RUNTIME, '..');
+const ROOT_INDEX = path.join(REPO, 'index.html');
+const inRepo = existsSync(ROOT_INDEX) && existsSync(path.join(REPO, 'runtime', 'bin', 'fb.mjs'));
+const ROOT_INDEX_SHA256 = '260aa1f35cd67ffefecba205e50cb15b58eadeadbb02d8b1e2773e9682a678d1';
+
+test('committed preview stays outside dated archives and builders root is untouched', { skip: !inRepo }, async () => {
+  const names = await readdir(path.join(REPO, 'trending'));
+  assert.deepEqual(names.filter(name => /^\d{4}-\d{2}-\d{2}$/.test(name)), []);
+  assert.equal(existsSync(path.join(REPO, 'trending', '2026-11-17', 'index.html')), false);
+  const previewDir = path.join(REPO, 'trending', 'preview', 'sample-2026-11-17');
+  const page = await readFile(path.join(previewDir, 'index.html'), 'utf8');
+  const email = await readFile(path.join(previewDir, 'email.html'), 'utf8');
+  const text = await readFile(path.join(previewDir, 'email.txt'), 'utf8');
+  const index = await readFile(path.join(REPO, 'trending', 'index.html'), 'utf8');
+  assert.match(page, /不是正式刊/);
+  assert.match(page, /16,750/);
+  assert.match(page, /53,407/);
+  assert.equal(page.includes('/trending/2026-11-17/'), false);
+  assert.match(email, /width:680px/);
+  assert.match(text, /不会通过 Resend 或 Gmail 发送/);
+  assert.match(index, /不是正式刊/);
+  assert.doesNotMatch(index, /正式刊<\/h2>\s*<ol>\s*<li><a/);
+  const root = await readFile(ROOT_INDEX);
+  assert.equal(createHash('sha256').update(root).digest('hex'), ROOT_INDEX_SHA256);
+  assert.equal(root.toString('utf8').includes('trending'), false);
+
+  const bytes = await readFile(path.join(RUNTIME, 'test', 'fixtures', 'sample-2026-11-17', 'source.public.json'));
+  const source = JSON.parse(bytes.toString('utf8'));
+  const highlights = JSON.parse(await readFile(path.join(RUNTIME, 'test', 'fixtures', 'sample-2026-11-17', 'highlights.json'), 'utf8'));
+  const issue = normalizePublicSample(source, highlights, { sourceSha256: sha256(bytes) });
+  const dest = await mkdtemp(path.join(tmpdir(), 'gt-site-'));
+  const stateDir = await mkdtemp(path.join(tmpdir(), 'gt-site-state-'));
+  await render({ stateDir, dest, issue });
+  const fresh = await readFile(path.join(dest, 'trending', 'preview', 'sample-2026-11-17', 'index.html'), 'utf8');
+  assert.equal(fresh, page);
+  assert.equal(await readFile(path.join(dest, 'trending', 'preview', 'sample-2026-11-17', 'email.html'), 'utf8'), email);
+  assert.equal(await readFile(path.join(dest, 'trending', 'index.html'), 'utf8'), index);
+});

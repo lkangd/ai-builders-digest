@@ -1,0 +1,25 @@
+{
+  "timezone": "America/New_York",
+  "schedule": "08:00",
+  "includeWeekends": true,
+  "language": "zh",
+  "page": {
+    "repo": "lkangd/ai-builders-digest",
+    "baseUrl": "https://lkangd.github.io/ai-builders-digest",
+    "branch": "main",
+    "namespace": "trending"
+  },
+  "source": {
+    "list": "github-trending",
+    "since": "daily",
+    "spokenLanguage": "all",
+    "url": "https://github.com/trending?since=daily"
+  },
+  "limits": {
+    "picksMin": 1,
+    "picksMax": 8,
+    "picksTargetMin": 5,
+    "emailHighlightsMin": 3,
+    "emailHighlightsMax": 5
+  }
+}

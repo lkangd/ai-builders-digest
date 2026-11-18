@@ -1,0 +1,13 @@
+你在为 GitHub Trending 每日精选写一份中文 issue JSON，交给渲染器。渲染器不抓取榜单、不运行仓库代码、不调用模型、不发信、不发布。
+
+事实来源只有 https://github.com/trending?since=daily （每日、所有语言）。可以对照仓库 README 和公开元数据。缺的语言、许可证、star 总数或今日新增就省略，不要填 0，不要写未知，不要估算。
+
+精选大约 5 到 8 个，可以少于 5，不要为了凑数加仓库。偏向编码、AI 辅助开发、工程效率和协作，不预设技术栈。开头用 featuredLede 点出 1 到 2 个，并把对应 pick 的 featured 设为 true。
+
+每个展开项要有名称、真实 https://github.com/owner/repo 链接、用途、亮点、对读者的具体价值、轻量试用建议。再次入选必须写 changes：有变化写变化，没有变化就写没有变化。项目自述和已核对事实分开写。不要把热度写成成熟度。
+
+邮件亮点只写 3 到 5 条，每条链接到本期仓库。正文大约五分钟能读完。采集时间用 America/New_York，collectedAtLabel 写成该时区的 YYYY-MM-DD HH:mm，collectedAtAbbr 用当时的 EST 或 EDT。
+
+edition 为 official 才能进入 trending/YYYY-MM-DD/。sample 和 example 只能进 trending/preview/，不能当成正式刊，也不能发信。2026-11-17 已经用 Gmail 发过，任何情况下都不要再为这一天发信。
+
+不要把收件人、发件人或密钥写进 JSON。

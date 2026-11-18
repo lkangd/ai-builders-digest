@@ -1,0 +1,27 @@
+GitHub Trending 样例预览（不发送） · 2026-11-17
+
+采集时间：2026-11-17 08:04（America/New_York，EST）
+榜单来源：https://github.com/trending?since=daily
+这是独立精选，不是 GitHub 官方界面。热度不等于成熟度。
+
+此预览不会通过 Resend 或 Gmail 发送。2026-11-17 已由 Gmail 送出，不会补发。
+
+1. Cursor Plugins 是 Cursor 官方维护的插件规范与插件集合。本报告采集时，README 表格里列有 136 个插件。昨日采集之后，默认分支合入了 google-search-console；今天 01:18 EST 又合入了 redo。TypeScript，16,750 stars，今日 +196。README 写明 MIT（GitHub 元数据未标注许可证，仓库根目录也没有 LICENSE 文件）。
+https://github.com/cursor/plugins
+
+2. Open Code Review 再次入选，并已发布 v1.13.11（2026-11-17 00:30 EST）。发行说明包括列出会话时可按分支过滤，以及 VS Code 里把部分失败或未完成的审查显示为失败，而不再显示成「无问题」。这些正是昨日报告里写过、当时还不能当成已发布功能的默认分支变化。Go，Apache-2.0，53,407 stars，今日 +764。
+https://github.com/alibaba/open-code-review
+
+3. Superpowers 今日新增 1,905，是全榜「今日新增」最高。最新正式版是 2026-11-03 17:17 EST 的 v7.0.2。自该版本以来，默认分支没有更新的提交。今天上榜不是新发布。
+https://github.com/obra/superpowers
+
+4. last30days-skill 再次入选。昨日采集之后又发布了 v4.2.1（11:42 EST）和 v4.3.0（18:57 EST）。今日新增从昨日的 +122 升到 +772。这是热度变化，不能理解成今天刚发布。
+https://github.com/mvanhorn/last30days-skill
+
+5. ECC 最新正式版仍是 2026-10-01 19:00（America/New_York，EDT）的 v2.2.3，并不是今天的新功能版。JavaScript，MIT，305,025 stars，今日 +902。star 总量与创建时间相比非常高，只把它当作今日热度，不当成熟度或安全背书。
+https://github.com/affaan-m/ECC
+
+全文：./index.html
+上面的全文链接只打开本目录里的预览，不是已发布的正式日期归档。
+
+数据说明：榜单以官方 Trending 页面为准，不以搜索结果或 star 总量变化来猜测上榜。本报告只读取了公共页面、README 与仓库元数据，未运行各仓库代码，也未按其文档中的安装脚本在生产环境执行。

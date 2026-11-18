@@ -1,0 +1,61 @@
+{
+  "edition": "example",
+  "example": {
+    "fictional": true,
+    "notANewIssue": true,
+    "doNotPublishOrSend": true
+  },
+  "date": "2000-01-01",
+  "timezone": "America/New_York",
+  "language": "zh",
+  "collectedAt": "2000-01-01T08:00:00-05:00",
+  "collectedAtLabel": "2000-01-01 08:00",
+  "collectedAtAbbr": "EST",
+  "source": {
+    "list": "github-trending",
+    "since": "daily",
+    "spokenLanguage": "all",
+    "url": "https://github.com/trending?since=daily",
+    "listedRepoCount": 1
+  },
+  "intro": "这是显式示例，用来检查缺字段和预览路径。它不是真实榜单，也不是正式刊。",
+  "featuredLede": "示例只保留 Example Only。它没有许可证，也没有今日新增。",
+  "picks": [
+    {
+      "rank": 1,
+      "name": "Example Only",
+      "titleAsRecorded": "1. Example Only",
+      "repo": "example-only/not-a-ranking",
+      "url": "https://github.com/example-only/not-a-ranking",
+      "returning": false,
+      "featured": true,
+      "selectionNotes": [],
+      "metrics": {
+        "language": "Text",
+        "stars": 1,
+        "asRecorded": "Text · 1 star"
+      },
+      "purpose": "占位，不是真实项目。",
+      "highlights": "缺省的今日新增不应显示成数字 0。",
+      "value": "只用于测试缺省字段。",
+      "try": "不要安装。",
+      "verifiedFacts": "此仓库不存在，数字是占位，不是采集结果。"
+    }
+  ],
+  "mentions": [],
+  "emailHighlights": [
+    {
+      "text": "示例一：没有许可证字段。",
+      "url": "https://github.com/example-only/not-a-ranking"
+    },
+    {
+      "text": "示例二：没有今日新增字段。",
+      "url": "https://github.com/example-only/not-a-ranking"
+    },
+    {
+      "text": "示例三：不会进入正式日期目录。",
+      "url": "https://github.com/example-only/not-a-ranking"
+    }
+  ],
+  "dataNotes": "示例不采集真实榜单，也不能发信。"
+}

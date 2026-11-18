@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex" />
+  <meta name="gt-edition" content="sample" />
+  <meta name="gt-date" content="2026-11-17" />
+  <meta name="gt-label" content="2026-11-17 公开样例（不是正式刊）" />
+  <meta name="gt-source-sha256" content="eeadaf7c8c31adcff3fadc0d13807fec6a61f3b24f1acffe14127bed8952d29e" />
+  <title>GitHub Trending 精选样例 · 2026-11-17（不是正式刊）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f7f7f7; color: #222222; font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #ff385c; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px 72px; }
+    .banner { background: #fff1f2; border: 1px solid #ffd5dc; border-radius: 14px; padding: 14px 16px; }
+    .banner strong { display: block; color: #ff385c; font-size: 14px; line-height: 1.5; }
+    .banner p, .source p, .block p, .mention p, .intro p, .lede p { margin: 8px 0 0; font-size: 15px; line-height: 1.75; color: #3f3f3f; }
+    .path { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; }
+    .mast { margin: 22px 0 8px; }
+    .pill { display: inline-block; background: #fff1f2; color: #ff385c; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+    h1 { margin: 12px 0 0; font-size: 32px; line-height: 1.25; font-weight: 600; letter-spacing: -0.03em; }
+    .sub { margin: 8px 0 0; color: #6a6a6a; font-size: 15px; line-height: 1.5; }
+    h2 { margin: 0 0 8px; font-size: 20px; line-height: 1.35; font-weight: 600; }
+    h3 { margin: 0; font-size: 20px; line-height: 1.35; font-weight: 600; }
+    h3 a, .repo a { text-decoration: none; }
+    h3 a:hover, .repo a:hover, .toc a:hover { text-decoration: underline; }
+    .card { background: #ffffff; border: 1px solid #ebebeb; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 22px 24px; margin-top: 14px; }
+    .featured { box-shadow: inset 3px 0 0 #ff385c, 0 2px 8px rgba(0,0,0,0.04); }
+    .kicker { margin: 0 0 6px; font-size: 12px; font-weight: 700; color: #6a6a6a; }
+    .pick-head { display: flex; gap: 14px; align-items: flex-start; }
+    .rank { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 999px; background: #fff1f2; color: #ff385c; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .repo, .recorded-title, .as-recorded, .license, .mention-metrics { margin: 6px 0 0; color: #6a6a6a; font-size: 13px; line-height: 1.6; word-break: break-word; }
+    .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .badge { background: #f7f7f7; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 600; color: #222222; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+    .metric { min-width: 108px; border: 1px solid #ebebeb; border-radius: 10px; padding: 10px 12px; background: #ffffff; }
+    .metric dt { margin: 0; font-size: 11px; font-weight: 700; color: #6a6a6a; }
+    .metric dd { margin: 4px 0 0; font-size: 18px; line-height: 1.2; font-weight: 700; }
+    .block { margin-top: 16px; }
+    .block h4 { margin: 0; font-size: 13px; }
+    .fact, .try { border-radius: 10px; padding: 12px 14px; }
+    .fact { background: #f7f7f7; }
+    .try { background: #fff1f2; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px; }
+    .toc a { font-size: 14px; font-weight: 600; text-decoration: none; }
+    .mention { padding: 16px 0; border-top: 1px solid #ebebeb; }
+    .mention:first-of-type { border-top: 0; padding-top: 0; }
+    .mention h3 { font-size: 16px; }
+    footer { margin-top: 18px; color: #6a6a6a; font-size: 13px; line-height: 1.7; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92em; background: #f7f7f7; border-radius: 4px; padding: 0 4px; }
+    @media (max-width: 640px) {
+      .wrap { padding: 16px 14px 48px; }
+      h1 { font-size: 26px; }
+      .card { padding: 16px; }
+      .metric { min-width: calc(50% - 8px); flex: 1 1 calc(50% - 8px); }
+      .metric dd { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" data-gt-page="issue">
+    <div class="banner">
+    <strong>样例预览 · 来自已发送的 2026-11-17 日报公开正文 · 只用于设计和回归</strong>
+    <p>不是新刊，不会写入 <span class="path">trending/2026-11-17/</span>，不会发布，也不会发信。2026-11-17 已由 Gmail 送出，不会再用 Resend 补发。</p>
+  </div>
+    <header class="mast">
+      <span class="pill">独立精选 · 不是 GitHub 官方界面</span>
+      <h1>GitHub Trending 精选</h1>
+      <p class="sub">2026-11-17 · 公开样例，不是正式刊</p>
+    </header>
+    <section class="card source">
+      <h2>榜单从哪里来</h2>
+      <p>唯一榜单事实来源是 GitHub 官方 Trending，范围是每日、所有编程语言。本页不另排榜，也不把 star 热度写成成熟度。</p>
+      <p><a href="https://github.com/trending?since=daily" target="_blank" rel="noopener noreferrer">https://github.com/trending?since=daily</a></p>
+      <p>采集时间 <time datetime="2026-11-17T08:04:00-05:00">2026-11-17 08:04</time>（America/New_York，EST）。当日页面列出 15 个仓库，这里展开 6 个，点名 9 个。</p>
+    </section>
+    <section class="card intro">
+      <h2>今天怎么读</h2>
+      <p>这是 2026-11-17 的 GitHub Trending 精选。榜单来自官方每日页面（所有编程语言）：<a href="https://github.com/trending?since=daily" target="_blank" rel="noopener noreferrer">https://github.com/trending?since=daily</a> ，采集时间为 2026-11-17 08:04（America/New_York，EST）。当日页面共列出 15 个仓库。下面的语言、star 总数和「今日新增」均引自该页面当时显示的数字；许可证来自各仓库 LICENSE 文件或 GitHub 元数据。与昨日（2026-11-16）报告对照：再次出现的有 Open Code Review、Plannotator、AG-UI、Univer、Stitch Skills、Arcane、last30days-skill、paper-orchestra、Svelte 和 Claude-BugHunter。新上榜并值得写开的，主要是官方的 Cursor Plugins，以及 Superpowers 和 ECC 这两套面向编码助手的技能/方法论框架；LoopForge 在昨日掉出榜单后今天重新出现。昨日在榜的 NVIDIA SkillEvaluator、ffmpeg-skill、Chrome DevTools MCP、claude-trading-skills 与 jiangshan-map，今天未出现在官方每日页面。热度不等于成熟度；项目自述与已核对事实会分开写。</p>
+    </section>
+    <section class="card lede featured">
+      <p class="kicker">开头先看</p>
+      <h2>今天值得先打开的</h2>
+      <p>今天最值得先看的是两个方向：Cursor Plugins，Cursor 官方插件规范与插件集合——本系列此前没有展开过，今天默认分支合入了 Redo 插件，昨日采集之后还合入了 Google Search Console 插件；以及 Open Code Review，昨天还写明「按分支过滤会话」和 VS Code 里部分失败审查的显示修复尚未进入正式版，今天已经发布了包含这些变化的 v1.13.11。</p>
+    </section>
+    <nav class="toc" aria-label="本页目录"><a href="#pick-1">1 Cursor Plugins</a><a href="#pick-2">2 Open Code Review</a><a href="#pick-3">3 last30days-skill</a><a href="#pick-4">4 Plannotator</a><a href="#pick-5">5 Superpowers</a><a href="#pick-6">6 ECC</a><a href="#mentions">其余点名</a></nav>
+    <article class="card pick featured" id="pick-1">
+    <header class="pick-head">
+      <div class="rank" aria-hidden="true">1</div>
+      <div>
+        <h3><a href="https://github.com/cursor/plugins" target="_blank" rel="noopener noreferrer">Cursor Plugins</a></h3>
+        <p class="repo"><a href="https://github.com/cursor/plugins" target="_blank" rel="noopener noreferrer">https://github.com/cursor/plugins</a></p>
+        <div class="badges"><span class="badge">先看</span></div>
+        <p class="recorded-title">实录标题：1. Cursor Plugins</p>
+        
+      </div>
+    </header>
+    <dl class="metrics"><div class="metric"><dt>语言</dt><dd>TypeScript</dd></div><div class="metric"><dt>Star 总数</dt><dd>16,750</dd></div><div class="metric"><dt>今日新增</dt><dd>+196</dd></div></dl>
+    <p class="as-recorded">榜单实录：TypeScript · README 写明 MIT（GitHub 元数据未标注许可证，仓库根目录也没有 LICENSE 文件；各插件目录可能自带许可） · 16,750 stars · 今日 +196</p>
+    <section class="block ">
+    <h4>用途</h4>
+    <p class="kicker">含项目自述</p>
+    <p>Cursor 官方维护的插件规范，以及面向常用开发工具、框架和 SaaS 的官方插件集合。README 称这是一个多插件 marketplace 仓库：根目录 <code>.cursor-plugin/marketplace.json</code> 列出全部插件，每个插件是根目录下的独立目录，自带 <code>.cursor-plugin/plugin.json</code>。本报告采集时，README 表格里列有 136 个插件，覆盖代码审查、团队工作流、文档画布，以及 Gmail、Google Drive 等集成。</p>
+  </section>
+    <section class="block ">
+    <h4>亮点</h4>
+    <p class="kicker">已核对仓库内容，未在 Cursor 里安装验证</p>
+    <p>昨日采集（2026-11-16 07:57 EST）之后，默认分支合入了 <code>google-search-console</code>（路径 <code>third_party/google-search-console/</code>，README 描述为查询搜索表现、检查 URL 和管理 sitemap）。今天 01:18 EST 又合入了 <code>redo</code>（路径 <code>third_party/redo/</code>）。这里的 Redo 不是编辑器里的「重做」，而是一个第三方电商/售后集成：README 写它可查询订单和顾客、处理退货、工单、营销活动、履约库存并生成分析。仓库没有 GitHub Releases。</p>
+  </section>
+    <section class="block ">
+    <h4>对你的具体价值</h4>
+    
+    <p>你日常使用 Cursor，这是今天榜上最直接对应编辑器生态的仓库。不必一次装很多插件。Google Search Console 插件只在你本来就管理网站搜索数据时才有意义；Redo 只在你使用该商业产品时才有意义。</p>
+  </section>
+    
+    
+    
+    <section class="block try">
+    <h4>试用建议</h4>
+    <p class="kicker">轻量、可停、不碰生产密钥</p>
+    <p>先打开上述仓库，看这两个目录的 README 和 manifest，确认权限和所需账号。再在 Cursor 的插件市场按插件名 <code>google-search-console</code> 或 <code>redo</code> 搜索。先不要为了试用而接入含生产数据的账号，也不要把密钥贴进聊天。</p>
+  </section>
+  </article><article class="card pick featured" id="pick-2">
+    <header class="pick-head">
+      <div class="rank" aria-hidden="true">2</div>
+      <div>
+        <h3><a href="https://github.com/alibaba/open-code-review" target="_blank" rel="noopener noreferrer">Open Code Review</a></h3>
+        <p class="repo"><a href="https://github.com/alibaba/open-code-review" target="_blank" rel="noopener noreferrer">https://github.com/alibaba/open-code-review</a></p>
+        <div class="badges"><span class="badge">先看</span><span class="badge">再次入选</span></div>
+        <p class="recorded-title">实录标题：2. Open Code Review（再次入选）</p>
+        <p class="repo">项目站点（仓库给出的地址）：<a href="https://open-codereview.ai" target="_blank" rel="noopener noreferrer">https://open-codereview.ai</a></p>
+      </div>
+    </header>
+    <dl class="metrics"><div class="metric"><dt>语言</dt><dd>Go</dd></div><div class="metric"><dt>许可证</dt><dd>Apache-2.0</dd></div><div class="metric"><dt>Star 总数</dt><dd>53,407</dd></div><div class="metric"><dt>今日新增</dt><dd>+764</dd></div></dl>
+    <p class="as-recorded">榜单实录：Go · Apache-2.0 · 53,407 stars · 今日 +764</p>
+    
+    
+    
+    
+    <section class="block ">
+    <h4>当日说明</h4>
+    <p class="kicker">正文保留原有的「项目自述」和「已核对」区分</p>
+    <p>昨日已介绍用途（确定性规则加上 LLM 的混合代码审查）以及 v1.13.10。相对昨日（52,662 stars，当日 +946）：今日新增有所回落，但发布了 v1.13.11（2026-11-17 00:30 EST）。发行说明包括：列出会话时可按分支过滤；新增 Move 语言审查规则；比较不同路径写法记录下的会话；VS Code 里把部分失败或未完成的审查显示为失败，而不再显示成「无问题」；以及配置里带点号的 MCP 服务名、多字节路径截断等修复。这些正是昨日报告里写过、当时还不能当成已发布功能的默认分支变化，现在已经进入正式版。仓库描述中的「在阿里巴巴规模上经过实战检验」仍是项目自述，不是本报告的独立核实。</p>
+  </section>
+    <section class="block fact">
+    <h4>已核对事实</h4>
+    <p class="kicker">不是从 star 数量推断的</p>
+    <p>默认分支在 v1.13.11 之后还有提交，公开说明包括会话发现项的身份字段处理、遥测初始化，以及 git 命令取消后的等待上限；这些尚未进入更新的正式版，不要当成已包含在 v1.13.11 里。</p>
+  </section>
+    <section class="block try">
+    <h4>试用建议</h4>
+    <p class="kicker">轻量、可停、不碰生产密钥</p>
+    <p>若已经在用，更新到 v1.13.11，在非关键仓库试一次按分支过滤会话列表，或看一次故意失败的审查在 VS Code 里是否不再显示成「无问题」。仍不要一上来接到生产 CI。</p>
+  </section>
+  </article><article class="card pick" id="pick-3">
+    <header class="pick-head">
+      <div class="rank" aria-hidden="true">3</div>
+      <div>
+        <h3><a href="https://github.com/mvanhorn/last30days-skill" target="_blank" rel="noopener noreferrer">last30days-skill</a></h3>
+        <p class="repo"><a href="https://github.com/mvanhorn/last30days-skill" target="_blank" rel="noopener noreferrer">https://github.com/mvanhorn/last30days-skill</a></p>
+        <div class="badges"><span class="badge">再次入选，昨日只点名</span></div>
+        <p class="recorded-title">实录标题：3. last30days-skill（再次入选，昨日只点名）</p>
+        
+      </div>
+    </header>
+    <dl class="metrics"><div class="metric"><dt>语言</dt><dd>Python</dd></div><div class="metric"><dt>许可证</dt><dd>MIT</dd></div><div class="metric"><dt>Star 总数</dt><dd>68,594</dd></div><div class="metric"><dt>今日新增</dt><dd>+772</dd></div></dl>
+    <p class="as-recorded">榜单实录：Python · MIT · 68,594 stars · 今日 +772</p>
+    <section class="block ">
+    <h4>用途</h4>
+    <p class="kicker">含项目自述</p>
+    <p>一个 Agent Skill，可在 Reddit、X、YouTube、Hacker News、Polymarket 和网页等来源上调研某个主题，再汇总成有依据的摘要。昨日首次出现在本系列日报，当时只点名（67,836 stars，当日 +122，最新正式版还是当天 02:55 EST 的 v4.2.0）。</p>
+  </section>
+    
+    
+    <section class="block ">
+    <h4>相对上次</h4>
+    <p class="kicker">再次入选时只写变化；没有变化就写没有变化</p>
+    <p>昨日采集之后又发布了 v4.2.1（11:42 EST）和 v4.3.0（18:57 EST）。v4.3.0 相对 v4.2.1 的发行说明，主要围绕 Polymarket：实体主题会优先带上更值得看的市场、描述性主题的单复数匹配，以及部分搜索会报告并受流式截止时间约束；另外修复了公司调研里寻找职位信号的逻辑。默认分支在 v4.3.0 之后目前只有 README 文档提交。今日新增从昨日的 +122 升到 +772，这是热度变化，不能理解成今天刚发布。</p>
+  </section>
+    
+    <section class="block fact">
+    <h4>已核对事实</h4>
+    <p class="kicker">不是从 star 数量推断的</p>
+    <p>README 宣传语言较多。它声称 Reddit、HN、Polymarket、GitHub 可以零配置使用，X / YouTube 等则需要密钥或浏览器登录态。star 总量很高，不要把热度当成熟度。</p>
+  </section>
+    <section class="block try">
+    <h4>试用建议</h4>
+    <p class="kicker">轻量、可停、不碰生产密钥</p>
+    <p>若要试，在一次性工作区用 README 中的 <code>npx skills add mvanhorn/last30days-skill</code> 安装，先选一个只依赖免登录来源（如 HN 或 Reddit）的题目。先不要交出已登录的浏览器会话或令牌。</p>
+  </section>
+  </article><article class="card pick" id="pick-4">
+    <header class="pick-head">
+      <div class="rank" aria-hidden="true">4</div>
+      <div>
+        <h3><a href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener noreferrer">Plannotator</a></h3>
+        <p class="repo"><a href="https://github.com/backnotprop/plannotator" target="_blank" rel="noopener noreferrer">https://github.com/backnotprop/plannotator</a></p>
+        <div class="badges"><span class="badge">再次入选</span></div>
+        <p class="recorded-title">实录标题：4. Plannotator（再次入选）</p>
+        <p class="repo">项目站点（仓库给出的地址）：<a href="https://plannotator.ai" target="_blank" rel="noopener noreferrer">https://plannotator.ai</a></p>
+      </div>
+    </header>
+    <dl class="metrics"><div class="metric"><dt>语言</dt><dd>TypeScript</dd></div><div class="metric"><dt>许可证</dt><dd>Apache-2.0</dd></div><div class="metric"><dt>Star 总数</dt><dd>12,897</dd></div><div class="metric"><dt>今日新增</dt><dd>+691</dd></div></dl>
+    <p class="as-recorded">榜单实录：TypeScript · Apache-2.0 · 12,897 stars · 今日 +691</p>
+    
+    
+    
+    
+    <section class="block ">
+    <h4>当日说明</h4>
+    <p class="kicker">正文保留原有的「项目自述」和「已核对」区分</p>
+    <p>昨日已介绍用途（本地审阅工作区，把计划、diff 和反馈送回编码助手）以及 v0.28.66。相对昨日（12,222 stars，当日 +689）：今日新增接近，并发布了 v0.28.67（2026-11-17 01:38 EST）。发行说明中的主要变化（项目自述，未运行验证）包括：可把线程拖到 Priority / Archive / Quiet，或拖到另一条线程上打开合并对话框；可在回复里提及另一条线程；Linear 链接会显示悬停卡片（需在设置里填写 key）；标签可自选颜色，关闭高亮后仍保留颜色。两个修复值得单独记下：HTML 附件里的脚本不能再把 Inbox 跳到另一条线程；设置保存失败时不能再把 <code>config.json</code> 清空。默认分支在正式版之后还有界面文案相关提交，尚未进入更新的正式版。这仍是 0.28 的小版本更新。</p>
+  </section>
+    
+    <section class="block try">
+    <h4>试用建议</h4>
+    <p class="kicker">轻量、可停、不碰生产密钥</p>
+    <p>若已经在用，到 GitHub Releases 核对并更新到 v0.28.67，可试一次把线程拖到 Archive，或在回复里提及另一条不含密钥的线程。先保持 Routines 关闭。不要对含密钥的计划做分享。不要用 <code>curl | bash</code> 安装。</p>
+  </section>
+  </article><article class="card pick" id="pick-5">
+    <header class="pick-head">
+      <div class="rank" aria-hidden="true">5</div>
+      <div>
+        <h3><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer">Superpowers</a></h3>
+        <p class="repo"><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer">https://github.com/obra/superpowers</a></p>
+        
+        <p class="recorded-title">实录标题：5. Superpowers</p>
+        
+      </div>
+    </header>
+    <dl class="metrics"><div class="metric"><dt>语言</dt><dd>Shell</dd></div><div class="metric"><dt>许可证</dt><dd>MIT</dd></div><div class="metric"><dt>Star 总数</dt><dd>318,979</dd></div><div class="metric"><dt>今日新增</dt><dd>+1,905</dd></div></dl>
+    <p class="as-recorded">榜单实录：Shell · MIT · 318,979 stars · 今日 +1,905</p>
+    <section class="block ">
+    <h4>用途</h4>
+    <p class="kicker">含项目自述</p>
+    <p>一套面向编码助手的技能框架和软件开发方法论。项目自述的核心流程是：先头脑风暴并确认设计，再写可执行的实现计划，然后用子智能体按任务推进，并强调测试驱动和计划对照审查。README 写技能会自动触发，并列出 Claude Code、Cursor、Codex、Gemini CLI、GitHub Copilot CLI 等多种安装入口。今日新增 1,905，是全榜「今日新增」最高。</p>
+  </section>
+    
+    
+    
+    
+    <section class="block fact">
+    <h4>已核对事实</h4>
+    <p class="kicker">不是从 star 数量推断的</p>
+    <p>许可证为 MIT。仓库创建于 2025-10-09。最新正式版是 2026-11-03 17:17 EST 的 v7.0.2，发行说明主要是减少头脑风暴提问、先问「为什么」，以及六个 harness 的启动修复。自该版本以来，默认分支没有更新的提交。今天上榜不是新发布。star 总量非常高，不要把热度当成熟度，更不要当成已经在你的工作流里验证过。</p>
+  </section>
+    <section class="block try">
+    <h4>试用建议</h4>
+    <p class="kicker">轻量、可停、不碰生产密钥</p>
+    <p>按 README，在 Cursor Agent 对话里执行 <code>/add-plugin superpowers</code>，或在插件市场搜索 superpowers。先在非关键的小改动上试一次「先设计再写代码」的流程，看它是否真会在动手前停下来确认。不要在生产仓库一上来就打开长时间无人值守的自动循环。</p>
+  </section>
+  </article><article class="card pick" id="pick-6">
+    <header class="pick-head">
+      <div class="rank" aria-hidden="true">6</div>
+      <div>
+        <h3><a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener noreferrer">ECC</a></h3>
+        <p class="repo"><a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener noreferrer">https://github.com/affaan-m/ECC</a></p>
+        
+        <p class="recorded-title">实录标题：6. ECC</p>
+        <p class="repo">项目站点（仓库给出的地址）：<a href="https://ecc.tools" target="_blank" rel="noopener noreferrer">https://ecc.tools</a></p>
+      </div>
+    </header>
+    <dl class="metrics"><div class="metric"><dt>语言</dt><dd>JavaScript</dd></div><div class="metric"><dt>许可证</dt><dd>MIT</dd></div><div class="metric"><dt>Star 总数</dt><dd>305,025</dd></div><div class="metric"><dt>今日新增</dt><dd>+902</dd></div></dl>
+    <p class="as-recorded">榜单实录：JavaScript · MIT · 305,025 stars · 今日 +902</p>
+    <section class="block ">
+    <h4>用途</h4>
+    <p class="kicker">含项目自述</p>
+    <p>项目自称是「agent harness 性能优化系统」，给编码助手提供计划、测试、实现、审查、记忆和可复用技能。README 写它目前和 Claude Code 配合最好，Codex 与 Qoder 有原生插件路径，对 Cursor、OpenCode、Gemini、GitHub Copilot 等则是能力受限的适配器，并提醒先看支持状态表，不要假定功能对等。仓库里的数量（72 个 agents、327 个 skills 等）是项目自述，本报告未逐项清点。</p>
+  </section>
+    
+    
+    
+    
+    <section class="block fact">
+    <h4>已核对事实</h4>
+    <p class="kicker">不是从 star 数量推断的</p>
+    <p>许可证为 MIT。仓库创建于 2026-01-18。最新正式版是 2026-10-01 19:00（America/New_York，EDT）的 v2.2.3，主要是命名与发布流程可靠性，并不是今天的新功能版。默认分支今天仍有提交，主要涉及 hook 校验和依赖锁定，这些尚未进入更新的正式版。star 总量与创建时间相比非常高，只把它当作今日热度，不当成熟度或安全背书。安装脚本会写入编辑器配置、hooks，并可能涉及 MCP；应视为可执行配置，而不是普通文档。</p>
+  </section>
+    <section class="block try">
+    <h4>试用建议</h4>
+    <p class="kicker">轻量、可停、不碰生产密钥</p>
+    <p>今天先读 README 里的平台支持说明和 Security 一节，不要急着在常用 Cursor 工作区执行 <code>./install.sh</code>。若只是了解它为 Cursor 提供了什么，可在一次性目录查看 <code>.cursor/</code> 适配器内容。官方推荐的引导安装 <code>npx ecc-universal@2.2.3 setup</code> 面向 Claude Code；README 自己也写，版本钉死不等于安全审计。先不要在含密钥的仓库里装。</p>
+  </section>
+  </article>
+    <section class="card" id="mentions">
+      <h2>其余上榜项目</h2>
+      <p class="kicker">点名，未展开。数字仍是采集当时的实录。</p>
+      <article class="mention">
+    <h3><a href="https://github.com/Tencent/LoopForge" target="_blank" rel="noopener noreferrer">Tencent/LoopForge</a></h3>
+    <p class="repo"><a href="https://github.com/Tencent/LoopForge" target="_blank" rel="noopener noreferrer">https://github.com/Tencent/LoopForge</a></p>
+    <p class="mention-metrics">Star 总数 2,819 · 今日新增 +590</p>
+    <p>2,819 stars，今日 +590。11 月 15 日曾点名，昨日掉出榜单后今天重新出现。LICENSE 文件写明以 MIT 授权，第三方组件除外；GitHub 元数据为 NOASSERTION。最新正式版仍是 2026-11-12 的 v0.3.8，预发行 v0.3.9-rc.1 没有更新。默认分支今天还有提交，公开说明包括保留 @提及关联的问题、切换会话时保留排队消息，以及通过 workspaceRunId 绑定 SOP 工作区；这些尚未进入新的正式版，不要用预发行版改真实代码</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/ag-ui-protocol/ag-ui" target="_blank" rel="noopener noreferrer">ag-ui-protocol/ag-ui</a></h3>
+    <p class="repo"><a href="https://github.com/ag-ui-protocol/ag-ui" target="_blank" rel="noopener noreferrer">https://github.com/ag-ui-protocol/ag-ui</a></p>
+    <p class="mention-metrics">Star 总数 19,780 · 今日新增 +1,444</p>
+    <p>19,780 stars，今日 +1,444。昨日已正式介绍。最新带日期的正式发布仍是 2026-11-13 的 release/2026-11-13。昨日采集之后默认分支有提交，公开说明只涉及 CodeRabbit 审查配置，不是新的协议或 SDK 发布。热度继续升高，不代表今天有产品变化</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/dream-num/univer" target="_blank" rel="noopener noreferrer">dream-num/univer</a></h3>
+    <p class="repo"><a href="https://github.com/dream-num/univer" target="_blank" rel="noopener noreferrer">https://github.com/dream-num/univer</a></p>
+    <p class="mention-metrics">Star 总数 28,669 · 今日新增 +1,776</p>
+    <p>28,669 stars，今日 +1,776，全榜「今日新增」第二。正式版仍是昨日已提到的 v1.5.2。默认分支今天有表格排序、焦点样式和公式 SEARCH 通配符相关提交，尚未进入更新的正式版</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/getarcaneapp/arcane" target="_blank" rel="noopener noreferrer">getarcaneapp/arcane</a></h3>
+    <p class="repo"><a href="https://github.com/getarcaneapp/arcane" target="_blank" rel="noopener noreferrer">https://github.com/getarcaneapp/arcane</a></p>
+    <p class="mention-metrics">Star 总数 9,073 · 今日新增 +654</p>
+    <p>9,073 stars，今日 +654。昨日已介绍 v3.0.1；今天没有更新的正式版，默认分支提交主要是翻译与依赖版本。今日新增远高于昨日的 +31，这是热度变化</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/google-labs-code/stitch-skills" target="_blank" rel="noopener noreferrer">google-labs-code/stitch-skills</a></h3>
+    <p class="repo"><a href="https://github.com/google-labs-code/stitch-skills" target="_blank" rel="noopener noreferrer">https://github.com/google-labs-code/stitch-skills</a></p>
+    <p class="mention-metrics">Star 总数 9,931 · 今日新增 +350</p>
+    <p>9,931 stars，今日 +350。昨日已介绍。最新标签仍是 2026-05-18 的 v1.0，默认分支最近一次推送仍是 2026-08-17，没有新变化</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/google-research/paper-orchestra" target="_blank" rel="noopener noreferrer">google-research/paper-orchestra</a></h3>
+    <p class="repo"><a href="https://github.com/google-research/paper-orchestra" target="_blank" rel="noopener noreferrer">https://github.com/google-research/paper-orchestra</a></p>
+    <p class="mention-metrics">Star 总数 2,199 · 今日新增 +1,175</p>
+    <p>2,199 stars，今日 +1,175。昨日为 1,023 stars、当日 +306。仍没有 GitHub Releases。README 写明这不是 Google 正式支持的产品，评估数据集也不在本仓库里，运行还需要模型凭据。今天只点名，不做试用建议</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/sveltejs/svelte" target="_blank" rel="noopener noreferrer">sveltejs/svelte</a></h3>
+    <p class="repo"><a href="https://github.com/sveltejs/svelte" target="_blank" rel="noopener noreferrer">https://github.com/sveltejs/svelte</a></p>
+    <p class="mention-metrics">Star 总数 89,269 · 今日新增 +533</p>
+    <p>89,269 stars，今日 +533。最新正式版仍是 2026-10-26 的 svelte@5.57.3，今天只点名</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/jingyaogong/minimind" target="_blank" rel="noopener noreferrer">jingyaogong/minimind</a></h3>
+    <p class="repo"><a href="https://github.com/jingyaogong/minimind" target="_blank" rel="noopener noreferrer">https://github.com/jingyaogong/minimind</a></p>
+    <p class="mention-metrics">Star 总数 65,682 · 今日新增 +188</p>
+    <p>65,682 stars，今日 +188；首次出现在本系列日报。面向从零训练小型 LLM 的教学项目，最新相关发布记录停留在 2025-10-21 的文档发布，默认分支最近一次提交是 2026-10-27。今天只点名</p>
+  </article><article class="mention">
+    <h3><a href="https://github.com/elementalsouls/Claude-BugHunter" target="_blank" rel="noopener noreferrer">elementalsouls/Claude-BugHunter</a></h3>
+    <p class="repo"><a href="https://github.com/elementalsouls/Claude-BugHunter" target="_blank" rel="noopener noreferrer">https://github.com/elementalsouls/Claude-BugHunter</a></p>
+    <p class="mention-metrics">Star 总数 8,211 · 今日新增 +1,007</p>
+    <p>8,211 stars，今日 +1,007；面向漏洞挖掘与对外红队的 Claude Code 技能包，与本次工程主线较远，不作试用建议</p>
+  </article>
+    </section>
+    <section class="card">
+      <h2>数据说明</h2>
+      <p>数据说明：榜单以官方 Trending 页面为准，不以搜索结果或 star 总量变化来猜测上榜。本报告只读取了公共页面、README 与仓库元数据，未运行各仓库代码，也未按其文档中的安装脚本在生产环境执行。</p>
+      <p>语言、许可证、star 总数或今日新增如果当时没有记到，页面就留空，不补 0，也不写「未知」。</p>
+    </section>
+    <footer>
+      <nav aria-label="归档"><a href="../../index.html">精选归档</a></nav>
+      <p>本页是预览，路径不在 trending/2026-11-17/。根目录的 AI Builders Digest 跳转保持原样。</p>
+    </footer>
+  </div>
+</body>
+</html>
