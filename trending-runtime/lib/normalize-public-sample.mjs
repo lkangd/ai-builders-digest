@@ -149,6 +149,8 @@ export function normalizePublicSample(source, highlights, { sourceSha256 } = {})
       url: source.source.url,
       listedRepoCount: source.source.listed_repo_count
     },
+    previewLabel: '样例预览 · 来自已发送的 2026-11-17 日报公开正文 · 只用于设计和回归',
+    previewNotice: '2026-11-17 已由 Gmail 送出，不会再用 Resend 补发。',
     intro: source.intro,
     featuredLede: source.featured_lede,
     picks,

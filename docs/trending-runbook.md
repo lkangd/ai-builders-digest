@@ -13,9 +13,12 @@ export GT_HOME="$HOME/.github-trending-digest"
 export GT_STATE="$GT_HOME/state"
 mkdir -p "$GT_STATE"
 node "$GT_HOME/runtime/bin/gt.mjs" status --state "$GT_STATE"
+node "$GT_HOME/runtime/bin/gt.mjs" mark --state "$GT_STATE" --date 2026-11-17 --record-gmail-sent
 ```
 
-`status` 不需要安装依赖。测试才需要 `npm ci`。状态目录必须在运行时目录外面，例如上面的 `$GT_STATE`。运行时拒绝把状态写进自己的目录，也拒绝把状态写进检出目录。
+安装时把已经用 Gmail 发出的 2026-11-17 记进 `$GT_STATE`。这一步只写私人状态，不发信。之后 `prepare` 和 `notify` 看到 `channel: gmail` 且 `sendResult: sent`，就不再为这一天发信。运行时代码里没有写死这个日期；没做这条记录时，它和其他日期一样。重复执行这条 `mark` 不会再写一次。
+
+`status` 不需要安装依赖。测试才需要 `npm ci`。状态目录必须在运行时目录外面，例如上面的 `$GT_STATE`。运行时拒绝把状态写进自己的目录，也拒绝把状态写进检出目录。用 `status` 可以核对 `recordedSends` 里有没有这一天。
 
 `$GT_STATE/config.json` 可选。默认定时是 `America/New_York` 的 `08:00`，含周六和周日，页面根是 `https://lkangd.github.io/ai-builders-digest`。不要改成别的时区，也不要关掉周末。
 
@@ -56,19 +59,13 @@ node "$GT_HOME/runtime/bin/gt.mjs" mark --state "$GT_STATE" --date YYYY-MM-DD --
 
 标准输出会把收件人显示成 `configured`。完整载荷在 `runs/YYYY-MM-DD/notification.json`，里面可能有地址，所以这个文件只能留在 `$GT_STATE`。
 
-## 2026-11-17
+## 已经发过的日期
 
-这一天的日报已经用 Gmail 发出。`notify` 对 `2026-11-17` 一律 `shouldSend: false`，原因是 `already-sent-gmail`，不会去请求页面，也不会给出 Resend 载荷。不要补发，也不要换成纯文本再发。
+阻止重发靠 `$GT_STATE` 里的记录，不靠运行时里的日期常数。安装时用上一节的 `--record-gmail-sent` 记下 2026-11-17。记下之后，`prepare` 的 `action` 是 `skip`，`notify` 的 `shouldSend` 是 false，原因是 `already-sent-gmail`，而且不会去请求页面。不要再 `mark --notified` 把它改成 Resend 已发送。结果不明的日期用 `--send-unknown`，之后同样不重发。
 
-仓库里的 `trending/preview/sample-2026-11-17/` 是那封已发送邮件的公开正文，只供设计和回归。它的 edition 是 `sample`。不要把它标成 official，不要拷进 `trending/2026-11-17/`。
+其他日期不受这条记录影响。样例和示例无论哪一天都不能发信，因为 edition 不是 `official`。
 
-如果要在本地记下「Gmail 已发过」，只能：
-
-```bash
-node "$GT_HOME/runtime/bin/gt.mjs" mark --state "$GT_STATE" --date 2026-11-17 --record-gmail-sent
-```
-
-这个记号不发送任何邮件。
+仓库里的 `trending/preview/sample-2026-11-17/` 只是那封已发送邮件的公开正文，供设计和回归。页面上「2026-11-17 已由 Gmail 送出」来自这份样例自己的字段，不会出现在其他预览或新的正式刊上。不要把它标成 official，不要拷进 `trending/2026-11-17/`。
 
 ## issue JSON
 
@@ -123,7 +120,7 @@ node "$GT_HOME/runtime/bin/gt.mjs" mark --state "$GT_STATE" --date 2026-11-17 --
 Resend 连接器负责发送。下面任何一条成立都不要调用它：
 
 - `shouldSend` 不是 true
-- 日期是 `2026-11-17`
+- 状态里这一天已经是 Gmail 已发送，或 `sendResult` 是 `sent`
 - edition 不是 `official`
 - Pages 还不是 200，或打开的不是这一天的正式刊
 - 亮点不是 3 到 5 条
@@ -143,6 +140,14 @@ Resend 连接器负责发送。下面任何一条成立都不要调用它：
 npm ci
 npm test
 ```
+
+完整检出还可以另跑站点集成，便携包没有仓库根，不要把这项算进 `npm test`，也不要为了通过去伪造根目录：
+
+```bash
+npm run test:site
+```
+
+`npm test` 在便携包和仓库里是同一组。打包测试会在解包后的内层再跑这组；那一次 bundle 自测记为 skip。`test:site` 检查已提交的样例预览，以及 Builders 根目录 `index.html` 未被改动。
 
 `package-lock.json` 锁定开发依赖 `parse5@8.1.1`。不要设置 `NODE_ENV=production`，否则装不上解析器。`npm test` 不启动 Chrome，也不需要本机的 `google-chrome --dump-dom`。
 

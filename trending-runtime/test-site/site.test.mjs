@@ -30,7 +30,8 @@ test('committed preview stays outside dated archives and builders root is untouc
   assert.match(page, /53,407/);
   assert.equal(page.includes('/trending/2026-11-17/'), false);
   assert.match(email, /width:680px/);
-  assert.match(text, /不会通过 Resend 或 Gmail 发送/);
+  assert.match(text, /此预览不会发送/);
+  assert.match(text, /2026-11-17 已由 Gmail 送出/);
   assert.match(index, /不是正式刊/);
   assert.doesNotMatch(index, /正式刊<\/h2>\s*<ol>\s*<li><a/);
   const root = await readFile(ROOT_INDEX);

@@ -96,12 +96,14 @@ function mentionArticle(item) {
 
 function banner(issue) {
   if (issue.edition === 'official') return '';
-  const label = issue.edition === 'sample'
-    ? '样例预览 · 来自已发送的 2026-11-17 日报公开正文 · 只用于设计和回归'
-    : '显式示例 · 不是榜单，也不是正式刊';
+  const label = issue.previewLabel || (issue.edition === 'sample'
+    ? '样例预览 · 只用于设计和回归'
+    : '显式示例 · 不是榜单，也不是正式刊');
+  const notice = issue.previewNotice ? `<p>${escapeHtml(issue.previewNotice)}</p>` : '';
   return `<div class="banner">
     <strong>${escapeHtml(label)}</strong>
-    <p>不是新刊，不会写入 <span class="path">trending/${escapeHtml(issue.date)}/</span>，不会发布，也不会发信。2026-11-17 已由 Gmail 送出，不会再用 Resend 补发。</p>
+    <p>不是新刊，不会写入 <span class="path">trending/${escapeHtml(issue.date)}/</span>，不会发布，也不会发信。</p>
+    ${notice}
   </div>`;
 }
 

@@ -40,6 +40,8 @@
         "listedRepoCount": { "type": "integer", "minimum": 0 }
       }
     },
+    "previewLabel": { "type": "string", "minLength": 1 },
+    "previewNotice": { "type": "string", "minLength": 1 },
     "intro": { "type": "string", "minLength": 1 },
     "featuredLede": { "type": "string", "minLength": 1 },
     "picks": {

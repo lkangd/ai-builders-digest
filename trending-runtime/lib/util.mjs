@@ -1,7 +1,6 @@
 import path from 'node:path';
 
 export const TIME_ZONE = 'America/New_York';
-export const GMAIL_ALREADY_SENT_DATE = '2026-11-17';
 export const OFFICIAL_TRENDING_URL = 'https://github.com/trending?since=daily';
 export const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 export const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;

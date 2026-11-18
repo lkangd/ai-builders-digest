@@ -22,7 +22,9 @@ export function renderEmailText(issue, { pageHref }) {
     ''
   ];
   if (issue.edition !== 'official') {
-    lines.push('此预览不会通过 Resend 或 Gmail 发送。2026-11-17 已由 Gmail 送出，不会补发。', '');
+    lines.push('此预览不会发送。下面不是正式日期归档。');
+    if (issue.previewNotice) lines.push(issue.previewNotice);
+    lines.push('');
   }
   issue.emailHighlights.forEach((item, index) => {
     lines.push(`${index + 1}. ${item.text}`, item.url, '');
@@ -87,7 +89,7 @@ export function renderEmailHtml(issue, { pageHref }) {
             <td style="padding-top:12px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#fff1f2;border-radius:14px;">
                 <tr>
-                  <td style="padding:14px 16px;font-family:${FONT};font-size:14px;line-height:22px;color:#222222;">此预览不会通过 Resend 或 Gmail 发送。2026-11-17 已由 Gmail 送出，不会补发。下面不是正式日期归档。</td>
+                  <td style="padding:14px 16px;font-family:${FONT};font-size:14px;line-height:22px;color:#222222;">此预览不会发送。下面不是正式日期归档。${issue.previewNotice ? ` ${escapeHtml(issue.previewNotice)}` : ''}</td>
                 </tr>
               </table>
             </td>

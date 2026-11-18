@@ -8,6 +8,6 @@
 
 邮件亮点只写 3 到 5 条，每条链接到本期仓库。正文大约五分钟能读完。采集时间用 America/New_York，collectedAtLabel 写成该时区的 YYYY-MM-DD HH:mm，collectedAtAbbr 用当时的 EST 或 EDT。
 
-edition 为 official 才能进入 trending/YYYY-MM-DD/。sample 和 example 只能进 trending/preview/，不能当成正式刊，也不能发信。2026-11-17 已经用 Gmail 发过，任何情况下都不要再为这一天发信。
+edition 为 official 才能进入 trending/YYYY-MM-DD/。sample 和 example 只能进 trending/preview/，不能当成正式刊，也不能发信。状态里如果这一天已经记为已发送，不要再发。
 
 不要把收件人、发件人或密钥写进 JSON。

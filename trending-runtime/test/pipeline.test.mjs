@@ -24,7 +24,7 @@ function pagesFetch(body, status = 200) {
   return async () => ({ ok: status === 200, status, text: async () => body });
 }
 
-test('prepare does not fetch and suppresses the Gmail migration day', async () => {
+test('prepare does not fetch, and an empty state treats every date as new', async () => {
   const stateDir = await tempDir('gt-prepare-');
   const ready = await prepare({ stateDir, now: '2099-01-05T13:00:00Z' });
   assert.equal(ready.action, 'intake');
@@ -34,10 +34,14 @@ test('prepare does not fetch and suppresses the Gmail migration day', async () =
   assert.equal(ready.doesNot.includes('fetch-trending'), true);
   assert.equal(ready.doesNot.includes('call-llm'), true);
   assert.equal(ready.allowedPublishPaths.includes('index.html'), false);
-  const migration = await prepare({ stateDir, now: '2026-11-17T13:04:00Z' });
-  assert.equal(migration.date, '2026-11-17');
-  assert.equal(migration.action, 'skip');
-  assert.equal(migration.reason, 'already-sent-gmail');
+  const historical = await prepare({ stateDir, now: '2026-11-17T13:04:00Z' });
+  assert.equal(historical.date, '2026-11-17');
+  assert.equal(historical.action, 'intake');
+  assert.equal(historical.emailSuppressed, false);
+  const empty = await status({ stateDir, now: '2099-01-05T13:00:00Z' });
+  assert.deepEqual(empty.recordedSends, []);
+  assert.equal(empty.day, null);
+  assert.equal(Object.hasOwn(empty, 'migration'), false);
 });
 
 test('private config keys and a state directory inside the package are refused', async () => {
@@ -48,44 +52,60 @@ test('private config keys and a state directory inside the package are refused',
   await assert.rejects(status({ stateDir: inside }), /runtime package/);
 });
 
-test('2026-11-17 never becomes a Resend send, even if the page looks official', async () => {
+test('Gmail sent-state blocks only that date; previews never send; a new date still can', async () => {
   const stateDir = await tempDir('gt-mail-');
-  const issue = officialIssue('2026-11-17');
-  issue.collectedAt = '2026-11-17T08:04:00-05:00';
-  issue.collectedAtLabel = '2026-11-17 08:04';
-  const dest = await tempDir('gt-mail-dest-');
+  const env = { GT_NOTIFY_TO: 'person@example.invalid', GT_NOTIFY_FROM: 'desk@example.invalid' };
   let fetched = false;
-  const rendered = await render({
-    stateDir,
-    dest,
-    issue,
-    fetchImpl: async () => {
-      fetched = true;
-      throw new Error('notify must not fetch for the migration day');
-    }
-  });
-  assert.equal(rendered.shouldSend, false);
-  assert.equal(existsSync(path.join(dest, 'trending', '2026-11-17', 'index.html')), true);
-  const payload = await notify({
-    stateDir,
-    date: '2026-11-17',
-    env: { GT_NOTIFY_TO: 'person@example.invalid', GT_NOTIFY_FROM: 'desk@example.invalid' },
-    fetchImpl: async () => {
-      fetched = true;
-      throw new Error('notify must not fetch for the migration day');
-    }
-  });
+  const boom = async () => {
+    fetched = true;
+    throw new Error('notify must not fetch once Gmail has recorded this date');
+  };
+  const before = await notify({ stateDir, date: '2026-11-17', env, fetchImpl: boom });
+  assert.equal(before.shouldSend, false);
+  assert.equal(before.reason, 'not-rendered');
+  assert.equal(fetched, false);
+
+  const recorded = await mark({ stateDir, date: '2026-11-17', recordGmailSent: true });
+  assert.equal(recorded.day.channel, 'gmail');
+  assert.equal(recorded.day.sendResult, 'sent');
+  assert.equal(recorded.day.notified, true);
+  const again = await mark({ stateDir, date: '2026-11-17', recordGmailSent: true });
+  assert.equal(again.reason, 'already-recorded');
+  const blockedPrepare = await prepare({ stateDir, now: '2026-11-17T13:04:00Z' });
+  assert.equal(blockedPrepare.action, 'skip');
+  assert.equal(blockedPrepare.reason, 'already-sent-gmail');
+  const openDay = await prepare({ stateDir, now: '2099-01-05T13:00:00Z' });
+  assert.equal(openDay.action, 'intake');
+  assert.equal(openDay.emailSuppressed, false);
+
+  const payload = await notify({ stateDir, date: '2026-11-17', env, fetchImpl: boom });
   assert.equal(fetched, false);
   assert.equal(payload.shouldSend, false);
   assert.equal(payload.reason, 'already-sent-gmail');
   assert.equal(payload.resend, null);
   assert.equal(payload.idempotencyKey, 'gt-daily-2026-11-17');
   assert.equal(JSON.stringify(redactForStdout(payload)).includes('example.invalid'), false);
-  const marked = await mark({ stateDir, date: '2026-11-17', notified: true, published: true });
+  const marked = await mark({ stateDir, date: '2026-11-17', notified: true, published: true, fetchImpl: boom });
+  assert.equal(fetched, false);
   assert.equal(marked.reason, 'already-sent-gmail');
-  const recorded = await mark({ stateDir, date: '2026-11-17', recordGmailSent: true });
-  assert.equal(recorded.day.channel, 'gmail');
-  assert.equal(recorded.day.sendResult, 'sent');
+
+  const listed = await status({ stateDir, now: '2099-01-05T13:00:00Z' });
+  assert.deepEqual(listed.recordedSends.map(item => item.date), ['2026-11-17']);
+  assert.equal(listed.recordedSends[0].channel, 'gmail');
+
+  const fresh = officialIssue();
+  const page = renderPage(fresh);
+  await render({ stateDir, issue: fresh });
+  const ready = await notify({ stateDir, date: '2099-01-05', env, fetchImpl: pagesFetch(page) });
+  assert.equal(ready.shouldSend, true);
+  assert.equal(ready.reason, 'ready');
+
+  const example = JSON.parse(await readFile(EXAMPLE, 'utf8'));
+  await render({ stateDir, issue: example });
+  const preview = await notify({ stateDir, date: '2000-01-01', env, fetchImpl: pagesFetch('<html></html>') });
+  assert.equal(preview.shouldSend, false);
+  assert.equal(preview.reason, 'not-an-official-issue');
+  assert.equal(preview.resend, null);
 });
 
 test('official notify waits for the real page, then refuses a second or unknown send', async () => {
@@ -162,6 +182,16 @@ test('the cli validate and notify commands stay local', async () => {
   });
   const payload = JSON.parse(noted.stdout);
   assert.equal(payload.shouldSend, false);
-  assert.equal(payload.reason, 'already-sent-gmail');
+  assert.equal(payload.reason, 'not-rendered');
   assert.equal(payload.resend, null);
+  const recorded = await execFileAsync(process.execPath, [
+    BIN, 'mark', '--state', stateDir, '--date', '2026-11-17', '--record-gmail-sent'
+  ]);
+  assert.equal(JSON.parse(recorded.stdout).day.channel, 'gmail');
+  const blocked = await execFileAsync(process.execPath, [BIN, 'notify', '--state', stateDir, '--date', '2026-11-17'], {
+    env: { ...process.env, GT_NOTIFY_TO: '', GT_NOTIFY_FROM: '' }
+  });
+  const after = JSON.parse(blocked.stdout);
+  assert.equal(after.shouldSend, false);
+  assert.equal(after.reason, 'already-sent-gmail');
 });

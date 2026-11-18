@@ -68,22 +68,28 @@ test('extracted bundle passes its own tests without private mail or node_modules
     env: { ...process.env, NODE_ENV: 'development' }
   });
   assert.equal(install.stderr?.includes('npm error') || false, false);
-  const tap = await runExtractedTests(cwd);
+  assert.equal(existsSync(path.join(cwd, 'test-site', 'site.test.mjs')), true);
+  const files = (await readdir(path.join(cwd, 'test')))
+    .filter(name => name.endsWith('.test.mjs'))
+    .sort()
+    .map(name => path.posix.join('test', name));
+  assert.equal(files.includes('test-site/site.test.mjs'), false);
+  const tap = await runExtractedTests(cwd, files);
   assert.equal(tap.code, 0, tap.stderr || tap.stdout);
   const summary = parseTapSummary(tap.stdout);
   assert.equal(summary.fail, 0);
-  assert.equal(summary.skipped, 2);
+  assert.equal(summary.skipped, 1);
   assert.ok(summary.pass >= 8);
   assert.equal(summary.tests, summary.pass + summary.fail + summary.skipped + summary.cancelled + summary.todo);
 });
 
-function runExtractedTests(cwd) {
+function runExtractedTests(cwd, files) {
   const env = { ...process.env, GT_INSIDE_BUNDLE: '1' };
   for (const key of Object.keys(env)) {
     if (key === 'NODE_CHANNEL_FD' || key.startsWith('NODE_TEST')) delete env[key];
   }
   return new Promise(resolve => {
-    execFile(process.execPath, ['--test', '--test-reporter', 'tap', '--test-reporter-destination', 'stdout'], {
+    execFile(process.execPath, ['--test', '--test-reporter', 'tap', '--test-reporter-destination', 'stdout', ...files], {
       cwd,
       env,
       encoding: 'utf8',

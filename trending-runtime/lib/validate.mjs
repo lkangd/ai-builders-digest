@@ -2,7 +2,6 @@ import {
   DATE_RE,
   EMAIL_RE,
   ESTIMATE_RE,
-  GMAIL_ALREADY_SENT_DATE,
   OFFICIAL_TRENDING_URL,
   PLACEHOLDER_RE,
   TIME_ZONE,
@@ -58,6 +57,14 @@ export function validateIssue(issue) {
   }
   if (edition === 'official' && (issue.sample || issue.example)) {
     push(errors, 'edition', '$.edition', 'An official issue cannot carry sample or example flags.');
+  }
+  if (edition === 'official' && (issue.previewLabel || issue.previewNotice)) {
+    push(errors, 'preview-notice', '$.previewNotice', 'Official issues cannot carry a preview-only notice.');
+  }
+  for (const key of ['previewLabel', 'previewNotice']) {
+    if (issue[key] !== undefined && (typeof issue[key] !== 'string' || !issue[key].trim())) {
+      push(errors, 'preview-notice', `$.${key}`, `${key} must be plain text when present.`);
+    }
   }
 
   if (!DATE_RE.test(issue.date || '')) push(errors, 'date', '$.date', 'date must be YYYY-MM-DD.');
@@ -153,14 +160,6 @@ export function validateIssue(issue) {
       }
     }
   });
-
-  if (issue.date === GMAIL_ALREADY_SENT_DATE && edition === 'official') {
-    warnings.push({
-      code: 'gmail-already-sent',
-      path: '$.date',
-      message: '2026-11-17 was already sent through Gmail. Rendering may archive it later; notify will not send.'
-    });
-  }
 
   return { ok: errors.length === 0, errors, warnings };
 }

@@ -8,7 +8,6 @@ import { renderPage } from './render-page.mjs';
 import { publishable, validateIssue } from './validate.mjs';
 import {
   DATE_RE,
-  GMAIL_ALREADY_SENT_DATE,
   OFFICIAL_TRENDING_URL,
   TIME_ZONE,
   assertConfigSafe,
@@ -173,6 +172,21 @@ export async function withLock(stateDir, fn) {
   }
 }
 
+function gmailSent(day) {
+  return Boolean(day && day.channel === 'gmail' && (day.sendResult === 'sent' || day.notified));
+}
+
+function recordedSends(state) {
+  return Object.entries(state.days || {})
+    .filter(([, day]) => day && (day.sendResult === 'sent' || day.notified))
+    .map(([date, day]) => ({
+      date,
+      channel: day.channel || null,
+      sendResult: day.sendResult || (day.notified ? 'sent' : null)
+    }))
+    .sort((left, right) => (left.date < right.date ? -1 : 1));
+}
+
 function defaultSlug(issue) {
   if (issue.edition === 'sample') return `sample-${issue.date}`;
   if (issue.edition === 'example') return `example-${issue.date}`;
@@ -197,7 +211,7 @@ export async function prepare(options) {
   const intake = await readFile(path.join(RUNTIME_ROOT, 'prompts', 'intake.txt'), 'utf8');
   let action = 'intake';
   let reason = 'awaiting-issue-json';
-  if (date === GMAIL_ALREADY_SENT_DATE || day?.channel === 'gmail') {
+  if (gmailSent(day)) {
     action = 'skip';
     reason = 'already-sent-gmail';
   } else if (day?.notified || day?.sendResult === 'sent') {
@@ -220,8 +234,8 @@ export async function prepare(options) {
     schedule: config.schedule,
     includeWeekends: true,
     source: config.source,
-    emailSuppressed: date === GMAIL_ALREADY_SENT_DATE,
-    emailSuppressedReason: date === GMAIL_ALREADY_SENT_DATE ? 'already-sent-gmail' : '',
+    emailSuppressed: gmailSent(day),
+    emailSuppressedReason: gmailSent(day) ? 'already-sent-gmail' : '',
     doesNot: [
       'fetch-trending',
       'fetch-repositories',
@@ -459,10 +473,10 @@ export async function notify(options) {
 
   let reason = 'ready';
   let pages = null;
-  if (date === GMAIL_ALREADY_SENT_DATE) {
+  if (gmailSent(day)) {
     reason = 'already-sent-gmail';
     base.sendBlocked = true;
-    pages = { url: officialPageUrl(config.page.baseUrl, date), status: null, ready: false, reason: 'already-sent-gmail' };
+    pages = { skipped: true, reason: 'already-sent-gmail' };
   } else if (!day?.rendered || !issue) reason = 'not-rendered';
   else if (issue.edition !== 'official') reason = 'not-an-official-issue';
   else if (day.sendResult === 'unknown') reason = 'send-result-unknown';
@@ -506,8 +520,14 @@ export async function mark(options) {
     return { status: 'error', action: 'stop', reason: 'conflicting-mark', date };
   }
   if (options.recordGmailSent) {
-    if (date !== GMAIL_ALREADY_SENT_DATE) {
-      return { status: 'error', action: 'stop', reason: 'not-migration-day', date };
+    if (day?.sendResult === 'unknown') {
+      return { status: 'error', action: 'stop', reason: 'send-result-unknown', date };
+    }
+    if (day?.channel === 'resend' && day.sendResult === 'sent') {
+      return { status: 'error', action: 'stop', reason: 'already-notified', date };
+    }
+    if (gmailSent(day)) {
+      return { status: 'ok', action: 'marked', reason: 'already-recorded', date, day: publicDay(day) };
     }
     const next = day || { rendered: false, publishable: false };
     next.notified = true;
@@ -529,8 +549,8 @@ export async function mark(options) {
     day.prOpened = false;
   }
   if (options.published || options.notified) {
-    if (date === GMAIL_ALREADY_SENT_DATE && options.notified) {
-      return { status: 'error', action: 'stop', reason: 'already-sent-gmail', message: 'Do not record a Resend send for 2026-11-17.', date };
+    if (options.notified && gmailSent(day)) {
+      return { status: 'error', action: 'stop', reason: 'already-sent-gmail', message: 'This date is already recorded as sent through Gmail.', date };
     }
     const pages = await checkPages(config, date, options.fetchImpl || globalThis.fetch);
     if (!pages.ready) {
@@ -586,7 +606,7 @@ export async function status(options) {
     timezone: config.timezone,
     schedule: config.schedule,
     includeWeekends: true,
-    migration: { date: GMAIL_ALREADY_SENT_DATE, email: 'already-sent-gmail', resend: false },
+    recordedSends: recordedSends(state),
     day: state.days[parts.date] ? publicDay(state.days[parts.date]) : null,
     runs
   };

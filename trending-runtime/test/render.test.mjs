@@ -10,6 +10,7 @@ import { renderPage } from '../lib/render-page.mjs';
 import { render } from '../lib/pipeline.mjs';
 import { validateIssue } from '../lib/validate.mjs';
 import { attr, byClass, byId, byTag, parseHtml, textOf } from './dom.mjs';
+import { officialIssue } from './official-shape.mjs';
 
 const FIXTURE = path.resolve(fileURLToPath(new URL('./fixtures/sample-2026-11-17/', import.meta.url)));
 const RUNTIME = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -24,6 +25,21 @@ async function sampleIssue() {
 function hrefs(root) {
   return byTag(root, 'a').map(node => attr(node, 'href'));
 }
+
+test('generic runtime code does not embed the one-time Gmail migration', async () => {
+  for (const file of [
+    'lib/util.mjs',
+    'lib/pipeline.mjs',
+    'lib/validate.mjs',
+    'lib/render-page.mjs',
+    'lib/render-email.mjs',
+    'prompts/intake.txt'
+  ]) {
+    const source = await readFile(path.join(RUNTIME, file), 'utf8');
+    assert.equal(source.includes('2026-11-17'), false, file);
+    assert.equal(source.includes('GMAIL_ALREADY_SENT'), false, file);
+  }
+});
 
 test('renderer source does not fetch or execute repository code', async () => {
   for (const file of ['render-page.mjs', 'render-email.mjs', 'render-index.mjs', 'validate.mjs', 'normalize-public-sample.mjs']) {
@@ -108,10 +124,31 @@ test('email is a 680px table with the same highlights as the text part', async (
     assert.equal(text.includes(item.url), true);
     assert.equal(html.includes(item.url), true);
   }
-  assert.match(text, /不会通过 Resend 或 Gmail 发送/);
-  assert.match(html, /不会通过 Resend 或 Gmail 发送/);
+  assert.match(text, /此预览不会发送/);
+  assert.match(html, /此预览不会发送/);
+  assert.match(text, /2026-11-17 已由 Gmail 送出/);
+  assert.match(html, /2026-11-17 已由 Gmail 送出/);
   assert.equal(hrefs(doc).includes('./index.html'), true);
   assert.equal(html.includes('/trending/2026-11-17/'), false);
+});
+
+test('migration copy stays on the public sample and off other previews', async () => {
+  const example = JSON.parse(await readFile(new URL('./fixtures/example/issue.json', import.meta.url), 'utf8'));
+  const html = renderPage(example, { archiveHref: '../../index.html' });
+  const email = renderEmailHtml(example, { pageHref: './index.html' });
+  assert.equal(html.includes('已由 Gmail 送出'), false);
+  assert.equal(email.includes('已由 Gmail 送出'), false);
+  assert.match(email, /此预览不会发送/);
+  const other = structuredClone(example);
+  other.edition = 'sample';
+  other.sample = { purpose: 'design-regression-only', notANewIssue: true, doNotPublishOrSend: true };
+  delete other.example;
+  const otherHtml = renderPage(other, { archiveHref: '../../index.html' });
+  assert.equal(otherHtml.includes('2026-11-17'), false);
+  assert.equal(otherHtml.includes('已由 Gmail 送出'), false);
+  const official = renderPage(officialIssue(), { archiveHref: '../index.html' });
+  assert.equal(official.includes('已由 Gmail 送出'), false);
+  assert.equal(official.includes('此预览不会发送'), false);
 });
 
 test('rendering the sample never creates a dated archive directory', async () => {
